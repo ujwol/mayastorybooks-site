@@ -1,0 +1,1925 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>My Stories — Dashboard</title><style>
+*{box-sizing:border-box}body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#fdf8f0;color:#3b2f2f;margin:0}
+#gate{position:fixed;inset:0;background:#2b2118;display:flex;align-items:center;justify-content:center;z-index:50}
+#gate .box{background:#fff;border-radius:16px;padding:28px;width:320px;text-align:center}
+#gate input{width:100%;padding:12px;font-size:16px;border:2px solid #ddd;border-radius:10px;margin:12px 0}
+#gate button{background:#c2410c;color:#fff;border:0;border-radius:10px;padding:12px 24px;font-size:16px;width:100%}
+.wrap{max-width:1080px;margin:0 auto;padding:20px}
+h1{margin:6px 0 2px}.sub{color:#8a7a6a;margin:0 0 16px}
+.tabs{display:flex;gap:8px;margin:16px 0;flex-wrap:wrap}
+.tab{border:2px solid #e5d9c8;background:#fff;border-radius:999px;padding:8px 16px;font-size:14px;cursor:pointer}
+.tab.on{background:#3b2f2f;color:#fff;border-color:#3b2f2f}
+.tab .n{background:#c2410c;color:#fff;border-radius:999px;padding:1px 8px;margin-left:6px;font-size:12px}
+.tab.on .n{background:#f59e0b}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.sec{grid-column:1/-1;margin:16px 0 2px;font-size:18px;color:#3b2f2f}
+.card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.card img{width:100%;height:180px;object-fit:cover;display:block}
+.card .body{padding:16px}
+.badge{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:4px 12px;margin-bottom:8px}
+.b-pending{background:#fef3c7;color:#92400e}.b-generated{background:#dbeafe;color:#1e40af}.b-published{background:#d1fae5;color:#065f46}
+.card h2{margin:4px 0;font-size:18px}.tag{color:#8a7a6a;font-size:13px;margin:0 0 10px}
+.chars{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chars span{background:#f3ede2;border-radius:999px;padding:4px 10px;font-size:13px}
+.prog{list-style:none;padding:0;margin:0 0 12px;font-size:14px}
+.prog li{padding:5px 0;border-bottom:1px dashed #eee}
+.prog li:last-child{border:0}
+.ok{color:#15803d;font-weight:700}.wait{color:#b45309}.live{color:#1d4ed8;font-weight:700}
+.lib{background:#faf6ef;border:1px solid #e5d9c8;border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:14px}
+.lib b{display:block;margin-bottom:6px;font-size:13px;color:#8a7a6a;text-transform:uppercase;letter-spacing:.5px}
+.lib a{display:inline-block;margin:0 10px 6px 0;color:#1d4ed8;text-decoration:none}
+.lib a:hover{text-decoration:underline}
+.links{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+.links a{background:#c2410c;color:#fff;text-decoration:none;border-radius:10px;padding:9px 14px;font-size:14px}
+.links a.ghost{background:#f3ede2;color:#3b2f2f}
+.livebar{background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:10px 12px;font-size:14px;margin-bottom:12px}
+.gobtn{display:block;width:100%;margin:10px 0 2px;padding:12px;border:0;border-radius:10px;background:#2e7d4f;color:#fff;font-size:16px;font-weight:700;cursor:pointer}
+.gobtn:active{transform:scale(.98)}
+.approved{margin:10px 0 2px;padding:10px;border-radius:10px;background:#e6f4ea;color:#1d5c34;font-size:14px;font-weight:600}
+.sendbox{margin:8px 0 2px;border:2px dashed #2e7d4f;border-radius:10px;padding:10px;background:#f4faf6}
+.sendbox b{font-size:13px;color:#1d5c34}
+.sendmsg{margin:8px 0;padding:10px;background:#fff;border:1px solid #cfe6d8;border-radius:8px;font-size:15px;user-select:all;-webkit-user-select:all}
+.copynote{font-size:13px;color:#5a6b5e}
+.buildpanel{background:#fff8ec;border:1px solid #f0dcae;border-radius:12px;padding:12px 14px;margin:0 0 16px}
+.buildpanel>b{font-size:15px}
+.bitem{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px solid #f3e8cf;font-size:14px}
+.bitem:first-of-type{border-top:0}
+.bdot{width:10px;height:10px;border-radius:50%;margin-top:5px;flex:none}
+.bdot.working{background:#2e9e5b;animation:pulse 1.4s infinite}
+.bdot.waiting{background:#e8a13d}
+.bdot.queued{background:#b9b2a4}
+.bdot.done{background:#2e9e5b}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.bitem .bl{font-weight:700}
+.bitem .bd{color:#8a7a63;font-size:13px}
+.bupd{font-size:12px;color:#a08d6d;margin-top:6px}
+details.kit{border:1px solid #e5d9c8;border-radius:10px;margin-bottom:12px;background:#fffdf8}
+details.kit summary{cursor:pointer;padding:10px 12px;font-weight:700;font-size:14px;list-style:none}
+details.kit summary::-webkit-details-marker{display:none}
+.kitsec{padding:0 12px 12px}
+.kitsec h4{margin:10px 0 6px;font-size:13px;color:#8a7a6a;text-transform:uppercase;letter-spacing:.5px}
+.fld{background:#faf6ef;border-radius:8px;padding:8px 10px;margin-bottom:8px;font-size:13px}
+.fld .lab{font-weight:700;display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.fld .txt{white-space:pre-wrap;word-break:break-word;margin:0;color:#4a3f35;max-height:120px;overflow:auto}
+.cp{background:#3b2f2f;color:#fff;border:0;border-radius:8px;padding:4px 10px;font-size:12px;cursor:pointer}
+.cp.done{background:#15803d}
+.foot{color:#8a7a6a;font-size:13px;margin:24px 0;text-align:center}
+.irev{border:1px solid #e5d9c8;border-radius:10px;background:#fffdf8;padding:10px 12px;margin:0 0 12px;font-size:14px}
+.irev>b{display:block;margin-bottom:8px}
+.irev-row{display:flex;gap:8px;align-items:center;margin:8px 0;flex-wrap:wrap}
+.irev-btn{border:1px solid #d8cbb6;background:#faf6ef;border-radius:8px;padding:8px 12px;font-size:14px;cursor:pointer}
+.irev-btn.on{border-color:#2e7d4f;background:#e6f4ea;font-weight:700}
+.irev-st{font-size:13px;color:#8a7a6a}
+.irev-st.approve{color:#15803d;font-weight:700}.irev-st.change{color:#b45309;font-weight:700}
+.irev textarea{width:100%;box-sizing:border-box;border:1px solid #d8cbb6;border-radius:8px;padding:8px;font-size:14px;font-family:inherit;margin-bottom:8px}
+.irev-send{background:#2e7d4f;color:#fff;border:0;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer}
+.irev-send:disabled{opacity:.6}
+
+.adminpanel{background:#fff;border:2px solid #e8b64c;border-radius:14px;padding:14px 16px;margin:14px 12px}
+.adminpanel h2{margin:0 0 10px;font-size:20px}
+.admincols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.acard{background:#fffdf8;border:1px solid #e5d9c8;border-radius:10px;padding:12px}
+.acard h3{margin:0 0 8px;font-size:15px}
+.tditem{display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-bottom:1px dashed #eee;font-size:14px;cursor:pointer}
+.tditem:last-child{border-bottom:0}
+.tditem input{margin-top:3px;transform:scale(1.25)}
+.tditem.done span{text-decoration:line-through;color:#8a7a6a}
+.tdcount{font-size:12px;color:#8a7a6a;font-weight:400}
+.revlist{margin:0;padding-left:18px;font-size:14px}
+.revlist li{margin:8px 0}
+.resgroup{margin-bottom:10px}
+.resgroup b{font-size:13px;color:#8a7a6a;display:block;margin-bottom:4px}
+.resgroup a{display:inline-block;margin:0 10px 6px 0;font-size:14px;color:#1d4ed8}
+.topnav{display:flex;gap:10px;margin:0 12px 14px}
+.topnav a{flex:1;text-align:center;padding:12px;border-radius:12px;background:#fff;border:1px solid #e5d9c8;text-decoration:none;color:#4a3f35;font-weight:700;font-size:16px}
+.topnav a.on{background:#2b2118;color:#f5a83d;border-color:#2b2118}
+</style></head><body>
+<div id="gate"><div class="box"><h2>🔒 My Stories</h2><p>Private dashboard</p>
+<input type="password" id="pw" placeholder="Password"><button onclick="go()">Open</button>
+<p id="e" style="color:#c00"></p></div></div>
+<div class="wrap" id="main" style="display:none">
+<h1>🔧 Admin — command center</h1>
+<div class="topnav"><a href="index.html">📚 Stories</a><a href="admin.html" class="on">🔧 Admin</a></div><p class="how">🟢 <b>How approvals work:</b> review the card → tap the green <b>Go</b> button → paste the copied message to Januka in chat → she starts the next step immediately.</p>
+<div class="livebar">📋 <a href="kdp-kit.html" style="font-weight:700;color:#1d4ed8">KDP copy-paste kit</a> — descriptions, categories &amp; keywords for all 7 books, ready to paste into KDP.</div>
+<div class="buildpanel"><b>🔨 Now building — live</b><div id="buildlist"><div class="bitem">Loading…</div></div><div class="bupd" id="buildupd"></div></div>
+<div class="adminpanel"><h2>🔧 Admin — command center</h2><div class="admincols">
+<div class="acard"><h3>📋 My TODO <span class="tdcount" id="tdcount"></span></h3><div id="todolist"></div></div>
+<div class="acard"><h3>👀 Needs your review</h3><ul class="revlist">
+<li><b>Book 7</b> — 13 spreads waiting in the gallery. When done, tap <b>📤 Send to Januka</b>.<br><a href="art-book7.html">Open gallery →</a></li>
+<li><b>Books 4 &amp; 5</b> — English read-aloud videos are done. Watch them from the book cards below.</li>
+<li><b>Book 8</b> — illustrations approved ✅. Next: print book.</li>
+<li><b>Book 9</b> — 13 Yeti's Sneeze spreads in the gallery. When done, tap <b>📤 Send to Januka</b>.<br><a href="art-book9.html">Open gallery →</a></li>
+<li><b>Book 10</b> — 13 Kite Thief of Dashain spreads in the gallery. When done, tap <b>📤 Send to Januka</b>.<br><a href="art-book10.html">Open gallery →</a></li>
+<li><b>Book 11</b> — 13 Bhai Tika Brother spreads in the gallery. When done, tap <b>📤 Send to Januka</b>.<br><a href="art-book11.html">Open gallery →</a></li>
+<li><b>Book 12</b> — 13 Monk of Boudhanath spreads in the gallery. When done, tap <b>📤 Send to Januka</b>.<br><a href="art-book12.html">Open gallery →</a></li>
+<li><b>Book 13</b> — 13 Lake of Pokhara spreads in the gallery. When done, tap <b>📤 Send to Januka</b>.<br><a href="art-book13.html">Open gallery →</a></li>
+<li><b>Book 14</b> — 13 Road to Everest spreads in the gallery. When done, tap <b>📤 Send to Januka</b>.<br><a href="art-book14.html">Open gallery →</a></li>
+<li><b>Book 15</b> — 13 Maya’s Big Festival spreads in the gallery. When done, tap <b>📤 Send to Januka</b>.<br><a href="art-book15.html">Open gallery →</a></li>
+<li><b>Book 17</b> — story approved ✅. Illustrations start as soon as the image tool is back.</li>
+<li><b>Book 16</b> — 13 Goddess's Courage spreads in the gallery. When done, tap <b>📤 Send to Januka</b>.<br><a href="art-book16.html">Open gallery →</a></li>
+<li><b>Book 3</b> — your edits on the print PDF.<br><a href="print/book3/maya-rhino-chitwan-interior.pdf">Interior PDF →</a></li>
+<li><b>Books 24–29</b> — Season 2 manuscript drafts ready for your story review. Open each book card below → 📖 Read the draft story.</li>
+</ul></div>
+<div class="acard"><h3>🔗 Completed resources</h3>
+<div class="resgroup"><b>Book 1 — The Dog Who Wore Marigolds</b><a href="https://www.amazon.com/dp/B0HKZFHWQB">Amazon</a><a href="print/book1/maya-dog-marigolds-interior.pdf">Interior PDF</a><a href="https://drive.google.com/file/d/1WTY_Djt3m_aMrMKjZtOTKu44yZM7ZNrt/view?usp=drivesdk">Read-aloud</a><a href="https://youtu.be/phNtM3kN_Ec">YouTube</a><a href="art-book1.html">Illustrations</a></div>
+<div class="resgroup"><b>Book 2 — Maya and the Temple Monkey</b><a href="print/book2/maya-temple-monkey-interior.pdf">Interior PDF</a><a href="https://drive.google.com/file/d/157yG0OfuMBBuybrBeXl3ZdXQnGlmLWMD/view?usp=drivesdk">Read-aloud</a><a href="https://youtu.be/6-ntLzwu6ho">YouTube</a><a href="art-book2.html">Illustrations</a></div>
+<div class="resgroup"><b>Book 3 — Maya and the Rhino of Chitwan</b><a href="print/book3/maya-rhino-chitwan-interior.pdf">Interior PDF</a><a href="https://drive.google.com/file/d/1Xn53wzSKqikNKk5D74QHZ84iptQkZP5O/view?usp=drivesdk">Read-aloud</a><a href="/review-book3/">Review page</a><a href="art-book3.html">Illustrations</a></div>
+<div class="resgroup"><b>Book 4 — Maya and the Clay Diyo</b><a href="art-book4.html">Illustrations</a><a href="https://drive.google.com/file/d/1xS7t4FD0tMjAoXBCqtSBDYGJQAfbieYf/view?usp=drivesdk">Read-aloud</a></div>
+<div class="resgroup"><b>Book 5 — Maya and the Garden of Peace</b><a href="art-book5.html">Illustrations</a><a href="https://drive.google.com/file/d/14zRcKmVLaBmVsRqsEGClE6wLLIoCKPJl/view?usp=drivesdk">Read-aloud</a></div>
+<div class="resgroup"><b>Book 6 — Maya and the Baby Yak</b><a href="print/book6/maya-baby-yak-interior-en.pdf">Interior EN</a><a href="print/book6/maya-baby-yak-interior-ne.pdf">Interior NE</a><a href="art-book6.html">Illustrations</a></div>
+<div class="resgroup"><b>Book 7 — Maya and Indra Jatra</b><a href="print/book7/maya-indra-jatra-interior-en.pdf">Interior EN</a><a href="print/book7/maya-indra-jatra-interior-ne.pdf">Interior NE</a><a href="https://youtu.be/yOmaK69CF0w">YouTube</a><a href="art-book7.html">Illustrations</a></div>
+</div></div></div>
+<div id="tabs" class="tabs"></div>
+<div id="grid" class="grid"></div>
+</div>
+<script>
+const H=["a2edb7f3dc9134c3053cdf4273c8393ca27104bc5f7b839807309f0c0ff92b86","e8558ae2d0477adf9535568c11d47ccf308d632025724e680c83bd69768c270d"];
+async function go(){const v=document.getElementById("pw").value;
+const h=[...new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(v)))].map(b=>b.toString(16).padStart(2,"0")).join("");
+if(H.includes(h)){document.getElementById("gate").style.display="none";document.getElementById("main").style.display="block";try{localStorage.setItem("maya_auth","1")}catch(e){}init();}
+else document.getElementById("e").textContent="Wrong password";}
+document.getElementById("pw").addEventListener("keydown",e=>{if(e.key==="Enter")go();});
+const HUB="https://app.bayn9.com/api/public/book3-review", RTOKEN="ai13GuzBDAG1Wo7jtk1DW1QaebN8oFGC";
+const STORIES=[
+{id:"book3",title:"Maya and the Rhino of Chitwan",tag:"Book 3 · Chitwan safari",status:"pending",cover:"img/yt-book3.jpg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti","🧭 Raju the guide","🏡 Tharu host family","🦏 Rhino & baby"],
+ prog:[["13 scenes illustrated","ok"],["English + Nepali text","ok"],["Scene review — 13/13 approved","ok"],["Print book (28pp bilingual)","ok"],["Read-aloud video (review copy)","ok"],["YouTube upload","wait"],["KDP publish","wait"]],
+ lib:[["📄 Interior PDF","https://drive.google.com/file/d/1SKUBJ_NUrI0dEptl-9hEMXe766i4qCvM/view?usp=drivesdk"],
+      ["📕 Cover PDF","https://drive.google.com/file/d/1G36utHcFu8SIIaPfBY573i5C6rqz57-7/view?usp=drivesdk"]],
+ links:[["▶ Jaden's player","jaden.html?book=3"],["🎨 Review scenes","/review-book3/"],["🎬 Watch read-aloud","https://drive.google.com/file/d/1Xn53wzSKqikNKk5D74QHZ84iptQkZP5O/view?usp=drivesdk"],["🖼 View illustrations","art-book3.html"]],
+irev:{pdfs:[["Interior PDF","print/book3/maya-rhino-chitwan-interior.pdf"]]}, kit:{
+ kdp:[["Title","Maya and the Rhino of Chitwan"],["Author","Ujwol Shrestha"],
+ ["Description","Maya is back — and this time she's going on safari! Grandmother takes Maya and Moti to Chitwan, where the tall grass whispers and a great one-horned rhino walks at sunrise.\n\nFrom a warm Tharu welcome to a misty dawn jeep ride, every moment is an adventure — until Moti spots a baby rhino and forgets his jungle manners!\n\nA thrilling, heartwarming story about respecting wildlife, set in Nepal's real-life Chitwan National Park. Includes a note for parents about visiting Chitwan.\n\nAges 3–7."],
+ ["Keywords (7)","chitwan national park kids book, rhino picture book, nepal wildlife story, jungle safari children, tharu culture kids, animal conservation book, ages 3-7 read aloud"],
+ ["Categories","Children's Books > Animals > Rhinos & Endangered Animals; Children's Books > Travel & Places > Asia"],
+ ["Age range","3–7 years"],["Print specs","Paperback · 8.5\" x 8.5\" · 28 pages · Premium color · Matte cover"]],
+ yt:[["Video title","Maya and the Rhino of Chitwan 🦏 | Kids Read-Aloud Storytime"],
+ ["Description","Maya, Grandmother and Moti go on safari in Chitwan, Nepal — where a great one-horned rhino walks at sunrise! 🦏🌾\n\nA gentle read-aloud about respecting wildlife, set in Nepal's real-life Chitwan National Park. Perfect for ages 3–7.\n\n📚 Get the paperback: [paste Amazon link]\n🔔 Subscribe for more Maya's Nepal Adventures!\n\n#ReadAloud #KidsBooks #Chitwan #Nepal #Rhino"],
+ ["Tags","read aloud, kids storytime, picture book read aloud, chitwan national park, rhino story for kids, nepal wildlife, maya's nepal adventures"]]} },
+{id:"book4",title:"Maya and the Clay Diyo",tag:"Book 4 · Bhaktapur — DRAFT",status:"generated",cover:"img/yt-book4.jpg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti","🏺 Potter Kaka"],
+ prog:[["Story draft written","ok"],["Ujwol's story review — approved","ok"],["Scenes illustrated — 13/13","ok"],["Print book","wait"],["Read-aloud video","ok"],["KDP publish","wait"]],
+ lib:[["🎬 Read-aloud video","https://drive.google.com/file/d/1xS7t4FD0tMjAoXBCqtSBDYGJQAfbieYf/view?usp=drivesdk"]], links:[["▶ Jaden's player","jaden.html?book=4"],["🎬 Watch read-aloud","https://drive.google.com/file/d/1xS7t4FD0tMjAoXBCqtSBDYGJQAfbieYf/view?usp=drivesdk"],["🖼 Review illustrations","art-book4.html"]],
+ draft:`# Maya and the Clay Diyo
+Author: Ujwol Shrestha · Ages 3–7
+
+
+Spread 1 — The city of clay
+Grandmother takes Maya and Moti to Bhaktapur, the old city of clay and kings.
+Pigeons flutter over the rooftops. The air smells of earth and smoke.
+"Look!" Maya points. "The temple touches the sky!"
+
+Spread 2 — Nyatapola's five roofs
+They stand before Nyatapola, the tallest temple, with five roofs stacked like pancakes.
+Stone guardians line the steps, bigger than Maya, bigger than Moti!
+Moti barks at a stone lion. The lion does not bark back.
+
+Spread 3 — Pottery Square
+In Pottery Square, the ground is covered with clay pots drying in the sun.
+Bowls, cups, little elephants — rows and rows of them, all the color of chocolate.
+"Careful, little one," Grandmother laughs. "Don't step on anyone's teapot!"
+
+Spread 4 — Potter Kaka
+Under a straw awning sits Potter Kaka, his hands all brown with clay.
+His wheel spins round and round, and a lump of clay grows tall like magic.
+"Namaste!" he smiles. "Would you like to try, little potter?"
+
+Spread 5 — Maya's turn
+Maya sits at the wheel. The clay is cold and slippery and very, very wobbly.
+Her pot leans left. It leans right. It looks like a sleepy turtle.
+"Again!" giggles Maya. Moti wags his tail and barks at the spinning clay.
+
+Spread 6 — A little diyo
+Potter Kaka helps her shape a tiny oil lamp — a diyo.
+It is crooked. One side is fat and the other side is thin.
+"It is perfect," says Kaka softly. "It is yours."
+
+Spread 7 — Drying in the sun
+They set Maya's diyo in the sun with a hundred other little lamps.
+Row after row, all waiting to be baked hard in the fire.
+Maya checks on hers every five minutes. "Is it done yet? Is it done yet?"
+
+Spread 8 — Lunch and pigeons
+They eat beaten rice and spicy potatoes on the temple steps.
+Pigeons strut around their feet, hoping for crumbs.
+Moti tries to catch a pigeon. The pigeon is faster. Maya laughs until her tummy hurts.
+
+Spread 9 — The kiln
+Potter Kaka slides the little lamps into his hot kiln.
+"Now the fire will make them strong," he says.
+Maya holds her breath. "Even my wobbly one?" "Especially your wobbly one."
+
+Spread 10 — Evening lamps
+As the sun goes down, Kaka lines up the baked diyos along the square.
+He pours a drop of oil in each and lights a tiny cotton wick.
+One by one, a hundred little flames wake up. The square glows golden.
+
+Spread 11 — The brightest flame
+Maya finds her crooked diyo. Its flame dances — tall, bright, and brave.
+"Look, Grandmother! Mine is the brightest of all!"
+Grandmother hugs her close. The warm light flickers on their faces.
+
+Spread 12 — Home with a glow
+That night, Maya carries her little diyo home, cupped safe in her hands.
+Its tiny flame sways but does not go out.
+"Goodnight, little lamp," she whispers. Moti curls up beside her, already dreaming.`,
+ kit:{
+ kdp:[["Title","Maya and the Clay Diyo"],["Author","Ujwol Shrestha"],
+ ["Description","Maya visits Bhaktapur, the old city of clay, where Potter Kaka lets her try the spinning wheel. Her little clay diyo comes out wobbly and crooked — but when the evening lamps are lit, hers burns the brightest of all.\n\nA warm story about making things with your own hands, set in real-life Bhaktapur, Nepal.\n\nAges 3–7."],
+ ["Keywords (7)","bhaktapur kids book, pottery picture book, nepal kathmandu valley, clay diyo lamp, making things kids, ages 3-7 read aloud, nepal travel kids"]],
+ yt:[["Video title","Maya and the Clay Diyo 🏺 | Kids Read-Aloud Storytime"],
+ ["Tags","read aloud, kids storytime, picture book read aloud, bhaktapur, pottery for kids, nepal, maya's nepal adventures"]]} },
+{id:"book5",title:"Maya and the Garden of Peace",tag:"Book 5 · Lumbini — DRAFT",status:"generated",cover:"img/yt-book5.jpg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti","🌳 The old gardener"],
+ prog:[["Story draft written","ok"],["Ujwol's story review — approved","ok"],["Scenes illustrated — 13/13","ok"],["Print book","wait"],["Read-aloud video","ok"],["KDP publish","wait"]],
+ lib:[["🎬 Read-aloud video","https://drive.google.com/file/d/14zRcKmVLaBmVsRqsEGClE6wLLIoCKPJl/view?usp=drivesdk"]], links:[["▶ Jaden's player","jaden.html?book=5"],["🎬 Watch read-aloud","https://drive.google.com/file/d/14zRcKmVLaBmVsRqsEGClE6wLLIoCKPJl/view?usp=drivesdk"],["🖼 Review illustrations","art-book5.html"]],
+ draft:`# Maya and the Garden of Peace
+Author: Ujwol Shrestha · Ages 3–7
+
+
+Spread 1 — The long garden road
+Grandmother takes Maya and Moti far south to Lumbini, a garden quiet and green.
+No tall mountains here — only soft grass, tall trees, and a sky full of birds.
+"Why is it so quiet?" Maya whispers. "Listen," smiles Grandmother, "and you will hear."
+
+Spread 2 — The sacred pond
+They come to an old pond, the Puskarini, where queens once bathed long ago.
+Lotus leaves float like green plates. A turtle suns itself on a stone.
+Moti wants to splash. "Not today, little swimmer," Grandmother says.
+
+Spread 3 — The little temple
+Inside a small temple stands an old, old stone — the marker where a prince was born.
+His name was Siddhartha, and he grew up to teach kindness to the world.
+Maya touches the cool stone gently. "Hello," she whispers.
+
+Spread 4 — The pillar of the king
+Beside the temple stands a tall stone pillar, older than old.
+A great king named Ashoka set it here more than two thousand years ago.
+"It has stood here," says Grandmother, "longer than anyone can remember."
+
+Spread 5 — The old gardener
+Under a bodhi tree, an old gardener waters rows of baby trees.
+His watering can sings a little tin song: tinkle, tinkle, tinkle.
+"Namaste, little one," he says. "Have you come to help an old man?"
+
+Spread 6 — A sapling for Maya
+The gardener gives Maya a tiny bodhi sapling, no taller than her hand.
+"You plant it," he says, "and it will grow bigger than this whole garden."
+Maya digs with her fingers. Moti digs with his paws. They are a good team.
+
+Spread 7 — The first drink
+Maya pats the earth soft around the little tree.
+She pours water from the gardener's tin can — glug, glug, glug.
+"Drink up, little tree," she says. A leaf trembles, as if to say thank you.
+
+Spread 8 — A quiet wish
+Maya closes her eyes and makes a wish, just for the tree to hear.
+She does not say it out loud. Some wishes are too soft for words.
+Grandmother smiles. The leaves rustle, keeping the secret safe.
+
+Spread 9 — Cranes in the sky
+High above, long-legged sarus cranes glide across the evening sky.
+Their wings are wide, their calls are soft trumpets: krooo, krooo.
+"Where are they going?" Maya asks. "Home," says the gardener, "just like us."
+
+Spread 10 — Sunset gold
+The sun sinks low, painting the pond and the trees all gold.
+Prayer flags flutter. The garden glows like the inside of a diyo.
+Maya sits very still. Even Moti sits very still. It feels like a hug.
+
+Spread 11 — Goodnight, little tree
+Before they leave, Maya hugs her sapling — very, very gently.
+"Grow tall," she whispers. "I will come back and climb you one day."
+The gardener winks. "Trees remember the children who plant them."
+
+Spread 12 — The garden keeps growing
+On the way home, Maya looks back at the green garden, small in the distance.
+Somewhere in it, her little tree is drinking the moonlight.
+Moti sighs a happy sigh. What a quiet, wonderful day.`,
+ kit:{
+ kdp:[["Title","Maya and the Garden of Peace"],["Author","Ujwol Shrestha"],
+ ["Description","In Lumbini, the peaceful garden where Buddha was born, Maya plants a tiny bodhi sapling with a kind old gardener's help — and whispers it a secret wish.\n\nA gentle, quiet story about wishes and growing things, set in real-life Lumbini, Nepal.\n\nAges 3–7."],
+ ["Keywords (7)","lumbini kids book, buddha birthplace story, bodhi tree planting, peace garden nepal, gentle bedtime story, ages 3-7 read aloud, nepal travel kids"]],
+ yt:[["Video title","Maya and the Garden of Peace 🌳 | Kids Read-Aloud Storytime"],
+ ["Tags","read aloud, kids storytime, picture book read aloud, lumbini, buddha birthplace, gentle story for kids, maya's nepal adventures"]]} },
+{id:"book7",title:"Maya and Indra Jatra",tag:"Book 7 · Basantapur, Kathmandu — 🎪 LIVE for Indra Jatra!",status:"generated",cover:"img/yt-book7.jpg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti"],
+ prog:[["Story draft written","ok"],["Ujwol's story review — approved","ok"],["Scenes illustrated — 13/13","ok"],["🎪 Festival-day release — live on the dashboard","ok"],["Print book","wait"],["Read-aloud video","wait"],["KDP publish","wait"]],
+ lib:[], links:[["▶ Jaden's player","jaden.html?book=7"],["🖼 Review illustrations","art-book7.html"],["🖨️ Print PDFs","art-book7.html"]],irev:{pdfs:[["Interior (EN)","print/book7/maya-indra-jatra-interior-en.pdf"],["Interior (NE)","print/book7/maya-indra-jatra-interior-ne.pdf"]],hub:"https://app.bayn9.com/api/public/book7-review",rtoken:"dH49olaazTIcYOc-jVeFkLKsD-6AN7q7"},
+ draft:`### Book 7 in Maya's Nepal Adventures — manuscript draft (12 spreads)
+Author: Ujwol Shrestha · Ages 3–7
+
+---
+
+**Spread 1 — Evening in Basantapur**
+The sun goes down, and Basantapur wakes up.
+Drums boom. Bells ring. A thousand lamps flicker in the dark.
+"Stay close, little one," says Grandmother, holding Maya's hand. Moti trots
+between them, his tail wagging fast.
+
+**Spread 2 — The tall wooden pole**
+In the middle of the square stands a pole taller than any house, with a flag
+at the very top.
+"That is Indra's flag," says Grandmother. "When the pole goes up, the
+festival begins. When it comes down, the festival is over."
+
+**Spread 3 — Why we celebrate**
+"Long ago," says Grandmother, "Indra, the king of heaven, came down to earth
+in disguise. He wanted to steal sweet parijat flowers for his mother."
+"The farmers caught him and tied him with rope! His mother came down and
+promised: every year I will send the dew and the harvest. So every year, we
+celebrate — to thank them both."
+
+**Spread 4 — Pulukishi, the white elephant**
+Clip-clop, clip-clop! Through the crowd dances a big white elephant —
+Pulukishi, the carrier of Indra himself.
+He swings his long tail and pretends to bump into people. Everyone laughs.
+Moti barks with joy and chases the swinging tail.
+
+**Spread 5 — Lakhe the demon**
+Then the drums grow louder. Out leaps Lakhe, the demon dancer, in a fierce
+red mask!
+He jumps and spins, and the crowd claps to the beat. Moti hides behind
+Grandmother's legs — then peeks out and gives one brave little bark.
+"He only dances," Grandmother laughs. "He will not hurt you."
+
+**Spread 6 — The Bhairav's sweet wine**
+High on a temple wall hangs a giant golden face — Bhairav himself. And from
+his mouth pours a stream of sweet rice wine!
+People hold out their cups and cheer. The crowd pushes closer and closer.
+"This is everyone's favorite part," says Grandmother.
+
+**Spread 7 — On Grandmother's shoulders**
+Maya stands on her tiptoes. She cannot see a thing — only backs and
+shoulders everywhere!
+So Grandmother lifts her high, high onto her shoulders. Now Maya can see it
+all: the golden face, the wine, the lamps, the whole glowing square.
+Moti jumps up and down below, barking at the moon.
+
+**Spread 8 — The living goddess**
+"Look!" whispers Grandmother. A tall chariot rolls slowly through the
+square, pulled by ropes.
+Inside sits the Kumari, the living goddess, dressed in red and gold, so
+still and so calm. Two smaller chariots follow — Ganesh and Bhairav.
+The crowd goes quiet. Even the drums seem to hush.
+
+**Spread 9 — Dances in the lamplight**
+The drums start again! Dancers in blue and red whirl past — Bhairav with his
+sword, and the Devi dancers with their bells.
+Their shadows dance on the old temple walls. The whole square looks like it
+is dreaming.
+
+**Spread 10 — Ten gods in a row**
+On the temple steps sits a row of masks — ten gods, one after another.
+"That is the Dasavatar," says Grandmother. "Ten forms of Vishnu, watching
+over the festival every single night."
+
+**Spread 11 — Lamps for the ones we miss**
+Along the street, people set down little oil lamps in a long, glowing line.
+"Each lamp is for someone we love and miss," says Grandmother, lighting one
+with Maya. "The light helps them find their way."
+Maya watches her lamp glow. "I miss them too," she whispers.
+
+**Spread 12 — Goodnight, Basantapur**
+At last the drums grow soft. It is time to go home.
+Maya rides sleepy on Grandmother's shoulders, and Moti pads along behind,
+tired from all the barking.
+Behind them, Basantapur glows — and above it all, Indra's flag waves
+goodnight against the stars.
+`,
+ kit:{
+ kdp:[["Title","Maya and Indra Jatra"],["Author","Ujwol Shrestha"],
+ ["Description","It's Indra Jatra in Basantapur, Kathmandu! Maya, Grandmother and Moti join the glowing evening crowds — the tall lingo pole, Pulukishi the white elephant, Lakhe the demon dancer, the golden Bhairav, and the Kumari, the living goddess, on her chariot.\n\nA magical festival adventure set during Nepal's real-life Indra Jatra.\n\nAges 3–7."],
+ ["Keywords (7)","indra jatra kids book, kathmandu festival story, basantapur picture book, kumari living goddess, lakhe dancer, nepal festival kids, ages 3-7 read aloud"]],
+ yt:[["Video title","Maya and Indra Jatra 🎪 | Kids Read-Aloud Storytime"],
+ ["Tags","read aloud, kids storytime, picture book read aloud, indra jatra, kathmandu, nepal festival, maya's nepal adventures"]]} },
+{id:"book8",title:"Maya and the Honey Hunters",tag:"Book 8 \u00b7 Gurung honey hunters, Himalayan foothills",status:"generated",cover:"img/yt-book8.jpg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti","🧑‍🌾 Bir Dai the honey hunter"],
+ prog:[["Story draft written","ok"],["Ujwol\u2019s story review \u2014 waiting","wait"],["Scenes illustrated \u2014 13/13","ok"],["Illustrations approved","ok"],["Print book","wait"],["Read-aloud video","wait"],["KDP publish","wait"]],
+ lib:[], links:[["▶ Jaden's player","jaden.html?book=8"],["🖼️ Review illustrations","art-book8.html"]],
+ draft:`# Maya and the Honey Hunters
+### Book 8 in Maya\'s Nepal Adventures \u2014 manuscript draft (12 spreads)
+Author: Ujwol Shrestha · Ages 3\u20137
+
+---
+
+**Spread 1 \u2014 Honey-harvest season**
+Grandmother gets a letter from her old friend in the hills.
+"The honey hunters are climbing the cliffs," she reads, smiling.
+"Pack your warm shawl, Maya. We are going to see the honey harvest!"
+
+**Spread 2 \u2014 The Gurung village**
+They walk up and up, past terraced fields green as a staircase.
+At the top sits a Gurung village of stone houses with smoke curling from the roofs.
+Children run to greet them. Moti runs fastest of all.
+
+**Spread 3 \u2014 The great cliff**
+Beyond the village rises a cliff, tall as a hundred houses stacked up.
+Dark patches cling to the rock \u2014 giant honeycombs, big as doors!
+A soft humming fills the air. "The bees are singing," whispers Grandmother.
+
+**Spread 4 \u2014 Honey Hunter Bir Dai**
+A smiling man with a basket on his back waves to them. This is Bir Dai, the honey hunter.
+He unrolls a long ladder made of bamboo and rope.
+"It reaches all the way to the sky-bees," he says. Maya\'s eyes go wide.
+
+**Spread 5 \u2014 The smoke fire**
+Bir Dai\'s helpers pile green leaves under the cliff and light a small fire.
+Thick, sweet smoke curls upward, wrapping the honeycombs like a soft blanket.
+"The smoke tells the bees to rest," says Grandmother. "It keeps everyone safe."
+
+**Spread 6 \u2014 Up the ladder**
+Bir Dai ties a rope around his waist and steps onto the swaying ladder.
+Up he climbs \u2014 higher and higher \u2014 with only clouds beside him.
+Maya holds her breath. Even Moti forgets to bark.
+
+**Spread 7 \u2014 The golden comb**
+With a long bamboo pole, Bir Dai gently cuts a piece of the honeycomb.
+Golden honey drips down, slow and shining like the sun melting.
+He slides the comb into his basket and waves. Everyone below cheers!
+
+**Spread 8 \u2014 The bee cloud**
+The great bees rise in a swirling golden cloud \u2014 buzz, buzz, buzz!
+But the smoke keeps them sleepy and calm, and they drift back to their cliff.
+Moti peeks out from behind Grandmother\'s shawl. "All safe, little one," she laughs.
+
+**Spread 9 \u2014 The basket comes down**
+Hand over hand, the helpers lower the heavy basket on its long rope.
+Inside lies the honeycomb, golden and dripping, smelling of flowers and mountains.
+"It is the biggest honeycomb I have ever seen!" cries Maya.
+
+**Spread 10 \u2014 A taste of sunshine**
+Bir Dai breaks off a small piece and holds it out to Maya.
+She takes one tiny taste \u2014 and her whole face lights up.
+"It tastes like sunshine and flowers!" Moti licks his lips, hoping for a drop too.
+
+**Spread 11 \u2014 Evening in the village**
+As the sun sinks behind the snowy peaks, the village shares the sweet harvest.
+Children laugh, the bees hum softly home to their cliff, and the sky turns gold.
+"Thank you, brave bees," Maya whispers to the mountain.
+
+**Spread 12 \u2014 A gift wrapped in a leaf**
+Bir Dai wraps a small piece of honeycomb in a green leaf for Maya.
+She carries it home carefully, like treasure, all the way down the mountain.
+That night she dreams of golden cliffs, buzzing bees \u2014 and the taste of sunshine.
+`,
+ kit:{
+ kdp:[["Title","Maya and the Honey Hunters"],["Author","Ujwol Shrestha"],
+ ["Description","Grandmother takes Maya and Moti to the hills to watch the Gurung honey hunters at work \u2014 Bir Dai climbs a swaying bamboo ladder up a towering cliff to cut golden honeycomb from combs big as doors.\\n\\nA sweet Himalayan adventure about courage, tradition, and the taste of sunshine.\\n\\nAges 3\u20137."],
+ ["Keywords (7)","honey hunters kids book, nepal picture book, gurung honey harvest, himalayas kids story, bees kids book, ages 3-7 read aloud, maya\u2019s nepal adventures"]],
+ yt:[["Video title","Maya and the Honey Hunters 🍯 | Kids Read-Aloud Storytime"],
+ ["Tags","read aloud, kids storytime, picture book read aloud, honey hunters, nepal, himalayas, bees, maya\u2019s nepal adventures"]]} },
+{id:"book6",title:"Maya and the Baby Yak",tag:"Book 6 \u00b7 Himalayas \u2014 DRAFT",status:"generated",cover:"img/yt-book6.jpg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti","🐂 The old yak herder","🐃 Yakpu the baby yak"],
+ prog:[["Story draft written","ok"],["Ujwol's story review \u2014 approved","ok"],["Scenes illustrated \u2014 13/13","ok"],["Print book","wait"],["Read-aloud video","wait"],["KDP publish","wait"]],
+ lib:[], links:[["▶ Jaden's player","jaden.html?book=6"],["🖼 Review illustrations","art-book6.html"]],
+irev:{pdfs:[["Interior (EN)","print/book6/maya-baby-yak-interior-en.pdf"],["Interior (NE)","print/book6/maya-baby-yak-interior-ne.pdf"]],hub:"https://app.bayn9.com/api/public/book6-review",rtoken:"JVBSARXU-4IZBPBp53jpVUDrlvBDhluF"}, draft:`### Book 6 in Maya's Nepal Adventures — manuscript draft (12 spreads)
+Author: Ujwol Shrestha · Ages 3–7
+
+---
+
+**Spread 1 — Up, up to the sky pastures**
+Grandmother takes Maya and Moti high into the mountains, where the air is thin and cool.
+The trail winds past stone huts and fluttering prayer flags.
+"Are we close to the clouds?" Maya asks. "Closer than you think," Grandmother laughs.
+
+**Spread 2 — The land of the yaks**
+They reach a wide green kharka, a high pasture ringed with snowy peaks.
+Long-haired yaks graze slowly, their bells going clonk, clonk, clonk.
+Moti stares. He has never seen a cow so big and so fluffy.
+
+**Spread 3 — The herder's worry**
+An old yak herder counts his herd — one, two, three — and frowns.
+His smallest calf, little Yakpu, wandered off at sunrise and never came back.
+Maya squeezes Grandmother's hand. "Then we will help find her."
+
+**Spread 4 — Following the footprints**
+They follow tiny hoofprints across the soft mountain grass.
+Moti sniffs the ground, his tail wagging like a flag.
+"Look!" Maya cries. The prints turn toward the rocky hills.
+
+**Spread 5 — A faint little bell**
+From behind the rocks comes the faintest tinkle of a bell.
+Maya holds her breath. Moti's ears stand straight up.
+"Yakpu?" she calls softly. Tinkle, tinkle. "Yakpu!"
+
+**Spread 6 — Stuck in the hollow**
+They find her in a rocky hollow — a fluffy brown calf with big scared eyes.
+Her leg is caught between two stones. She trembles like a leaf.
+"Shh, little one," Maya whispers. "We are friends. We will help."
+
+**Spread 7 — Gentle hands**
+Maya holds the stones steady while Grandmother lifts Yakpu's leg free.
+Moti licks the calf's nose. Yakpu gives the smallest snort — almost a laugh.
+"See?" says Grandmother. "Kindness is the strongest hand of all."
+
+**Spread 8 — The mother comes running**
+Yakpu's mother comes trotting over the hill, her bell ringing loud and happy.
+She nuzzles her baby all over, as if to count every fluffy inch.
+"She was worried sick," Maya says, "just like you would be, Grandmother."
+
+**Spread 9 — A bell for Moti**
+The old herder smiles so wide his eyes disappear.
+He ties a tiny brass bell around Moti's collar. Tinkle!
+"For the bravest little tracker in the mountains," he says.
+
+**Spread 10 — Sunset on the snow**
+The sun sinks low, painting the snowy peaks pink and gold.
+The yaks settle down, and Yakpu curls up close to her mother.
+Maya leans against Grandmother. Even Moti leans against Maya.
+
+**Spread 11 — Goodnight, little Yakpu**
+Before they leave, Maya hugs Yakpu — soft as a cloud, warm as bread.
+"Stay close to your mama," she whispers. "And listen for Moti's bell."
+Yakpu blinks her long lashes, as if to say she will.
+
+**Spread 12 — Down the mountain, home**
+On the way down, Moti's new bell tinkles with every step.
+Somewhere above, a yak bell answers — clonk, clonk — like a faraway friend.
+Maya smiles all the way home. What a high, wonderful day.
+`,
+ kit:{
+ kdp:[["Title","Maya and the Baby Yak"],["Author","Ujwol Shrestha"],
+ ["Description","High in the Himalayan pastures, Maya and Moti help an old yak herder find his lost calf, little Yakpu \u2014 and Moti earns a tiny brass bell for being the bravest tracker in the mountains.\n\nA warm mountain adventure about kindness and helping, set in real-life Nepal.\n\nAges 3\u20137."],
+ ["Keywords (7)","yak kids book, himalayas picture book, nepal mountain story, baby animal rescue, kindness kids book, ages 3-7 read aloud, nepal travel kids"]],
+ yt:[["Video title","Maya and the Baby Yak 🐂 | Kids Read-Aloud Storytime"],
+ ["Tags","read aloud, kids storytime, picture book read aloud, yak, himalayas, nepal, maya's nepal adventures"]]} },
+{id:"book1",title:"The Dog Who Wore Marigolds",tag:"Book 1 · Kukur Tihar tale",status:"generated",cover:"img/yt-book1.jpg",
+ chars:["👧 Maya","🐶 Moti","👵 Grandmother"],
+ prog:[["Print interior + cover","ok"],["Read-aloud video (2:23)","ok"],["YouTube thumbnail","ok"],["KDP submitted 9/24 — in review","wait"],["Live on Amazon","ok"]],
+ lib:[["📄 Interior PDF","https://drive.google.com/file/d/1avBvGlpV5L15S7ntiUNBZ647FG_MCWIM/view?usp=drivesdk"],
+      ["📕 Cover PDF","https://drive.google.com/file/d/1w6Gdr_1yHhKpH9CbdMS62j3MR4eb7lIZ/view?usp=drivesdk"],
+      ["🎬 Read-aloud video","https://drive.google.com/file/d/1WTY_Djt3m_aMrMKjZtOTKu44yZM7ZNrt/view?usp=drivesdk"],
+      ["🖼 Thumbnail","https://drive.google.com/file/d/1LQmvLMtqTKyagJnj2xDrXA7JV3whti-F/view?usp=drivesdk"]],
+ links:[["▶ Jaden's player","jaden.html?book=1"],["🛒 Buy on Amazon","https://www.amazon.com/dp/B0HKZFHWQB"],["▶ Watch on YouTube","https://youtu.be/phNtM3kN_Ec"],["🖼 View illustrations","art-book1.html"]],
+irev:{pdfs:[["Interior PDF","print/book1/maya-dog-marigolds-interior.pdf"]]}, kit:{
+ kdp:[["Title","The Dog Who Wore Marigolds"],["Author","Ujwol Shrestha"],
+ ["Description","Festival week has begun in Maya's mountain village, and she has strung the brightest marigold garland of all — but her family has no dog.\n\nThen, down a narrow alley, she finds him: a scruffy stray puppy with no collar, no garland, and no one waiting for him.\n\nA heartwarming story of kindness set during Kukur Tihar, Nepal's real-life festival honoring dogs. Includes a special note for parents about the tradition.\n\nAges 3–7."],
+ ["Keywords (7)","kukur tihar children's book, nepal dog festival, puppy picture book, kindness story for kids, marigold garland, dog book ages 3-7, tihar festival dogs"],
+ ["Categories","Children's Books > Animals > Dogs; Children's Books > Holidays & Celebrations"],
+ ["Age range","3–7 years"],["Print specs","Paperback · 8.5\" x 8.5\" · 28 pages · Premium color · Matte cover · $14.99"]],
+ yt:[["Video title","The Dog Who Wore Marigolds 🐶🌼 | Kids Read-Aloud Storytime"],
+ ["Description","Maya wants to give the brightest marigold garland to a dog for Kukur Tihar — Nepal's festival of dogs — but her family has no dog... 🐶🌼\n\nA heartwarming read-aloud about kindness, set during Nepal's real-life Kukur Tihar festival. Perfect for ages 3–7.\n\n📚 Get the paperback: [paste Amazon link]\n🔔 Subscribe for more Maya's Nepal Adventures!\n\n#ReadAloud #KidsBooks #KukurTihar #Nepal"],
+ ["Tags","read aloud, kids storytime, picture book read aloud, kukur tihar, nepal festival, dog story for kids, maya's nepal adventures"]]} },
+{id:"book2",title:"Maya and the Temple Monkey",tag:"Book 2 · Swayambhunath",status:"generated",cover:"img/yt-book2.jpg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti","🐵 Temple Monkey & baby"],
+ prog:[["Print interior + cover","ok"],["Read-aloud video","ok"],["YouTube thumbnail","ok"],["KDP uploaded — in review","wait"],["Live on Amazon","wait"]],
+ lib:[["📄 Interior PDF","https://drive.google.com/file/d/14NYiL_ototLZfp1tXc_E8f_vWpuRCOY4/view?usp=drivesdk"],
+      ["📕 Cover PDF","https://drive.google.com/file/d/1HxjWlzQ3hserj4WlmrtRSy_ipgXcWNKH/view?usp=drivesdk"],
+      ["🎬 Read-aloud video","https://drive.google.com/file/d/157yG0OfuMBBuybrBeXl3ZdXQnGlmLWMD/view?usp=drivesdk"],
+      ["🖼 Thumbnail","https://drive.google.com/file/d/1kPM_XsI_Z_ipDqQBT9cxZdwITr5UnB3x/view?usp=drivesdk"]],
+ links:[["▶ Jaden's player","jaden.html?book=2"],["▶ Watch on YouTube","https://youtu.be/6-ntLzwu6ho"],["🖼 View illustrations","art-book2.html"]],
+irev:{pdfs:[["Interior PDF","print/book2/maya-temple-monkey-interior.pdf"]]}, kit:{
+ kdp:[["Title","Maya and the Temple Monkey"],["Author","Ujwol Shrestha"],
+ ["Description","Maya is back! Every spring, she and Grandmother climb the 365 steps to Swayambhunath, the Monkey Temple, with a marigold garland for the Buddha.\n\nBut this year a cheeky monkey snatches her garland right out of her hands — and the chase is on! Past spinning prayer wheels, flapping pigeons, and flickering butter lamps.\n\nA funny, heartwarming story about sharing and kindness, set at Nepal's real-life Monkey Temple. Includes a special note for parents about Swayambhunath.\n\nAges 3–7."],
+ ["Keywords (7)","swayambhunath kids book, monkey temple nepal, kathmandu picture book, sharing story for kids, monkey book ages 3-7, grandmother grandchild book, kindness story"],
+ ["Categories","Children's Books > Animals > Monkeys & Apes; Children's Books > Travel & Places > Asia"],
+ ["Age range","3–7 years"],["Print specs","Paperback · 8.5\" x 8.5\" · 28 pages · Premium color · Matte cover"]],
+ yt:[["Video title","Maya and the Temple Monkey 🐵 | Kids Read-Aloud Storytime"],
+ ["Description","Maya and Grandmother climb the 365 steps to Swayambhunath — but a cheeky monkey snatches her marigold garland! 🐵🌼\n\nA funny, heartwarming read-aloud about sharing and kindness at Nepal's real-life Monkey Temple. Perfect for ages 3–7.\n\n📚 Get the paperback: [paste Amazon link]\n🔔 Subscribe for more Maya's Nepal Adventures!\n\n#ReadAloud #KidsBooks #Swayambhunath #Nepal #MonkeyTemple"],
+ ["Tags","read aloud, kids storytime, picture book read aloud, swayambhunath, monkey temple nepal, monkey story for kids, maya's nepal adventures"]]} },
+{id:"book9",title:"Maya and the Yeti's Sneeze",tag:"Book 9 \u00b7 a snowy Himalayan cold",status:"generated",cover:"img/book9/cover.jpg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti","\u2744\uFE0F the Yeti"],
+ prog:[["Story draft written","ok"],["Ujwol\u2019s story review \u2014 waiting","wait"],["Scenes illustrated \u2014 13/13","ok"],["Print book","wait"],["Read-aloud video","wait"],["KDP publish","wait"]],
+ lib:[], links:[["🖼\uFE0F Review illustrations","art-book9.html"]],
+ draft:`# Maya and the Yeti's Sneeze
+### Book 9 in Maya's Nepal Adventures — manuscript draft (12 spreads)
+Author: Ujwol Shrestha · Ages 3–7
+
+---
+
+**Cover**
+A giant, goofy, kind-eyed yeti with shaggy white-grey fur and one floppy ear wears a huge red knitted scarf. Maya (two black braids with red ribbons), her grandmother (grey bun, maroon dress, cream shawl), and Moti (small fluffy white-cream dog) stand beside him in a snowy Himalayan valley, smiling up at him. Pine trees heavy with snow, great peaks behind.
+
+---
+
+**Spread 1 — The sneeze in the snow**
+One snowy morning, Maya heard something strange.
+"AAACHOO!" echoed through the mountains, big enough to shake the icicles.
+"Was that thunder?" whispered Maya.
+Moti's ears stood up. He did not think it was thunder at all.
+
+**Spread 2 — Up the trail**
+Maya, Grandmother and Moti followed the sound up the mountain trail.
+The pine trees wore thick white coats of snow, and their footprints trailed behind them.
+"AAACHOO!" boomed the mountain again. It was coming from higher up.
+"Hold on to my shawl, little one," said Grandmother. "Let us go and see."
+
+**Spread 3 — The yeti in the snow**
+There, sitting in the deep snow, was the BIGGEST creature Maya had ever seen.
+A yeti! Shaggy and tall, with kind, goofy eyes and one floppy ear.
+"AAACHOO!" he sneezed, and the snow puffed up all around him.
+He looked very, very embarrassed. "Sorry," he sniffled.
+
+**Spread 4 — Snow off the pines**
+"AAACHOO!" — the giant sneeze blew across the pine trees!
+All the snow whooshed off the branches in a sparkly white cloud.
+"Again! Again!" giggled Maya, as another sneeze showered the whole forest.
+Even Moti barked with laughter, chasing snowflakes with his tongue.
+
+**Spread 5 — Not scared at all**
+Maya walked right up to the big yeti. She was not scared at all.
+"This is Moti," she said, and Moti wagged his whole fluffy tail.
+The yeti smiled shyly and sniffled, "Achoo… nice to meet you. I am Himlu."
+Maya petted his big shaggy hand. It was soft as a blanket.
+
+**Spread 6 — Grandmother knows**
+Grandmother felt the yeti's warm, fuzzy forehead.
+"Hmm. You have a cold," she said, just like a doctor. "A very big cold."
+"I know what a cold needs," she smiled. "Hot ginger-honey tea!"
+She lit a small fire in the snow while Maya gathered ginger from her pocket bag.
+
+**Spread 7 — The red scarf**
+Grandmother pulled out her knitting — she had been working on it for weeks.
+It was the BIGGEST, reddest, warmest scarf anyone had ever seen!
+"Hold still, Himlu," laughed Grandmother, wrapping it round and round his long neck.
+The yeti looked in a frozen puddle at his reflection — and beamed.
+
+**Spread 8 — Tea time in the snow**
+They all sat together in the snow, sipping steaming ginger-honey tea.
+Himlu held his tiny cup with his giant fingers, very carefully. "Ahhh," he sighed.
+Warmth spread through his shaggy tummy. For the first time in days, he did not sneeze.
+Moti curled up on the yeti's big foot like a warm little slipper.
+
+**Spread 9 — Himlu's cave**
+"Come, come," said Himlu, and led them to his cave behind a waterfall of icicles.
+Inside it was cozy, with a bed of soft moss and pine cones stacked like treasure.
+"This is my home," he said proudly. "And now I have friends to show it to!"
+Maya hung a red ribbon on his door, so he would always remember them.
+
+**Spread 10 — The snow slide**
+"One more sneeze?" asked Maya. Himlu grinned a huge goofy grin.
+"AAACHOO!" — WHOOSH! The sneeze made a smooth, slippery slide of snow down the mountain!
+Maya, Grandmother and Moti slid all the way down — wheee! — landing in a soft, puffy snow pile.
+"Best. Sneeze. Ever," giggled Maya.
+
+**Spread 11 — Goodbye, for now**
+At the bottom of the mountain, it was time to say goodbye.
+Himlu waved his long shaggy arm, the giant red scarf fluttering behind him.
+"We will come back in spring!" called Maya. "And you will come to our house for tea!"
+Himlu waved until they were tiny dots, smiling his goofiest smile.
+
+**Spread 12 — A tuft of white fur**
+That night, home and warm, Maya found a soft tuft of white yeti fur stuck to her mitten.
+She kept it in a little box by her bed.
+As she fell asleep, she dreamed of snowy peaks, a giant red scarf —
+and a kind, lonely friend who was not scary at all, only in need of a friend.
+`,
+ kit:{
+ kdp:[["Title","Maya and the Yeti's Sneeze"],["Author","Ujwol Shrestha"],
+ ["Description","A giant sneeze echoes through the snowy Himalayas \u2014 and it belongs to a big, lonely, very sniffly yeti. Maya, Grandmother and Moti brew him ginger-honey tea and knit him the biggest red scarf in the mountains.\n\nA giggly winter adventure about how the scariest things are often just lonely.\n\nAges 3\u20137."],
+ ["Keywords (7)","yeti kids book, himalayas picture book, winter story for kids, funny read aloud, ages 3-7, maya\u2019s nepal adventures"]],
+ yt:[["Video title","Maya and the Yeti's Sneeze \u2744\uFE0F | Kids Read-Aloud Storytime"],
+ ["Tags","read aloud, kids storytime, picture book read aloud, yeti, himalayas winter, nepal, maya\u2019s nepal adventures"]]} },
+{id:"book10",title:"Maya and the Kite Thief of Dashain",tag:"Book 10 \u00b7 Dashain kite battles over Kathmandu",status:"generated",cover:"img/book10/cover.jpg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti","🪁 Sabin the kite boy"],
+ prog:[["Story draft written","ok"],["Ujwol\u2019s story review \u2014 waiting","wait"],["Scenes illustrated \u2014 13/13","ok"],["Print book","wait"],["Read-aloud video","wait"],["KDP publish","wait"]],
+ lib:[], links:[["🖼\uFE0F Review illustrations","art-book10.html"]],
+ draft:`# Maya and the Kite Thief of Dashain
+**Maya's Nepal Adventures — Book 10**
+Author: Ujwol Shrestha · Ages 3–7
+
+## Cover
+Maya, on her family's Kathmandu rooftop, holds a brand-new red kite with a golden border. Beside her a shy small Nepali boy (patched blue shirt, shorts, sandals) holds his kite stitched from colorful scraps. Dozens of kites fill the golden Dashain sky. Moti the little white dog watches a fluttering ribbon.
+
+## Spread 1 — Dashain comes to the rooftops
+It is Dashain, and Kathmandu hums with it. From every rooftop, children are building and flying kites, and the sky is a festival of color. Grandmother spreads out red paper and golden ribbon on their rooftop. "Help me, Maya," she says. "This year we build the finest kite in the whole neighborhood." Moti runs round and round the red paper, wagging his tail.
+
+## Spread 2 — The red kite with the golden border
+Grandmother ties the last knot, and the kite lifts — a big, proud RED kite with a GOLDEN border that flashes in the sun. Maya runs down the rooftop laughing, letting out the string, and the kite SOARS. "Higher, higher!" she calls, and Moti barks at the shadow racing over the rooftops.
+
+## Spread 3 — Cut!
+Maya's kite dances alone at the very top of the sky. Then — WHOOSH! A bigger, rough kite swoops down from nowhere and its line slices clean through Maya's string. Snap! Maya's red kite wobbles, spins — and tumbles away over the rooftops. Maya stares at the empty string in her hand.
+
+## Spread 4 — Furious, Maya and Moti track across the rooftops
+"That was MY kite!" Maya shouts, shaking her fist at the sky. Grandmother calls after her, but Maya is already running, Moti racing ahead, nose down. Across two rooftops they hop and scramble, following the red kite's falling path — and Moti's barking leads Maya to a small, poor-looking rooftop at the end of the street.
+
+## Spread 5 — The "thief"
+There he is. A small boy about Maya's age, pulling Maya's red kite down with his kite string — and in his other hand, a homemade kite stitched together from newspaper and colorful scraps, patched with flour paste. He sees Maya and lifts his chin, defiant. "I didn't steal anything," he says, hugging the red kite. "My kite caught yours. That's kite-fighting."
+
+## Spread 6 — The truth
+Maya snatches her red kite back — then stops. The boy's shirt has patches on the patches. His sandals are held together with string. His hands tremble a little. "My family couldn't buy paper or bamboo," he says quietly, looking down. "I made mine from scraps. It has never won a fight." Moti sits beside the boy and leans against his leg.
+
+## Spread 7 — The challenge
+Maya looks at her fine red kite, then at his scrap-paper one. A grin spreads across her face. "Rematch!" she says, pointing at the sky. "Tomorrow morning. You fly yours, I fly mine — and whoever flies longer WINS." The boy's eyes go wide. "Really?" he whispers. Moti barks once, loud and happy, like an umpire.
+
+## Spread 8 — Building a proper kite together
+But first — "Nobody should fight kites with a scrap kite," Grandmother says, and brings out her bamboo, her paper, her paste pot. On Maya's rooftop, the three of them build together: Grandmother ties the frame, Maya cuts the paper, and the boy — his name is Sabin — paints a blue star on the tail. Moti steals a ribbon and runs in circles while they all laugh.
+
+## Spread 9 — The rematch
+The next morning, the sky is crowded again. On two rooftops, two kites climb — Maya's red kite with the golden border, and Sabin's new blue kite with the painted star. They dance and dive around each other, swooping and twirling, neck and neck. The whole neighborhood watches from the rooftops.
+
+## Spread 10 — Lines tangle!
+Maya pulls left — Sabin pulls right — and CRASH! Their lines twist together in a big knotty tangle. Both kites wobble and land softly on the same rooftop. For a breath nobody speaks. Then Maya giggles. Then Sabin giggles. Then both of them are laughing so hard they have to sit down, and Moti jumps on both of them at once.
+
+## Spread 11 — The Dashain feast
+"Nobody won," Grandmother declares, "so everybody eats!" That evening Sabin comes to Maya's house for the Dashain feast — tika on his forehead, rice pudding in his bowl, and the two kites leaning together by the door like old friends. Sabin's mother smiles through happy tears.
+
+## Spread 12 — Friends in the sunset sky
+High above the rooftops, in the golden sunset sky of the last day of Dashain, two kites fly tangled together — red and gold, blue and star — drifting as one. Maya and Sabin hold the same string, laughing, while Moti barks up at them. Some knots, it turns out, are made to stay tied.
+
+---
+No "Maya's Lesson" ending. Locked characters: Maya (young Nepali girl, two black braids with red ribbons); Grandmother (grey hair in a bun, no glasses, maroon dress, cream shawl); Moti (small fluffy white/cream dog); Sabin the kite boy (small Nepali boy about Maya's age, short black hair, patched blue shirt, shorts, sandals, shy but brave eyes) — consistent via art/char-kiteboy-ref.png.
+`,
+ kit:{
+ kdp:[["Title","Maya and the Kite Thief of Dashain"],["Author","Ujwol Shrestha"],
+ ["Description","It is Dashain kite season, and Maya\u2019s brand-new red kite is flying high \u2014 until a bigger kite cuts her line! The \u2018thief\u2019 turns out to be Sabin, a poor boy flying a kite stitched from scraps.\n\nA rooftop adventure about rivalry, kindness, and the best rematch in Kathmandu.\n\nAges 3\u20137."],
+ ["Keywords (7)","dashain kids book, kite story for kids, kathmandu picture book, friendship story, ages 3-7, maya\u2019s nepal adventures"]],
+ yt:[["Video title","Maya and the Kite Thief of Dashain 🪁 | Kids Read-Aloud Storytime"],
+ ["Tags","read aloud, kids storytime, picture book read aloud, dashain, kite flying, kathmandu, nepal, maya\u2019s nepal adventures"]]} },
+{id:"book11",title:"Maya and the Bhai Tika Brother",tag:"Book 11 \u00b7 Tihar\u2019s festival of brothers and sisters",status:"generated",cover:"img/book11/cover.jpg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti","👦 Bhai Tika brother"],
+ prog:[["Story draft written","ok"],["Ujwol\u2019s story review \u2014 waiting","wait"],["Scenes illustrated \u2014 13/13","ok"],["Print book","wait"],["Read-aloud video","wait"],["KDP publish","wait"]],
+ lib:[], links:[["🖼\uFE0F Review illustrations","art-book11.html"]],
+ draft:`# Maya and the Bhai Tika Brother
+### Book 11 in Maya's Nepal Adventures — manuscript draft (cover + 12 spreads)
+Author: Ujwol Shrestha · Ages 3–7
+
+Locked characters: **Maya** — young Nepali girl, two black braids, red ribbons · **Grandmother** — grey hair in bun, NO glasses, maroon dress, cream shawl · **Moti** — small fluffy white/cream dog · **The brother** — boy about 8, round kind face, neat side-parted black hair, warm brown eyes, teal-blue kurta with white churidar, small red tika mark on forehead (RECURRING — design locked)
+
+---
+
+**Cover — The Bhai Tika Brother**
+Maya stands beside her new brother — a boy of eight with neat side-parted black hair, warm brown eyes, a teal-blue kurta and white churidar, a small red tika on his forehead. On Maya's own forehead glows the seven-colored saptarangi tika. Marigolds frame the scene; oil lamps flicker all around. Grandmother's cream shawl and Moti's fluffy white ears peek in from the edges.
+
+---
+
+**Spread 1 — The festival of lights**
+Tihar has come to the village! Marigold garlands hang from every door. The air smells of flowers and sweet oil.
+In every courtyard, sisters sit beside their brothers, ready for Bhai Tika.
+Maya stands at the edge of a courtyard and watches — very quietly.
+
+**Spread 2 — The empty spot**
+One by one, the sisters place the saptarangi tika — seven bright colors — on their brothers' foreheads.
+Red, yellow, green, blue... each line is a wish for a long, happy life.
+Maya watches the laughter and the hugs. Her own forehead feels very empty.
+Moti presses his warm head against her leg.
+
+**Spread 3 — A wish whispered**
+That evening, Maya sits beside Grandmother on the porch. Oil lamps flicker in little rows.
+"Aama," Maya whispers, "everyone has a brother for Bhai Tika. Everyone but me."
+Grandmother listens for a long time. Then she smiles — the warmest smile in the world.
+
+**Spread 4 — The old custom**
+"My child," says Grandmother, wrapping her cream shawl around Maya, "listen to the old custom.
+If you have no brother, you do not have to wish for one. You may CHOOSE one.
+Choose with your heart, and he will be your brother for real — forever."
+Maya's eyes go wide. She already knows. She has known for a long time.
+
+**Spread 5 — The kind neighbor boy**
+Next door lives a boy of eight — kind eyes, neat side-parted black hair, a teal-blue kurta and white churidar.
+He shares his guavas with the little children. He once carried Maya's basket all the way home.
+Maya runs to Grandmother. "Him!" she says, pointing. "He is the kindest boy I know!"
+Grandmother laughs. "Then he is already your brother. Now we will make it so."
+
+**Spread 6 — Bhai Tika day**
+Morning! Maya wears her festival clothes. On a brass plate she arranges everything —
+a small dish of the seven tika colors, marigold petals, rice, and sweets.
+The boy sits before her, a little shy, a little proud, in his teal-blue kurta.
+Maya dips her finger in the first color. Her hand is steady. This is the most important art she will ever make.
+
+**Spread 7 — The seven-colored tika**
+Red, orange, yellow, green, blue, indigo, violet — line by line, Maya paints the saptarangi tika on his forehead.
+Seven colors, seven wishes: for his health, his happiness, his long, long life.
+"Now you are my brother," she says softly. "For real."
+The boy's warm brown eyes shine. A small red tika glows on his forehead like a tiny sun.
+
+**Spread 8 — The sagun plate**
+Next comes the sagun — the plate of good fortune. Maya offers him fruits and sweets, one by one.
+He accepts each with both hands, the way Grandmother taught her, and bows his head.
+Moti sits up very straight beside them, hoping a sweet might fall his way.
+Grandmother watches from the doorway, her eyes all soft and shining.
+
+**Spread 9 — A gift for his sister**
+The boy reaches into his pocket and brings out a small painted wooden top — red and yellow swirls, spinning-bright.
+"For my sister," he says, placing it in Maya's hands. "So you will always remember this day."
+Maya hugs it tight to her chest. It is the best gift in the whole world.
+"Spin it for me," she laughs — and he does, right there on the courtyard floor.
+
+**Spread 10 — Lamps at dusk**
+At dusk they light oil lamps together — one, two, three, a whole row along the courtyard wall.
+Little flames dance in the evening breeze. The marigolds glow like captured sunshine.
+"Make a wish," whispers her brother. Maya closes her eyes and wishes — for him, always.
+Side by side, brother and sister, they watch the flames stand tall.
+
+**Spread 11 — Deusi-bhailo in the lane**
+From the lane comes music! The deusi-bhailo singers arrive — drums, cymbals, and singing voices.
+Everyone pours into the lane and dances: Grandmother clapping, children spinning, Moti barking at the drum.
+Maya and her brother dance hand in hand, round and round under the strings of marigolds.
+"Again! Again!" laughs Maya, and the whole lane dances again.
+
+**Spread 12 — Brother and sister**
+Under a sky full of stars, the village glows — every window, every courtyard, every rooftop lit with lamps.
+Maya and her brother stand together among the marigolds, both foreheads bright with tika, both faces smiling.
+"A brother chosen by the heart," says Grandmother, "is a brother forever."
+And Maya knows — some families you are born into, and some you choose with love.
+`,
+ kit:{
+ kdp:[["Title","Maya and the Bhai Tika Brother"],["Author","Ujwol Shrestha"],
+ ["Description","During Tihar, every sister puts the seven-colored tika on her brother \u2014 but Maya has no brother. Grandmother tells her the old custom: if you don\u2019t have a brother, you choose one.\n\nA tender festival story about chosen family, starring a brand-new recurring friend.\n\nAges 3\u20137."],
+ ["Keywords (7)","tihar kids book, bhai tika story, nepal festival picture book, siblings story, ages 3-7, maya\u2019s nepal adventures"]],
+ yt:[["Video title","Maya and the Bhai Tika Brother 🪷 | Kids Read-Aloud Storytime"],
+ ["Tags","read aloud, kids storytime, picture book read aloud, tihar, bhai tika, nepal festival, maya\u2019s nepal adventures"]]} },
+{id:"book12",title:"Maya and the Monk of Boudhanath",tag:"Book 12 \u00b7 full-moon morning at the great stupa",status:"generated",cover:"img/book12/cover.jpg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti","🧑\u200D🦲 the old monk"],
+ prog:[["Story draft written","ok"],["Ujwol\u2019s story review \u2014 waiting","wait"],["Scenes illustrated \u2014 13/13","ok"],["Print book","wait"],["Read-aloud video","wait"],["KDP publish","wait"]],
+ lib:[], links:[["🖼\uFE0F Review illustrations","art-book12.html"]],
+ draft:`# Maya and the Monk of Boudhanath
+### Book 12 in Maya's Nepal Adventures — manuscript draft (12 spreads)
+Author: Ujwol Shrestha · Ages 3–7
+
+---
+
+**Cover — Maya and the Monk of Boudhanath**
+Maya, Grandmother, and Moti walk with the old laughing monk toward the great white stupa of Boudhanath, its painted Buddha eyes watching kindly. Prayer flags flutter overhead in the full-moon morning light.
+
+---
+
+**Spread 1 — Full-moon morning at the great stupa**
+It is full-moon morning, and Grandmother wakes Maya early.
+"Come, little one. We are going to Boudhanath," she says, "to walk around the great white stupa."
+High above the rooftops, the stupa rises — a great white dome, with the calm painted eyes of the Buddha watching over the whole city.
+
+**Spread 2 — Too restless to walk**
+Pigeons flutter in grey clouds around the golden tower.
+People chant softly and spin the big prayer wheels as they walk — round and round and round.
+But Maya cannot walk slowly. Her feet want to run.
+She is still cross about her drawing. Moti chewed the corner right off it this morning.
+
+**Spread 3 — The monk with the broom**
+Near the stupa wall, an old monk is sweeping the courtyard with a long broom.
+He sees Maya stomping past — and laughs, a warm, rumbling laugh like tea bubbling.
+"You walk like a little storm," he says, and holds out a small broom. "Here. Sweep with me."
+
+**Spread 4 — Sweeping slowly**
+So Maya takes the small broom, and they sweep the courtyard together — slow, slow, swish.
+Stone by stone, the courtyard grows clean.
+With each swish of the broom, Maya's feet feel a little less runny, and her breath slows down.
+
+**Spread 5 — The flag lines**
+The old monk points up. Long lines of paper prayer flags stretch from the stupa's top to the rooftops, fluttering in the wind.
+"Look how they dance," he says. "Each flag carries a wish — or a worry."
+
+**Spread 6 — Let the wind carry it**
+"If you hold anger in your chest," the monk says, "it grows heavy as a stone.
+But if you let it go — the wind carries it away."
+Maya thinks about her chewed drawing. It still makes her face feel hot.
+
+**Spread 7 — Writing on a paper flag**
+The monk gives Maya a small square of paper — a paper prayer flag — and a brush.
+She closes her eyes and writes what is bothering her, in her own wobbly letters:
+*"Moti chewed my drawing. I was angry."*
+
+**Spread 8 — The wind lifts it**
+Together they climb to the flag line and tie her paper flag on with a little string.
+A breeze comes — flutter, flutter — and lifts her flag into the morning light.
+Maya watches it dance. Her hot face cools, like a stone lifted off her chest.
+
+**Spread 9 — Walking the kora, calm at last**
+Now Maya walks the kora — the round path around the stupa — calmly, beside Grandmother.
+Their feet fall together. Step, step, step.
+She looks up at the Buddha's painted eyes, and they look kindly back at her.
+
+**Spread 10 — Spinning the prayer wheels**
+Maya and the monk spin the big prayer wheels together, round and round.
+Moti wags his tail and trots alongside, forgiven, as if he understands everything.
+"See?" the monk laughs. "Your hands know how to be gentle."
+
+**Spread 11 — Butter tea in the courtyard**
+They sit in the sunny courtyard and drink warm butter tea.
+The old monk tells Maya that he has swept this courtyard every full moon for many, many years.
+"Then the courtyard always knows you," says Maya. He laughs his rumbling laugh.
+
+**Spread 12 — A wheel for her pocket**
+When it is time to go, the monk presses something small and warm into Maya's hand —
+a tiny brass prayer wheel, small enough to fit in her pocket.
+"For when your feet want to run," he says.
+Maya hugs him tight. And all the way home, her pocket jingles softly — spin, spin, spin.
+`,
+ kit:{
+ kdp:[["Title","Maya and the Monk of Boudhanath"],["Author","Ujwol Shrestha"],
+ ["Description","On a full-moon morning at Boudhanath Stupa, grumpy Maya meets an old laughing monk with a broom. He teaches her the gentle art of letting anger go: write it on a paper prayer flag and let the wind carry it away.\n\nA peaceful story about big feelings and the kindness of letting go.\n\nAges 3\u20137."],
+ ["Keywords (7)","boudhanath kids book, stupa picture book, feelings story for kids, mindfulness kids, ages 3-7, maya\u2019s nepal adventures"]],
+ yt:[["Video title","Maya and the Monk of Boudhanath 🕌 | Kids Read-Aloud Storytime"],
+ ["Tags","read aloud, kids storytime, picture book read aloud, boudhanath, stupa, kathmandu, nepal, maya\u2019s nepal adventures"]]} },
+{id:"book13",title:"Maya and the Lake of Pokhara",tag:"Book 13 \u00b7 Phewa Lake mirrors the Annapurnas",status:"generated",cover:"img/book13/cover.jpg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti"],
+ prog:[["Story draft written","ok"],["Ujwol\u2019s story review \u2014 waiting","wait"],["Scenes illustrated \u2014 13/13","ok"],["Print book","wait"],["Read-aloud video","wait"],["KDP publish","wait"]],
+ lib:[], links:[["🖼\uFE0F Review illustrations","art-book13.html"]],
+ draft:`# Maya and the Lake of Pokhara
+**Maya's Nepal Adventures — Book 13**
+**Author:** Ujwol Shrestha
+**Ages:** 3–7
+
+## Cover
+Early morning on Phewa Lake, Pokhara. In a small wooden doongha boat, Maya (young Nepali girl, two black braids tied with red ribbons) leans over the side, pointing in wonder. Grandmother (grey hair in a bun, maroon dress, cream shawl) smiles beside her, and Moti (small fluffy white-and-cream dog) sits alert at the bow. Around the boat, the lake is a perfect mirror — the great Annapurna mountains float twice, once in the sky and once in the water. A tiny island temple and colorful paragliders dot the distance.
+
+## Spread 1 — The Road to Pokhara
+Maya, Grandmother, and Moti ride in a little bus winding through green hills on the road to Pokhara. Terraced fields climb the slopes, banana trees sway, and far ahead, through a gap in the hills, the white tops of the Annapurnas peek out. Maya presses her face to the window. "Are those the mountains, Grandmother? They look close enough to touch!"
+
+## Spread 2 — The Lake That Holds the Sky
+At last — Phewa Lake! The water is so still that the great Annapurna range is painted twice: once in the sky, and once upside-down in the lake, perfectly. Maya stands on the shore, mouth open. "Grandmother — there are TWO mountains! One fell into the water!" Grandmother laughs. "No, little one. The lake is just holding the sky for us to see."
+
+## Spread 3 — The Doongha Boat
+They hire a wooden doongha boat — long and narrow, painted bright blue and red. A kind old boatman with a striped cap helps them aboard. Maya sits in the middle, Grandmother settles her shawl, and Moti perches at the very front like a captain. "Push off!" calls the boatman, and the boat glides into the mirror.
+
+## Spread 4 — The Temple on the Island
+In the middle of the lake sits a tiny green island, and on it the Tal Barahi temple with its white dome and golden top. The boat circles the island. Maya folds her hands together like Grandmother and bows her head. Bells tinkle in the breeze. "Even the temple has a twin in the water," whispers Maya.
+
+## Spread 5 — Fingers in the Water
+Maya trails her fingers in the cool lake water and watches her ripples chase the mountain's reflection. Little silver fish dart beneath her hand — zip, zip, zip! "Careful, little fish," she giggles. Moti watches the fish with wide eyes, his nose nearly touching the water.
+
+## Spread 6 — Moti Meets Himself
+Moti leans over the edge and sees another little white dog looking back at him from the water. He barks — "Woof!" — and the water-dog barks back without a sound! Moti tilts his head. He paws at the water. Splash! Maya and Grandmother laugh and laugh. "That is you, silly Moti!"
+
+## Spread 7 — The Lakeside Bazaar
+Back on shore, they wander the lakeside bazaar — bright stalls of flower garlands, wooden flutes, and sparkling bracelets. Grandmother buys Maya a small treasure: a tiny brass boat, just like their doongha. Maya holds it up to the sun. "Now I will always have the lake with me."
+
+## Spread 8 — Birds of Many Colors
+High above the lake, paragliders drift down from the green hilltop — red, yellow, blue, pink — like giant colored birds floating on the wind. Maya waves up at them. "Look, Moti! The sky has butterflies!" One paraglider swoops low, and the pilot waves back at her.
+
+## Spread 9 — The Pink Mountains
+As the sun sinks low, something magical happens: the white Annapurnas turn soft pink, then gold, then rose — and the lake turns pink too. Maya gasps. "The mountains are blushing, Grandmother!" They sit very still in the boat and watch the whole world turn the color of a marigold petal.
+
+## Spread 10 — A Lamp on the Water
+At dusk, Grandmother places a tiny floating lamp — a little leaf boat holding a flickering flame — onto the dark water. It drifts away, its light dancing beside the first stars. Maya watches it go. "Where will it travel?" Grandmother smiles. "Wherever the lake wants to take it."
+
+## Spread 11 — Maya Draws the Mirror
+By lantern light at the lakeside, Maya opens her sketchbook. With careful crayon strokes she draws the two mountains — one in the sky, one in the water. Moti sleeps curled at her feet. "Mine is almost as good as the lake's," she says proudly, and Grandmother kisses the top of her head.
+
+## Spread 12 — Goodbye to the Lake
+Early morning mist floats over Phewa Lake. The mountains hide behind soft white clouds, playing peek-a-boo. Maya waves from the shore. "Goodbye, lake! Keep the mountains safe in your mirror!" Moti barks once at his reflection — just to say goodbye too. And the lake ripples, as if waving back.
+`,
+ kit:{
+ kdp:[["Title","Maya and the Lake of Pokhara"],["Author","Ujwol Shrestha"],
+ ["Description","On glass-still Phewa Lake, the whole Annapurna range floats upside down in the water. Maya, Grandmother and Moti drift by wooden boat past the island temple, the bazaar, and paragliders like colored birds.\n\nA serene wonder book about seeing the world twice \u2014 once in the sky, once in the lake.\n\nAges 3\u20137."],
+ ["Keywords (7)","pokhara kids book, phewa lake picture book, annapurna story, nepal travel kids, ages 3-7, maya\u2019s nepal adventures"]],
+ yt:[["Video title","Maya and the Lake of Pokhara 🌊 | Kids Read-Aloud Storytime"],
+ ["Tags","read aloud, kids storytime, picture book read aloud, pokhara, phewa lake, annapurna, nepal, maya\u2019s nepal adventures"]]} },
+{id:"book14",title:"Maya and the Road to Everest",tag:"Book 14 \u00b7 the trek to Everest Base Camp",status:"generated",cover:"img/book14/cover.jpg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti"],
+ prog:[["Story draft written","ok"],["Ujwol\u2019s story review \u2014 waiting","wait"],["Scenes illustrated \u2014 13/13","ok"],["Print book","wait"],["Read-aloud video","wait"],["KDP publish","wait"]],
+ lib:[], links:[["🖼\uFE0F Review illustrations","art-book14.html"]],
+ draft:`# Maya and the Road to Everest
+*Maya's Nepal Adventures — Book 14*
+Author: Ujwol Shrestha · Ages 3–7
+
+## Cover
+Maya, Grandmother, and Moti stand on a rocky overlook at Everest Base Camp. Colorful prayer flags stream across the sky. Behind them, the great white pyramid of Everest towers above the clouds. Maya points up at the mountain, eyes shining.
+
+## Spread 1 — The Trail Begins
+Morning at Lukla. Under a long string of fluttering prayer flags, Maya, Grandmother, and Moti step onto the mountain trail. Green hills roll below them; snowy peaks peek far ahead. "This road climbs all the way to the top of the world," says Grandmother. Maya squeezes her backpack straps. "Then let's go!"
+
+## Spread 2 — The Swinging Bridge
+A long steel bridge hangs high above the Dudh Kosi river, swinging gently in the wind. Maya holds Grandmother's hand tight as they step onto it together. Far below, the milky river rushes over white rocks. Moti trots ahead, tail up, not scared one bit. "One brave step, then another," whispers Grandmother.
+
+## Spread 3 — The Mule Train
+Clop-clop-clop! A line of mules comes round the bend, bells jingling on their necks, carrying bright sacks of rice and salt. Maya presses against the mountain wall to let them pass. Moti stares, nose twitching, fascinated by the jingling bells. "Even the mountain says hello with bells," laughs Grandmother.
+
+## Spread 4 — Namche Bazaar
+They climb into Namche Bazaar — a whole town stacked like colorful steps on the green hillside! Stone houses with painted windows, tiny shops, and prayer flags everywhere. Trekkers and Sherpa children wave from the lanes. Moti sniffs a basket of oranges. Maya spins around, trying to see it all at once.
+
+## Spread 5 — The Teahouse
+Inside a warm stone teahouse, they rest by a glowing stove. A kind teahouse owner sets down a steaming bowl of soup for Maya. Grandmother wraps her shawl tighter and tells a story about the mountain yetis who are really just shy snow bears. Moti curls up on the wooden bench, nose on his paws, dreaming of soup.
+
+## Spread 6 — Mani Walls
+Along the trail runs a long mani wall — stone after stone carved with holy words. "Always walk to the left, clockwise," says Grandmother, leading Maya around the chortens with their painted eyes watching kindly over the valley. Moti pads after them, round and round, a good little pilgrim.
+
+## Spread 7 — Yaks on the Snowy Path
+The path turns white. A line of shaggy yaks with big brass bells comes plodding through the snow, their breath puffing like clouds. Maya wears her warm winter jacket and woolly hat now — braids and red ribbons still peeking out. Moti wears his tiny knitted sweater, trotting bravely between the yak legs. "Step where the yaks step," says Grandmother. "They know the safe way."
+
+## Spread 8 — Tengboche Monastery
+The great monastery of Tengboche rises white and gold against the blue sky. Inside, rows of butter lamps glow like little suns, and monks in red robes chant softly. A monk lights one lamp for Maya's journey. She watches the flame dance. "For brave steps," he says. Grandmother bows her head, smiling.
+
+## Spread 9 — One More Brave Step
+The trail is steep now, and the snow reaches Maya's boots. She is tired — her little legs feel heavy. Grandmother kneels beside her. "The mountain is big," she says softly, "but so is your heart. Just one more brave step." Maya takes a deep breath — and takes it. Moti looks back at her, wagging. "Again!" she says.
+
+## Spread 10 — Everest Base Camp!
+They did it! Everest Base Camp — prayer flags everywhere, fluttering in the cold wind, a field of colorful tents below the mighty Khumbu Icefall. And above it all, Everest towers, huge and white, touching the sky. Maya throws her arms wide. "The top of the world!" she shouts, and the mountain echoes back.
+
+## Spread 11 — The White Kata
+Grandmother pulls a small white kata scarf from her shawl — soft and blessed. Together they tie it to the line of prayer flags, and the wind lifts it toward Everest. "For everyone we love," says Grandmother, "may the mountain watch over them." Moti gives the scarf a happy little sniff of approval.
+
+## Spread 12 — The Mountain Waved Back
+Standing on the rocky overlook, Maya looks back down the long trail — all the way to the green hills of Lukla, tiny as toys. She waves her red-ribbon braids bounce as she waves and waves. A gust of wind ruffles the prayer flags — like the mountain waving back. "I came all the way here," Maya whispers, proud as the sky. "And I will come back."
+`,
+ kit:{
+ kdp:[["Title","Maya and the Road to Everest"],["Author","Ujwol Shrestha"],
+ ["Description","One small brave step at a time: swinging bridges, mule trains, Namche Bazaar, teahouse soup, yak bells, and monastery lamps \u2014 all the way to Everest Base Camp, where prayer flags snap in the wind under the tallest mountain on Earth.\n\nA journey story about courage coming in small steps.\n\nAges 3\u20137."],
+ ["Keywords (7)","everest kids book, base camp trek story, himalayas picture book, courage story for kids, ages 3-7, maya\u2019s nepal adventures"]],
+ yt:[["Video title","Maya and the Road to Everest 🏔\uFE0F | Kids Read-Aloud Storytime"],
+ ["Tags","read aloud, kids storytime, picture book read aloud, everest, base camp, himalayas trek, nepal, maya\u2019s nepal adventures"]]} },
+{id:"book15",title:"Maya's Big Festival",tag:"Book 15 \u00b7 the season finale \u2014 everyone returns!",status:"generated",cover:"img/book15/cover.jpg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti","🧑\u200D🌾 Bir Dai","\u2744\uFE0F the Yeti","🪁 Sabin","🧑\u200D🦲 the monk"],
+ prog:[["Story draft written","ok"],["Ujwol\u2019s story review \u2014 waiting","wait"],["Scenes illustrated \u2014 13/13","ok"],["Print book","wait"],["Read-aloud video","wait"],["KDP publish","wait"]],
+ lib:[], links:[["🖼\uFE0F Review illustrations","art-book15.html"]],
+ draft:`# Maya's Big Festival
+### Book 15 — the season finale of Maya's Nepal Adventures
+**Author:** Ujwol Shrestha · Ages 3–7
+
+**Locked story beats:** Everyone returns for one big village festival in Maya's lane — marigold garlands, oil lamps, madal drums, dancing, a feast. Maya writes invitation letters; old friends arrive one by one; the feast, music and dancing (the yeti dances — comedy); kite flying; Grandmother tells the story of the year; lamps at dusk with wishes; group hug under the stars. NO "Maya's Lesson" ending.
+
+**Character locks:**
+- **Maya:** young Nepali girl, two black braids with red ribbons.
+- **Grandmother:** elderly woman, grey bun, NO glasses, maroon dress, cream shawl.
+- **Moti:** small fluffy white/cream dog.
+- **Yeti:** tall, shaggy white-grey fur, goofy kind amber eyes, LEFT ear floppy / right ear upright, ALWAYS wearing the giant red knitted scarf.
+- **Kite boy:** small Nepali boy, short black hair, patched blue shirt, shorts, sandals, shy-but-brave eyes; his patchwork paper kite.
+- **Monk:** old laughing wrinkled face, shaved head, kind eyes, maroon robes + saffron sash, prayer beads.
+- **Bir Dai:** middle-aged Gurung man, kind weathered face, dark mustache, red-patterned Dhaka topi, olive shirt, maroon-brown work vest, brown trousers. NO veil hat.
+- (The Bhai Tika brother does NOT appear — he returns only when Ujwol says so.)
+
+---
+
+## COVER
+Maya stands in the middle of her lane with her arms wide open, laughing. Behind her the lane is strung with marigold garlands and glowing oil lamps. Coming up the lane from every direction: the yeti waving his red scarf, Bir Dai with his honey basket, the kite boy with his kite, the monk laughing with prayer beads, Grandmother and Moti at Maya's side. Himalayan peaks glow pink behind the rooftops.
+
+*One whole year of adventures — and now, everyone is coming to Maya's lane for the biggest festival of all.*
+
+## SPREAD 1 — The Invitation Letters
+Maya sits at a low wooden desk by the window, writing invitation letters in her very best handwriting. Moti sits beside her, "helping" — his little paws have left ink prints on the desk. Grandmother folds the finished letters, smiling.
+
+*Dear friends, Maya wrote. You are invited to our big festival in my lane. There will be music, and dancing, and honey. Please come!*
+
+## SPREAD 2 — Marigolds and Lamps
+The lane decorates for the festival. Maya and Grandmother string long garlands of orange and yellow marigolds across the doorways. Rows of little clay oil lamps wait on a tray. Moti has gotten tangled in a garland and looks very proud of it.
+
+*Marigolds for every door. Lamps for every step. Maya's lane had never looked so beautiful.*
+
+## SPREAD 3 — Bir Dai Arrives
+Bir Dai arrives up the lane, waving, a big basket of golden honey strapped to his back. Maya runs to meet him, arms wide. Moti dances around his legs.
+
+*"Bir Dai! You came!" Maya cried. "I brought the sweetest honey in the hills," laughed Bir Dai. "A festival needs honey!"*
+
+## SPREAD 4 — The Yeti Comes Down the Mountain
+Everyone gasps — a yeti is coming down the mountain path! But it is their yeti, in his giant red knitted scarf, waving shyly with one huge paw. The gasps turn into laughter, and Maya runs to hug his furry leg.
+
+*"He came!" cheered Maya. "The yeti came to our festival!"*
+
+## SPREAD 5 — The Kite Boy Arrives
+The kite boy arrives, his patchwork kite tucked under his arm, smiling shyly. Maya waves him over, and Moti sniffs the kite's paper tail with great curiosity.
+
+*"Will you fly it with us?" Maya asked. The kite boy nodded, brave and happy.*
+
+## SPREAD 6 — The Monk Arrives with Blessings
+The old monk arrives, laughing his wonderful laugh, prayer beads in his hand. He sprinkles flower petals over the lane and gives Maya a blessing, tapping her forehead gently.
+
+*"Blessings for a happy festival," laughed the monk, "and for every friend in this lane!"*
+
+## SPREAD 7 — The Feast
+Everyone shares the feast at a long low table in the middle of the lane — momos, rice, lentils, vegetables, and Bir Dai's honey drizzled over everything. Plates are passed hand to hand. Even the yeti gets a honey-covered momo.
+
+*They ate and ate. Everything tasted better because everyone was there.*
+
+## SPREAD 8 — Music and Dancing
+Madal drums boom, cymbals clash, and the lane dances! Grandmother claps, Bir Dai stomps, the kite boy twirls — and the yeti dances. Oh, the yeti dances! He spins his big furry body, his red scarf flying, and everyone laughs and laughs.
+
+*The yeti did the silliest, happiest dance the lane had ever seen.*
+
+## SPREAD 9 — Kites in the Festival Sky
+They fly kites together in the festival sky — the kite boy's patchwork kite, Maya's red kite, and one enormous kite that the yeti holds with his giant paws. Moti barks at the kites from below.
+
+*Up, up, up they went — a whole sky full of color.*
+
+## SPREAD 10 — Grandmother Tells the Story of the Year
+As evening comes, everyone gathers around the fire. Grandmother tells the story of their year — the yeti's sneeze, the kite that flew away, the monk at the stupa, the honey hunt in the hills. Everyone listens, smiling at the memories.
+
+*"What a year we had," said Grandmother. "And what friends we made."*
+
+## SPREAD 11 — Lamps at Dusk
+At dusk they light the oil lamps — hundreds of little flames along the lane. Each person makes a wish as their lamp is lit. Maya closes her eyes tight and wishes with all her heart.
+
+*The lane glowed like a river of stars.*
+
+## SPREAD 12 — Group Hug Under the Stars
+Under a sky full of stars, they all gather in one big group hug — Maya, Grandmother, Bir Dai, the yeti (very gently), the kite boy, the monk, and Moti squished happily in the middle.
+
+*To be continued…*
+
+---
+
+## Art list
+- \`art/cover-art.png\` — Cover
+- \`art/spread-01.png\` … \`art/spread-12.png\` — Spreads 1–12
+- Gallery JPGs: \`~/workspace/bayareahomepath-work/public/stories/img/book15/cover.jpg\`, \`spread-01.jpg\` … \`spread-12.jpg\`
+- Gallery: \`~/workspace/bayareahomepath-work/public/stories/art-book15.html\`
+- Review endpoint: \`https://app.bayn9.com/api/public/book15-review?token=XXKsTw3tNpfkb6G8dZOgebzhx4cj\`
+`,
+ kit:{
+ kdp:[["Title","Maya's Big Festival"],["Author","Ujwol Shrestha"],
+ ["Description","The invitations are out! Bir Dai, the yeti, Sabin the kite boy, and the old monk all come to Maya\u2019s lane for one enormous festival \u2014 marigolds, oil lamps, drums, dancing, kites, and a feast under the stars.\n\nThe season finale: every friend, one unforgettable party. To be continued\u2026\n\nAges 3\u20137."],
+ ["Keywords (7)","maya season finale, nepal festival kids book, friends picture book, celebration story, ages 3-7, maya\u2019s nepal adventures"]],
+ yt:[["Video title","Maya's Big Festival 🎉 | Season Finale Read-Aloud"],
+ ["Tags","read aloud, kids storytime, picture book read aloud, nepal festival, season finale, maya\u2019s nepal adventures"]]} },
+{id:"book16",title:"Maya and the Goddess's Courage",tag:"Book 16 \u00b7 Dashain \u2014 standing up takes courage",status:"generated",cover:"img/book16/cover.jpg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti","🧒 Aarav","🦁 Durga's lion"],
+ prog:[["Story draft written","ok"],["Ujwol\u2019s story review \u2014 approved","ok"],["Scenes illustrated \u2014 13/13","ok"],["Ujwol\u2019s art review \u2014 waiting","wait"],["Print book","wait"],["Read-aloud video","wait"],["KDP publish","wait"]],
+ lib:[], links:[["🖼\uFE0F Review illustrations","art-book16.html"]],
+ draft:`# Maya and the Goddess's Courage
+### Book 16 — Dashain
+**Author:** Ujwol Shrestha · Ages 3–7
+
+**Locked story beats:** The village fathers raise the great bamboo linge ping swing; Grandmother sows jamara barley while Maya strings marigold garlands; Grandmother tells the old story — from the gods' poured-out light came Durga, many-armed, riding a lion, who fought the buffalo-demon for nine days and nine nights and did not run away; the big boys shove little Aarav away from the swing and Maya's words hide; Grandmother re-ties Maya's ribbon — "Courage is not having no fear. It is fear — standing up anyway"; Maya walks to the swing with Durga's lion in her chest; "Stop. The swing is for everyone." Moti barks along; the children stand with Maya; the big boy apologizes to Aarav; everyone takes turns; Dashain morning tika — "Durga's courage lives in kind hearts — like yours"; under the festival sky — "Being brave just means doing it anyway." NO "Maya's Lesson" ending.
+
+**Character locks:**
+- **Maya:** young Nepali girl, two black braids tied with red ribbons; rose-pink knee-length kurta with white/silver embroidery trim (neckline placket, cuffs, side slits), plain white loose shalwar, flat pink sandals. EVERYDAY outfit.
+- **Grandmother:** elderly woman, grey hair in a bun, NO glasses, maroon dress, cream shawl.
+- **Moti:** small fluffy white-and-cream dog.
+- **Aarav:** shy 5-year-old village boy, short black hair, blue vest over cream shirt, brown shorts, barefoot.
+- **Two big boys:** ~9-10 years old, simple t-shirts and shorts, plain — not villainous; soften after spread 8.
+- **Durga:** golden skin, many arms holding conch/disc/trident/lotus, red-and-gold sari, riding a lion. Same depiction in the spread 3 poster and the spread 4 vision.
+
+**Gallery:** 13 illustrations — cover + spreads 1–12 in the art folder. Review via art-book16.html (Approve / Needs change / Send to Januka → https://app.bayn9.com/api/public/book16-review).
+`},
+{id:"book17",title:"Maya and the Monkey King",tag:"Book 17 \u00b7 Jataka \u2014 a true king puts his people first",status:"pending",cover:"img/book17/cover.jpg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti","🐵 Monkey King","👑 King of Benares"],
+ prog:[["Story draft written","ok"],["Ujwol\u2019s story review \u2014 approved","ok"],["Scenes illustrated \u2014 waiting on image tool","wait"],["Ujwol\u2019s art review \u2014 waiting","wait"],["Print book","wait"],["Read-aloud video","wait"],["KDP publish","wait"]],
+ lib:[], links:[],
+ draft:`# Maya and the Monkey King
+### Book 17 \u2014 Jataka tale
+**Author:** Ujwol Shrestha \u00b7 Ages 3\u20137
+
+**Locked story beats:** Maya and Moti under the old mango tree; Grandmother tells the very old story of the wisest king \u2014 a monkey; the great mango tree by the wide river where thousands of monkeys feast and the king always eats last; the king of Benares surrounds the tree with soldiers and bows; no way out \u2014 soldiers behind, rushing river before; the monkey king leaps across the river and becomes a living bridge; one by one the troop crosses \u2014 "Slowly, little one. Do not look down."; Grumble-tail jumps too hard \u2014 Crack! \u2014 but the king holds until all are safe; the human king\u2019s heart softens \u2014 he lifts the hurt monkey king as gently as a baby; "A true king puts his people first. That is what makes a king."; Maya gives her little neighbor the biggest mango; mango juice on chins \u2014 "You have a little of the monkey king in you." NO "Maya\u2019s Lesson" ending.
+
+**Character locks:**
+- **Maya:** young Nepali girl, two black braids tied with red ribbons; rose-pink knee-length kurta with white/silver embroidery trim (neckline placket, cuffs, side slits), plain white loose shalwar, flat pink sandals.
+- **Grandmother:** elderly woman, grey hair in a bun, NO glasses, maroon dress, cream shawl.
+- **Moti:** small fluffy white-and-cream dog.
+- **Monkey King:** large noble monkey, silver-grey fur, calm dignified face, kind amber eyes \u2014 identical in every frame.
+- **Monkey troop:** small brown monkeys, identical design; littlest monkey half-size; Grumble-tail greyer with a permanent frown.
+- **King of Benares:** royal robes, golden crown, kind face (spreads 4, 9, 10 only \u2014 identical each time).
+- **Little neighbor boy:** small village boy (spreads 11, 12).
+
+**Gallery:** 13 illustrations \u2014 cover + spreads 1\u201312 in the art folder. Review via art-book17.html (Approve / Needs change / Send to Januka \u2192 https://app.bayn9.com/api/public/book17-review).
+`},
+{id:"book24",title:"Maya and the Roof of the World",tag:"Book 24 \u00b7 Season 2 \u2014 the road to Lhasa, over the roof of the world",status:"pending",cover:"img/book24/cover.jpg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti"],
+ prog:[["Story draft written","ok"],["Ujwol\u2019s story review \u2014 approved","ok"],["Scenes illustrated","ok"],["Ujwol\u2019s art review \u2014 waiting","wait"],["Print book","wait"],["Read-aloud video","wait"],["KDP publish","wait"]],
+ lib:[], links:[["🖼️ Review illustrations","art-book24.html"]],
+ draft:`# Maya and the Roof of the World — Story Draft
+Author: Ujwol Shrestha · Ages 3–7
+Drafted 2026-09-30 · Status: draft — awaiting Ujwol\'s story review
+
+Series: Maya\'s Nepal Adventures · Characters: Maya, Grandmother, Moti 🐶
+Setting: The road from Nepal over the high Himalayas to Lhasa, Tibet
+
+Cover
+Maya, Grandmother and Moti look up at the red-and-white Potala Palace
+rising over Lhasa. Prayer flags fly, snowy mountains stand behind,
+and two old women walk toward each other in the distance.
+
+Spread 1 — The old photograph
+In Grandmother\'s wooden box lives a faded photograph.
+Two little girls, laughing, arms tight around each other.
+"That is Dolma," Grandmother says softly. "My best friend in all
+the world. I have not seen her in sixty years."
+
+Spread 2 — A promise
+"Then let us go and find her!" says Maya.
+Grandmother\'s eyes shine like little lamps. "Oh, little one —
+the mountains are so high, and I am so old."
+Moti barks. That means yes. So they pack one small bag, and they go.
+
+Spread 3 — Over the top of the world
+The bus climbs higher than the clouds.
+At the pass, prayer flags snap in the wind — blue, white, red,
+green, yellow.
+"Hold my hand," says Grandmother. "We are on the roof of the
+world now."
+
+Spread 4 — Lhasa!
+Below them spreads a golden city.
+And rising over it all — red walls, white walls, a palace on a
+hill like a mountain of its own.
+"The Potala," whispers Grandmother. "Even bigger than in my dreams."
+
+Spread 5 — The spinning wheels
+They walk the Barkhor kora with the pilgrims, round and round.
+Maya spins the prayer wheels — clink, clink, clink.
+Moti tries to spin one with his nose. Everyone laughs.
+The wheel spins anyway.
+
+Spread 6 — A lamp for Grandpa
+Inside Jokhang Temple, a thousand butter lamps flicker.
+Grandmother lights one small flame. "For your grandpa," she says.
+"He would have loved this light."
+Maya holds her hand very, very tight.
+
+Spread 7 — The first sip
+A Tibetan family invites them in for butter tea.
+Maya takes one big sip — and makes the funniest face in the
+whole wide world!
+Everyone roars with laughter. "Again!" they cry. So she drinks
+it properly this time. Warm as a hug.
+
+Spread 8 — The brave little dog
+Then Moti meets a Tibetan mastiff puppy — twice as big as him,
+all fluff and giant paws!
+Moti\'s tail goes down... then up. He gives one brave little bark.
+The big puppy licks his face. Best friends, just like that.
+
+Spread 9 — The turquoise lake
+Yamdrok Lake shines turquoise as a peacock feather.
+Maya skips a stone — one, two, three hops!
+She closes her eyes and makes a wish. She does not tell.
+Wishes work best that way.
+
+Spread 10 — Yaks in the clouds
+On the high plateau, yaks graze with bells around their necks.
+And there — a baby yak, wobbly and new, peeking from behind
+its mother.
+"Hello, little one," Maya whispers. Moti wags his tail.
+The baby yak wags its tiny tail back.
+
+Spread 11 — The mountain at sunrise
+They wake before dawn and look north.
+There it is — Qomolangma, Everest, pink and gold in the
+morning sun.
+Grandmother is quiet for a long time. "The same mountain
+watches over both our homes," she says.
+
+Spread 12 — Across a lifetime
+In old Lhasa town, in a little butter-tea shop, an old woman
+looks up.
+Two old women stare. Two old women run. Two old women cry
+and laugh all at once, singing a song from when they were girls.
+Maya watches, and understands: some people are family, even
+on the other side of the mountain.
+
+New characters (need locked reference sheets before illustration)
+- Dolma — Grandmother\'s Tibetan best friend, about 70. Silver-streaked black hair in one long braid, warm round face with deep smile lines. Wears a traditional maroon chuba with a striped pangden apron, turquoise and coral beads. Kind eyes that crinkle when she laughs.
+- Tenzin — Tibetan boy, about 7, from the butter-tea family. Short black hair, round cheeks, red sweater. A curious grin; often holding a wooden spinning top.
+- Yeti — giant Tibetan mastiff puppy. Golden-brown fluff like a small bear, huge paws, pink tongue always out. Twice Moti\'s size but gentle as a cloud.`},
+{id:"book25",title:"Maya and the Grumpy Tea Uncle",tag:"Book 25 \u00b7 Season 2 \u2014 the grumpy tea uncle\u2019s corner shop",status:"pending",cover:"img/cover-coming-soon.svg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti"],
+ prog:[["Story draft written","ok"],["Ujwol\u2019s story review \u2014 approved","ok"],["Scenes illustrated","wait"],["Ujwol\u2019s art review \u2014 waiting","wait"],["Print book","wait"],["Read-aloud video","wait"],["KDP publish","wait"]],
+ lib:[], links:[],
+ draft:`# Maya and the Grumpy Tea Uncle — Story Draft
+Author: Ujwol Shrestha · Ages 3–7
+Drafted 2026-09-30 · Status: draft — awaiting Ujwol\'s story review
+
+Series: Maya\'s Nepal Adventures · Characters: Maya, Grandmother, Moti 🐶
+Setting: Maya\'s lane in Kathmandu — the little corner tea shop
+
+Cover
+Rain streaks the tea shop window, warm light glowing inside. Behind
+the counter scowls an old man with a big white mustache. Outside,
+Maya peeks in holding her red ball, and Moti shakes the rain off
+his fur.
+
+Spread 1 — The shop no one visits
+On the corner of Maya\'s lane sits a little tea shop.
+Nobody goes in. Not ever.
+"The uncle there is grumpy," the children whisper, and they
+cross to the other side of the street.
+
+Spread 2 — Grumpy, grumpy
+He shouts at the pigeons. He scowls at the rain.
+"Too slow! Too loud! Too much!" he grumbles at everyone.
+Maya hides behind Grandmother. Moti hides behind Maya.
+
+Spread 3 — The runaway ball
+One rainy day — bounce, bounce, splish! — Maya\'s red ball rolls
+right through his open door.
+Maya\'s heart goes thump-thump. But a ball is a ball.
+So in she goes.
+
+Spread 4 — Inside the warm dark
+Inside it smells of ginger and steam and rain.
+The uncle stares down at her... and picks up her ball.
+"Careful," he says, not shouting at all. "The floor is wet."
+
+Spread 5 — The photographs
+On the wall hang photographs of two small children, laughing.
+"My grandchildren," he says quietly. "They live across the sea.
+I miss them so much it comes out sideways."
+"Sideways?" asks Maya.
+"As grumpy," he says.
+
+Spread 6 — The proper pour
+"Come tomorrow," he says. "I will teach you the proper pour —
+high and slow, so the tea sings."
+Maya comes tomorrow. And the tomorrow after that.
+Her pour gets higher. The tea sings louder.
+
+Spread 7 — The biscuit thief
+Moti comes too. He steals a biscuit. Then another biscuit.
+Then he falls asleep on the warm tea sacks, snoring like a
+tiny engine.
+Even the uncle laughs. A real laugh, rusty from not being used.
+
+Spread 8 — The lane warms up
+Grandmother comes for tea. Then the neighbors. Then the children,
+one by one, stop crossing the street.
+The little shop fills with steam and chatter.
+"Too loud!" the uncle grumbles. But he is smiling.
+
+Spread 9 — The closed shop
+One morning the shutters are down. Maya\'s stomach flips.
+She knocks and knocks — and the uncle opens, hair all messy,
+holding up his phone.
+"I was calling my grandchildren," he says. "It is their morning
+over there." Maya grins. "Tell them I said the tea sings."
+
+Spread 10 — The festival day
+On the biggest festival day, the uncle makes tea for the whole
+lane — free, all day.
+Maya pours beside him, high and slow. The tea sings.
+"This," he says, "is the best batch I ever made."
+
+Spread 11 — Two old friends
+Grandmother and the uncle sit with their cups as the lamps
+come on.
+"You know," Grandmother says, "you were never grumpy.
+You were just lonely."
+"And now?" he asks.
+Maya squeezes his hand. "Now you are found."
+
+Spread 12 — Goodnight, Uncle
+At closing time, the uncle hangs the Closed sign and waves.
+"See you tomorrow, little pourer."
+Maya waves her red ball. Moti waves his tail.
+The lane glows warm behind them.
+
+New characters (need locked reference sheets before illustration)
+- Hari Baje (the Grumpy Tea Uncle) — about 70, short and round. Big white mustache, bushy eyebrows, deep forehead lines. Wears a worn brown vest over a kurta and a Dhaka topi, tea towel always over one shoulder. A scowl that melts into a crinkly-eyed smile.`},
+{id:"book26",title:"Maya and the Sky Eye",tag:"Book 26 \u00b7 Season 2 \u2014 the drone with the sky eye",status:"pending",cover:"img/cover-coming-soon.svg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti"],
+ prog:[["Story draft written","ok"],["Ujwol\u2019s story review \u2014 approved","ok"],["Scenes illustrated","wait"],["Ujwol\u2019s art review \u2014 waiting","wait"],["Print book","wait"],["Read-aloud video","wait"],["KDP publish","wait"]],
+ lib:[], links:[],
+ draft:`# Maya and the Sky Eye — Story Draft
+Author: Ujwol Shrestha · Ages 3–7
+Drafted 2026-09-30 · Status: draft — awaiting Ujwol\'s story review
+
+Series: Maya\'s Nepal Adventures · Characters: Maya, Grandmother, Moti 🐶
+Setting: A hill village in Nepal, and the great white mountains above it
+
+Cover
+A little drone buzzes over green terraced hills, its camera eye looking
+up at snowy mountains. Below, a girl waves and a small white dog barks
+at the sky.
+
+Spread 1 — The box from America
+A box comes all the way from America, with Maya\'s name on it in big
+letters.
+Inside is something that hums. Something with four little wings.
+"A drone!" shouts Maya. "From Uncle!" Moti barks at the box.
+
+Spread 2 — Learning to fly
+In the field behind the house, Maya learns to fly it. Up, down,
+left, right — wobble, wobble, WHOOSH!
+Moti runs in circles under it, barking at the sky. "It is not a bird,
+silly," Maya laughs.
+
+Spread 3 — The eye in the sky
+The drone has a camera eye, and on Uncle\'s old phone Maya can see
+what it sees.
+"Look, Grandmother! Our house is tiny as a toy!" The whole village
+spreads out below them like a green quilt.
+
+Spread 4 — Higher and higher
+Maya flies it higher — over the hills, over the winding river,
+over the deep green forest.
+The air grows cold in the picture. The trees grow small.
+And then — white. White everywhere. The great mountains.
+
+Spread 5 — The too-blue lakes
+Between the white peaks shine lakes of the deepest, bluest blue.
+They are beautiful. But they are too big, too full, pressing
+against walls of ice and stone.
+Maya feels a shiver that is not from the cold.
+
+Spread 6 — Grandmother explains
+"When a lake grows too full," says Grandmother softly, "the water
+has nowhere to go. Sometimes it breaks free — and rushes down
+to the villages and fields below."
+"Can we make the lake smaller?" whispers Maya.
+
+Spread 7 — The bare brown hills
+The drone turns its eye to the lower hills. Maya gasps.
+Where the forest should be, the hills are bare and brown.
+Big yellow machines crawl like slow beetles, kicking up dust.
+A wide new road cuts across the green like a long, pale scar.
+
+Spread 8 — The stopped river
+Farther on, a tall gray wall of concrete holds a river back.
+The water pushes and pushes, but the wall does not move.
+"People needed the road. People needed the power," says
+Grandmother. "But the mountain felt every cut."
+
+Spread 9 — Where the earth slid
+On one hillside the earth itself has slipped away, leaving a
+raw brown scar. Rain made it soft, and with no tree roots to
+hold it, it slid.
+Maya is quiet for a long time. "The mountain is sick," she says,
+"because we hurt it."
+
+Spread 10 — What can a small girl do?
+That evening Maya asks Uncle on the video call, "What can I do?
+I am so small."
+Uncle smiles. "Small hands can plant, little one. And your drone
+can carry what small hands cannot."
+Maya looks at the drone. An idea blooms like a flower.
+
+Spread 11 — Seeds from the sky
+The drone lifts off carrying a belly full of little seed balls —
+mud, clay, and seeds, rolled by every child in the village.
+It hums over the bare brown hills and drops them, one by one,
+like rain. Then the whole village climbs up and plants together,
+side by side, singing.
+
+Spread 12 — Green comes back
+One year later, the drone flies again. On the phone screen,
+Uncle leans close from faraway America — and gasps.
+The brown hills are turning green. The great lake below the
+mountains lies calm and blue. And in the field, a small girl
+waves up at the sky, her dog barking with joy.
+"Look what your gift started," says Grandmother.
+
+New characters
+- Uncle from America — seen only on video calls and in one framed photo. A warm, smiling Nepali man in his thirties, short black hair, glasses, often in a plain T-shirt; kind eyes that crinkle when he laughs.`},
+{id:"book27",title:"Maya and the Flame That Walked",tag:"Book 27 \u00b7 Season 2 \u2014 the flame that walked on a load-shedding night",status:"pending",cover:"img/cover-coming-soon.svg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti"],
+ prog:[["Story draft written","ok"],["Ujwol\u2019s story review \u2014 approved","ok"],["Scenes illustrated","wait"],["Ujwol\u2019s art review \u2014 waiting","wait"],["Print book","wait"],["Read-aloud video","wait"],["KDP publish","wait"]],
+ lib:[], links:[],
+ draft:`# Maya and the Flame That Walked — Story Draft
+Author: Ujwol Shrestha · Ages 3–7
+Drafted 2026-09-30 · Status: draft — awaiting Ujwol\'s story review
+
+Series: Maya\'s Nepal Adventures · Characters: Maya, Grandmother, Moti 🐶
+Setting: A Nepali village and its dark fields — on a load-shedding night
+
+Cover
+On a moonless night, a small blue-green flame floats above dark
+fields. A little girl holds a lantern high, a small white dog
+runs ahead of her, and an old woman\'s hand holds hers.
+
+Spread 1 — The lights go out
+Click. The whole village goes dark. No bulbs, no TV, no hum
+of the fan — load-shedding night.
+Maya lights a candle. Moti\'s eyes glow like two little moons.
+
+Spread 2 — The whisper
+At the door, the neighbors whisper low. "The Ranke Bhoot is out
+tonight," says old Kanchi auntie. "A flame that walks the fields.
+It takes children who wander."
+Maya pulls her shawl tighter. Moti\'s ears stand straight up.
+
+Spread 3 — The light in the field
+From the window Maya sees it — a small flame, floating over
+the dark fields, all by itself. No lamp. No hand. Just light,
+drifting.
+"It is walking," breathes Maya. "It is really walking."
+
+Spread 4 — Moti runs!
+A moth? A shadow? Something darts — and Moti BOLTS, barking
+wildly, straight into the black fields after the flame.
+"MOTI! COME BACK!" Maya is already running after him,
+her candle shaking in her hand.
+
+Spread 5 — Together, then
+Grandmother is at the door in one breath, lantern lit, shawl
+flying. She takes Maya\'s hand — firm and warm.
+"Together, then," she says. And together they step into
+the dark.
+
+Spread 6 — Following the flame
+The flame drifts ahead of them, just out of reach. When they
+hurry, it hurries. When they stop, it waits — as if it wants
+them to follow.
+Fog curls around their ankles. Something rustles in the grass.
+Maya holds Grandmother\'s hand tighter. Tighter.
+
+Spread 7 — It flares!
+A wind rushes through the field — and the flame SUDDENLY
+FLARES UP, huge and bright!
+Maya screams. Moti barks and barks. Then the wind drops,
+and the flame settles small again, gentle as a candle.
+
+Spread 8 — The old well
+In the flame\'s soft light, Maya sees — Moti! He stands at
+the edge of the old well, barking his head off at the dark
+water below.
+The well\'s wooden cover has rotted through. One more step,
+and little Moti would have fallen in.
+
+Spread 9 — It was warning us
+Maya\'s heart slows down. She understands, all at once.
+"The flame wasn\'t hunting us," she whispers. "It was leading
+us. It was warning us about the well."
+Grandmother nods, her eyes shining in the lantern light.
+
+Spread 10 — The earth\'s own lamp
+Back home, warm milk in hand, Grandmother explains: deep in
+the wet earth there is a gas that can glow on its own — the
+earth\'s own tiny lamp, rising into the night air.
+"So it was never a ghost?" asks Maya.
+"It was never a ghost," smiles Grandmother. "Only a wonder."
+
+Spread 11 — The well is mended
+By morning the whole village knows. The men bring new wood
+and mend the well cover strong. The children tie a red flag
+to it so no one forgets.
+Maya pats Moti. "You brave, silly dog," she says. Moti wags
+his whole body.
+
+Spread 12 — The field\'s lamp
+That night Maya sleeps with the window open. Over the fields
+drifts the little flame — her flame now. She has named it
+the field\'s lamp.
+"Goodnight," she whispers to it. And far away, the light
+bobs once — as if it heard.
+
+New characters
+- None — this story uses only Maya, Grandmother, and Moti. (Kanchi auntie is mentioned in one line of dialogue only and needs no reference sheet unless she is shown on-page.)`},
+{id:"book28",title:"Maya and the Cow Parade",tag:"Book 28 \u00b7 Season 2 \u2014 Gai Jatra, the festival of cows",status:"pending",cover:"img/cover-coming-soon.svg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti"],
+ prog:[["Story draft written","ok"],["Ujwol\u2019s story review \u2014 approved","ok"],["Scenes illustrated","wait"],["Ujwol\u2019s art review \u2014 waiting","wait"],["Print book","wait"],["Read-aloud video","wait"],["KDP publish","wait"]],
+ lib:[], links:[],
+ draft:`# Maya and the Cow Parade — Story Draft
+Author: Ujwol Shrestha · Ages 3–7
+Drafted 2026-09-30
+Series: Maya\'s Nepal Adventures · Characters: Maya, Grandmother, Moti 🐶
+Setting: Bhaktapur and Kathmandu during Gai Jatra, the Festival of Cows — in the daytime
+
+
+Cover — The cow parade
+Bells are ringing. Marigolds are everywhere.
+And leading the children\'s parade — a little dog in cow ears!
+
+Spread 1 — A story from long ago
+"Grandmother, tell me the oldest story," says Maya.
+So Grandmother begins: long ago, a king and queen had a little son they loved more than the moon.
+
+Spread 2 — The queen\'s tears
+One winter, the little prince went to sleep among the stars.
+The queen cried and cried. Nothing in the whole kingdom could make her smile again.
+
+Spread 3 — The king\'s idea
+Then the king had an idea.
+"Everyone who lost someone this year — walk with me tomorrow. Bring a cow, with bells."
+
+Spread 4 — Not alone
+The next morning the street was full of cows and people.
+The queen looked around — and saw she was not the only one who was sad.
+That parade never stopped. We still walk it today.
+
+Spread 5 — This morning
+This morning, kind old Grandfather from next door went to sleep among the stars.
+Maya lays a marigold on his door. "Will we walk for him?" she whispers.
+"Yes, little one," says Grandmother. "Today we walk for him."
+
+Spread 6 — Ganga the cow
+The family washes their cow, Ganga, till she shines.
+They paint a red tika on her forehead, hang marigolds round her neck, tie little bells to her horns.
+Moti sniffs a bell. Ting!
+
+Spread 7 — The parade begins
+Out they go! Cows with flowers, children in bright costumes, drums going dhun-dhun-dhun!
+Maya waves her own little flag. Moti trots beside her, tail held high.
+
+Spread 8 — But why is everyone laughing?
+Maya stops. "Grandmother — why is everyone LAUGHING? This is a sad parade."
+Just then a troupe of funny dancers tumbles by, all wobble and giggle. The whole street roars!
+
+Spread 9 — Laughter is the medicine
+Grandmother kneels down. "The laughter is the medicine, little one.
+When we all laugh together, no one has to cry alone."
+
+Spread 10 — The funny parade
+Men in silly masks dance the wobbly dance. A lady pretends her basket is a hat.
+Maya giggles — then laughs — then laughs so hard her tummy hurts.
+Even the sad family is smiling now.
+
+Spread 11 — Moti\'s big moment
+"Wait!" Maya ties two soft cow ears on Moti and hangs a tiny bell round his neck. Ting-a-ling!
+Moti trots to the very front of the children\'s parade. The crowd goes wild — "Hooray for Moti!"
+He takes a bow. Everyone cheers.
+
+Spread 12 — Missing and smiling
+That evening, little lamps glow along the street.
+Maya holds Grandmother\'s hand. "I miss Grandfather next door," she says, "and I\'m smiling too."
+"That\'s just right," says Grandmother. "That\'s what the parade is for."
+
+
+## New characters
+- **Ganga the cow**: A gentle brown-and-white cow with big soft eyes and long lashes, wearing marigold garlands, a red tika on her forehead, and small brass bells tied to her horns. Always calm and smiling, even in a noisy crowd.
+- **The Queen (legend)**: A kind young queen with a warm round face and long black hair beneath a simple golden crown, dressed in a deep red sari with gold borders. Her eyes are sad but gentle — loving, never frightening.`},
+{id:"book29",title:"Maya and the Sword That Made the Valley",tag:"Book 29 \u00b7 Season 2 \u2014 the sword that made the Kathmandu Valley",status:"pending",cover:"img/cover-coming-soon.svg",
+ chars:["👧 Maya","👵 Grandmother","🐶 Moti"],
+ prog:[["Story draft written","ok"],["Ujwol\u2019s story review \u2014 approved","ok"],["Scenes illustrated","wait"],["Ujwol\u2019s art review \u2014 waiting","wait"],["Print book","wait"],["Read-aloud video","wait"],["KDP publish","wait"]],
+ lib:[], links:[],
+ draft:`# Maya and the Sword That Made the Valley — Story Draft
+Author: Ujwol Shrestha · Ages 3–7
+Drafted 2026-09-30
+Series: Maya\'s Nepal Adventures · Characters: Maya, Grandmother, Moti 🐶
+Setting: Chobhar gorge, Kathmandu Valley — one golden afternoon, and inside Maya\'s dream
+
+
+Cover — The dream begins
+Maya sleeps on soft grass above the gorge.
+Above her, a whole shining lake glimmers inside a dream cloud.
+
+Spread 1 — The oldest story
+"Grandmother, what was here before the city?" asks Maya.
+Grandmother smiles. "Before everything — there was only water. Listen, and I will tell you."
+Maya\'s eyes grow heavy. Moti curls up warm against her side.
+
+Spread 2 — A lake of light
+Maya opens her eyes — and gasps.
+The whole valley is a vast shining lake! The water sparkles like a thousand little suns.
+
+Spread 3 — Boating the lake-that-was
+A little wooden boat waits at her feet. "Come," says Grandmother — younger now, her hair black as night.
+They climb in. Moti sits at the front like a captain. Splash, splash, go the oars.
+
+Spread 4 — Islands that will be hills
+"Look!" Maya points. Hilltops poke out of the water like islands.
+White birds circle them. Pink lotus flowers open all around the boat.
+
+Spread 5 — The shining one
+Then — on the water ahead — stands a figure made of kind, golden light.
+He smiles at Maya. His eyes are like still ponds. Maya is not afraid at all.
+
+Spread 6 — A sword like sunrise
+In his hand he holds a slender sword — but it is not sharp or scary.
+It glows like sunrise. "Watch," he says softly, "and see how a valley is born."
+
+Spread 7 — One gentle stroke
+He lifts the sword of light — swoosh! — and touches the hillside at Chobhar.
+The rock opens like a door. The water rushes out, laughing all the way down!
+
+Spread 8 — The river finds its way
+Down, down runs the water, winding silver between the hills.
+"It knows where to go," whispers Maya. "Rivers always know."
+
+Spread 9 — The hills wake up
+The lake grows smaller. Green hilltops stretch and yawn awake.
+Little fields peek out, bright as new leaves. Moti barks at his own reflection.
+
+Spread 10 — A valley rises
+Up come the rooftops! Up come the temple spires, gold against the blue!
+Maya claps — "It\'s my valley! It\'s home!" — rising right out of the water.
+
+Spread 11 — Morning light
+The shining one smiles one last time and melts into the morning light.
+Maya feels something soft on her nose — a real butterfly! Moti sneezes. Achoo!
+
+Spread 12 — Which was the dream?
+Maya wakes on the grass. Mist kisses her face. Birds are singing.
+"Grandmother — did I dream it, or did it dream me?"
+Grandmother tucks a flower behind her ear. "The old stories are dreams the whole valley had together."
+
+
+## New characters
+- **Manjushri, the Shining One**: A serene youthful sage woven from soft golden light, with a glowing topknot and simple flowing robes of saffron and sky blue. His face is calm and kindly smiling, and his slender sword shines like sunrise — wondrous, never frightening.`},];
+const LBL={pending:"⏳ Pending",generated:"🛠 Generated",published:"🚀 Published"};
+let filter="resources", b3=null;
+
+const TODOS=[
+"Book 3 \u2014 send your edits on the print PDF",
+"Book 6 \u2014 Nepali edition proofread by a native speaker",
+"Book 7 \u2014 review 13 spreads in the gallery, then tap \uD83D\uDCE4 Send to Januka",
+"Book 7 \u2014 approve the read-aloud video for YouTube",
+"Books 4 & 5 \u2014 watch the finished English read-aloud videos",
+"Book 1 \u2014 order author copies at print cost (optional)",
+"Book 9 \u2014 review 13 illustrations in the gallery, then tap \ud83d\udce4 Send to Januka",
+"Book 10 \u2014 review 13 illustrations in the gallery, then tap \ud83d\udce4 Send to Januka",
+"Book 11 \u2014 review 13 illustrations in the gallery, then tap \ud83d\udce4 Send to Januka",
+"Book 12 \u2014 review 13 illustrations in the gallery, then tap \ud83d\udce4 Send to Januka",
+"Book 13 \u2014 review 13 illustrations in the gallery, then tap \ud83d\udce4 Send to Januka",
+"Book 14 \u2014 review 13 illustrations in the gallery, then tap \ud83d\udce4 Send to Januka",
+"Book 15 \u2014 review 13 illustrations in the gallery, then tap \ud83d\udce4 Send to Januka",
+"Book 16 \u2014 review 13 illustrations in the gallery, then tap \ud83d\udce4 Send to Januka",
+"Book 17 \u2014 illustrations (13) \u2014 waiting on image tool",
+"Book 8 \u2014 build the print book (illustrations approved)"];
+function renderTodos(){
+const box=document.getElementById("todolist");if(!box)return;
+let st=[];try{st=JSON.parse(localStorage.getItem("maya_todos")||"[]")}catch(e){}
+box.innerHTML="";
+TODOS.forEach((t,i)=>{
+const d=document.createElement("label");d.className="tditem"+(st[i]?" done":"");
+const c=document.createElement("input");c.type="checkbox";c.checked=!!st[i];
+c.onchange=()=>{st[i]=c.checked;try{localStorage.setItem("maya_todos",JSON.stringify(st))}catch(e){}renderTodos();};
+const s=document.createElement("span");s.textContent=t;
+d.appendChild(c);d.appendChild(s);box.appendChild(d);});
+const n=st.filter(Boolean).length;
+const tc=document.getElementById("tdcount");if(tc)tc.textContent=n+"/"+TODOS.length+" done";}
+
+async function init(){
+renderTodos();
+  try{const r=await fetch(HUB+"?token="+RTOKEN);const j=await r.json();
+    if(j.ok&&j.scenes){const s=Object.values(j.scenes);b3={a:s.filter(x=>x.status==="approve").length,c:s.filter(x=>x.status==="change").length,n:s.length};}
+  }catch(e){}
+  if(document.getElementById("grid")){renderTabs();renderGrid();}
+}
+function renderTabs(){
+  const counts={all:STORIES.length,pending:0,generated:0,published:0};
+  STORIES.forEach(s=>counts[s.status]++);
+  document.getElementById("tabs").innerHTML=["all","pending","generated","published"].map(f=>
+    `<button class="tab${f===filter?" on":""}" onclick="filter='${f}';renderTabs();renderGrid()">${f==="all"?"All":LBL[f]}<span class="n">${counts[f]}</span></button>`).join("")
+    +`<button class="tab${filter==="resources"?" on":""}" onclick="filter='resources';renderTabs();renderGrid()">Resources<span class="n">${PLAYERS.length}</span></button>`;
+}
+const PLAYERS=[
+  {name:"Jaden's Book",file:"jaden.html",badge:"PRODUCTION",cls:"b-published",desc:"The live storybook player — minimal design: chapter pill, settings gear, fading page rail, thin progress line, floating dust particles."},
+  {name:"ABC with Maya & Moti",file:"abc.html",badge:"PRODUCTION",cls:"b-published",desc:"A-B-C learning module — watch, tap words, quiz, trace the letter."},
+  {name:"V4 Lab — Sam and the Floating Diyo",file:"v4-lab.html",badge:"EXPERIMENT",cls:"b-generated",desc:"Traveling-stage parallax player, 2 chapters. Education-format direction."},
+  {name:"Player Lab V3",file:"player-lab.html",badge:"EXPERIMENT",cls:"b-generated",desc:"Earlier player testbed (Book 17)."},
+  {name:"Book 1 Experiment",file:"book1-exp.html",badge:"EXPERIMENT",cls:"b-generated",desc:"Book 1 player experiment."},
+  {name:"Jaden's Storybook (legacy)",file:"storytime.html",badge:"RETIRED",cls:"b-pending",desc:"Older storytime player, kept for reference."},
+];
+const STYLES=[
+  {name:"Minimal dark",file:"jaden.html",tag:"PRODUCTION",desc:"Chapter pill, settings gear, fading page-number rail, thin scrubbable progress line, floating dust particles. The current Jaden's Book look."},
+  {name:"Lab dark + tilt",file:"player-lab.html",tag:"EXPERIMENT",desc:"Floating dust particles, device-tilt parallax on the artwork, filmstrip page thumbnails."},
+  {name:"Traveling stage",file:"v4-lab.html",tag:"EXPERIMENT",desc:"Layered parallax scenes that glide as the story moves. Two chapters: Sam and the Floating Diyo."},
+  {name:"Book 1 experiment",file:"book1-exp.html",tag:"EXPERIMENT",desc:"Alternate Book 1 player layout and styling."},
+  {name:"Legacy light",file:"storytime.html",tag:"RETIRED",desc:"Older light-theme storytime player, kept for reference."},
+];
+let kitSeq=0;
+function fld(label,text){
+  const id="k"+(kitSeq++);
+  return `<div class="fld"><div class="lab"><span>${label}</span><button class="cp" onclick="copyTxt('${id}',this)">Copy</button></div><p class="txt" id="${id}">${text.replace(/&/g,"&amp;").replace(/</g,"&lt;")}</p></div>`;
+}
+function copyTxt(id,btn){
+  const t=document.getElementById(id).textContent;
+  const done=()=>{btn.textContent="Copied!";btn.classList.add("done");setTimeout(()=>{btn.textContent="Copy";btn.classList.remove("done")},1500);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(()=>fallback());}else fallback();
+  function fallback(){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");done();}catch(e){}document.body.removeChild(ta);}
+}
+function renderGrid(){
+  const g=document.getElementById("grid");
+  if(filter==="resources"){
+    g.innerHTML=`<h2 class="sec">Players</h2>`+PLAYERS.map(p=>`<div class="card"><div class="body">
+      <span class="badge ${p.cls}">${p.badge}</span>
+      <h2>${p.name}</h2>
+      <p class="tag">${p.desc}</p>
+      <div class="links"><a href="${p.file}" target="_blank" rel="noopener">Open player</a>
+      <a class="ghost" href="#" onclick="navigator.clipboard&&navigator.clipboard.writeText(location.origin+location.pathname.replace(/admin\.html$/,'')+'${p.file}');return false;">Copy link</a></div>
+    </div></div>`).join("")
+    +`<h2 class="sec">Player art styles</h2>`+STYLES.map(s=>`<div class="card"><div class="body">
+      <span class="badge b-generated">${s.tag}</span>
+      <h2>${s.name}</h2>
+      <p class="tag">${s.desc}</p>
+      <div class="links"><a href="${s.file}" target="_blank" rel="noopener">See it live</a></div>
+    </div></div>`).join("");
+    return;
+  }
+  const num=id=>parseInt((id.match(/\d+/)||["0"])[0],10);
+  g.innerHTML=STORIES.slice().sort((a,b)=>num(b.id)-num(a.id)).filter(s=>filter==="all"||s.status===filter).map(s=>{
+    let livebar="";
+    if(s.id==="book3"){
+      livebar=b3?`<div class="livebar">🎨 Scene review: <b>${b3.a}/13 approved</b>${b3.c?` · 🔧 ${b3.c} need change`:""}</div>`
+        :`<div class="livebar">Decisions you send from the review page will show up here.</div>`;
+    }
+    const prog=s.prog.map(p=>{
+      const cls=p[1]==="ok"?"ok":"wait", mark=p[1]==="ok"?"✅":"⏳";
+      return `<li>${mark} ${p[0]} — <span class="${cls}">${p[1]}</span></li>`;
+    }).join("");
+    const chars=`<div class="chars">${s.chars.map(c=>`<span>${c}</span>`).join("")}</div>`;
+    const lib=(s.lib&&s.lib.length)?`<div class="lib"><b>📁 Drive library</b>${s.lib.map(l=>`<a href="${l[1]}" target="_blank" rel="noopener">${l[0]}</a>`).join("")}</div>`:"";
+    const kit=(s.kit&&s.kit.kdp)?`<details class="kit"><summary>📋 Copy-paste kit — KDP & YouTube</summary><div class="kitsec">
+      <h4>KDP listing</h4>${s.kit.kdp.map(k=>fld(k[0],k[1])).join("")}
+      <h4>YouTube upload</h4>${s.kit.yt.map(k=>fld(k[0],k[1])).join("")}</div></details>`:"";
+    const linksHtml=(s.links&&s.links.length)?`<div class="links">${s.links.map(l=>`<a href="${l[1]}"${l[1].startsWith("http")?' target="_blank" rel="noopener"':""}>${l[0]}</a>`).join("")}</div>`:"";
+    const irevHtml=s.irev?`<div class="irev" data-irev="${s.id}"><b>\u0001F4DD Interior review</b><div class="links">${s.irev.pdfs.map(p=>`<a class="ghost" href="${p[1]}" target="_blank" rel="noopener">\u0001F4C4 ${p[0]}</a>`).join("")}</div><div class="irev-row"><button class="irev-btn" data-iact="approve">\u2705 Approve</button><button class="irev-btn" data-iact="change">🔧 Needs change</button><span class="irev-st" data-istatus></span></div><textarea data-inote rows="2" placeholder="Note about the interior draft\u2026"></textarea><br>${s.irev.hub?`<button class="irev-send" data-isend>\u0001F4E4 Send to Januka</button>`:`<button class="irev-send" data-icopy>\u0001F4CB Copy review</button>`}</div>`:"";
+    const gobtn=s.go?`<button class="gobtn" data-go="${s.id}" data-msg="${s.go.msg}" data-done="${s.go.done.join(",")}" data-run="${s.go.run.join(",")}">${s.go.label}</button>`:"";
+    const draft=s.draft?`<details class="kit"><summary>📖 Read the draft story</summary><div class="kitsec"><div class="fld"><p class="txt" style="max-height:420px">${s.draft}</p></div></div></details>`:"";
+    return `<div class="card" id="card-${s.id}"><img src="${s.cover}" alt=""><div class="body">
+      <span class="badge b-${s.status}">${LBL[s.status]}</span>
+      <h2>${s.title}</h2><p class="tag">${s.tag}</p>${livebar}${chars}
+      <ul class="prog">${prog}</ul>${lib}${draft}${gobtn}${kit}${linksHtml}${irevHtml}</div></div>`;
+  }).join("")||"<p>No stories in this status yet.</p>";
+  if(window.restoreGo) restoreGo();
+  if(window.restoreIrev) restoreIrev();
+}
+// remembered login: skip the gate if this browser already unlocked it
+try{if(localStorage.getItem("maya_auth")==="1"){document.getElementById("gate").style.display="none";document.getElementById("main").style.display="block";init();}}catch(e){}
+</script>
+<script>
+function irevGet(id){try{return JSON.parse(localStorage.getItem("stories_irev_"+id)||"{}")}catch(e){return{}}}
+function irevSet(id,st){try{localStorage.setItem("stories_irev_"+id,JSON.stringify(st))}catch(e){}}
+function irevTitle(id){var s=null;try{s=STORIES.find(function(x){return x.id===id})}catch(e){}return s?s.title:id;}
+function restoreIrev(){
+  document.querySelectorAll("[data-irev]").forEach(function(box){
+    var id=box.getAttribute("data-irev"), st=irevGet(id), cfg={};
+    try{cfg=(STORIES.find(function(x){return x.id===id})||{}).irev||{}}catch(e){}
+    var pill=box.querySelector("[data-istatus]");
+    pill.textContent=st.status==="approve"?"\u2705 Approved":st.status==="change"?"🔧 Needs change":"Not reviewed";
+    pill.className="irev-st "+(st.status||"");
+    box.querySelector('[data-iact="approve"]').classList.toggle("on",st.status==="approve");
+    box.querySelector('[data-iact="change"]').classList.toggle("on",st.status==="change");
+    var ta=box.querySelector("[data-inote]"); if(ta.value!==(st.note||""))ta.value=st.note||"";
+    box.querySelector('[data-iact="approve"]').onclick=function(){var x=irevGet(id);x.status=x.status==="approve"?"":"approve";irevSet(id,x);restoreIrev();};
+    box.querySelector('[data-iact="change"]').onclick=function(){var x=irevGet(id);x.status=x.status==="change"?"":"change";irevSet(id,x);restoreIrev();};
+    ta.oninput=function(){var x=irevGet(id);x.note=ta.value;irevSet(id,x);};
+    var send=box.querySelector("[data-isend]");
+    if(send) send.onclick=function(){
+      send.disabled=true;send.textContent="Sending\u2026";
+      var payload={token:cfg.rtoken,scenes:{}};
+      fetch(cfg.hub+"?token="+encodeURIComponent(cfg.rtoken)).then(function(r){return r.json()}).then(function(j){
+        payload.scenes=(j&&j.scenes)||{};
+        var mine=irevGet(id); mine.updated_at=Math.floor(Date.now()/1000);
+        payload.scenes["interior-pdf"]=mine;
+        return fetch(cfg.hub,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+      }).then(function(r){return r.json()}).then(function(j){
+        send.textContent=j.ok?"\u2705 Sent!":"\u26A0\uFE0F "+(j.error||"failed");
+      }).catch(function(e){send.textContent="\u26A0\uFE0F No connection \u2014 try again";});
+      setTimeout(function(){send.disabled=false;send.textContent="\u0001F4E4 Send to Januka";},4000);
+    };
+    var cp=box.querySelector("[data-icopy]");
+    if(cp) cp.onclick=function(){
+      var x=irevGet(id);
+      var t=irevTitle(id)+" \u2014 INTERIOR REVIEW\nStatus: "+(x.status==="approve"?"APPROVED":x.status==="change"?"NEEDS CHANGE":"not reviewed")+"\nNote: "+(x.note||"(none)");
+      var done=function(){cp.textContent="Copied! Paste it in the chat.";setTimeout(function(){cp.textContent="\u0001F4CB Copy review";},2500);};
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(function(){prompt("Copy this:",t);});}else{prompt("Copy this:",t);}
+    };
+  });
+}
+</script>
+<script>
+function escHtml(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function fallbackCopy(text){
+  try{
+    var ta=document.createElement("textarea");
+    ta.value=text; ta.setAttribute("readonly","");
+    ta.style.position="fixed"; ta.style.top="0"; ta.style.opacity="0";
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    ta.setSelectionRange(0, ta.value.length);
+    var ok=document.execCommand("copy");
+    document.body.removeChild(ta);
+    return ok;
+  }catch(e){ return false; }
+}
+function goGet(id){ try{return localStorage.getItem("stories_go_"+id);}catch(e){return null;} }
+function goSet(id){ try{localStorage.setItem("stories_go_"+id, JSON.stringify({at:new Date().toISOString()}));}catch(e){} }
+function goIdx(btn, name){
+  return (btn.getAttribute(name)||"").split(",").filter(function(x){return x!=="";}).map(Number);
+}
+function applyGo(btn){
+  var id=btn.getAttribute("data-go");
+  var msg=btn.getAttribute("data-msg")||"";
+  var doneIdx=goIdx(btn,"data-done"), runIdx=goIdx(btn,"data-run");
+  var card=document.getElementById("card-"+id);
+  if(card){
+    var chip=card.querySelector(".st"); if(chip){chip.className="st ok"; chip.textContent="approved";}
+    var items=card.querySelectorAll(".prog li");
+    doneIdx.forEach(function(i){if(items[i]){var b=items[i].querySelector("b"); if(b){b.className="ok"; b.textContent="done";}}});
+    runIdx.forEach(function(i){if(items[i]){var b=items[i].querySelector("b"); if(b){b.className="run"; b.textContent="in progress";}}});
+  }
+  var box=document.createElement("div");
+  box.innerHTML='<div class="approved">✅ Approved.</div>'
+    +'<div class="sendbox"><b>Send this to Januka in chat:</b>'
+    +'<div class="sendmsg">'+escHtml(msg)+'</div>'
+    +'<div class="copynote" id="copynote-'+id+'">Copying…</div></div>';
+  btn.parentNode.replaceChild(box, btn);
+  var tryCopy;
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    tryCopy=navigator.clipboard.writeText(msg).then(function(){return true;}).catch(function(){return fallbackCopy(msg);});
+  }else{
+    tryCopy=Promise.resolve(fallbackCopy(msg));
+  }
+  tryCopy.then(function(ok){
+    var note=document.getElementById("copynote-"+id); if(!note) return;
+    note.textContent = ok
+      ? "✅ Copied! Now paste it to Januka in chat and she starts right away."
+      : "⚠️ Your browser blocked auto-copy — long-press the message above, copy it, then paste it to Januka in chat.";
+  });
+}
+function restoreGo(){
+  var btns=document.querySelectorAll('button[data-go]');
+  for(var k=0;k<btns.length;k++){
+    if(goGet(btns[k].getAttribute("data-go"))) applyGo(btns[k]);
+  }
+}
+// Delegated tap handling: works no matter when the cards render.
+document.addEventListener("click", function(e){
+  var el=e.target, btn=null;
+  while(el && el!==document){
+    if(el.getAttribute && el.getAttribute("data-go")!==null && el.tagName==="BUTTON"){ btn=el; break; }
+    el=el.parentNode;
+  }
+  if(!btn) return;
+  e.preventDefault();
+  goSet(btn.getAttribute("data-go"));
+  applyGo(btn);
+});
+if(document.readyState==="loading"){ document.addEventListener("DOMContentLoaded", restoreGo); }
+else{ restoreGo(); }</script>
+<script>
+function renderBuild(d){
+  var el=document.getElementById("buildlist"); if(!el||!d||!d.items) return;
+  var dot={working:"working",waiting:"waiting",queued:"queued",done:"done"};
+  el.innerHTML=d.items.map(function(it){
+    return '<div class="bitem"><span class="bdot '+(dot[it.status]||"queued")+'"></span><div><div class="bl">'+it.label+'</div><div class="bd">'+it.detail+'</div></div></div>';
+  }).join("");
+  var u=document.getElementById("buildupd");
+  if(u&&d.updated) u.textContent="Updated "+d.updated.replace("T"," ").slice(0,16).replace("-07:00","")+" PT";
+}
+function pollBuild(){
+  fetch("build-status.json?t="+Date.now()).then(function(r){return r.json();}).then(renderBuild).catch(function(){});
+}
+pollBuild(); setInterval(pollBuild, 60000);
+</script>
+</body></html>
