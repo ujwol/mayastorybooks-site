@@ -1,0 +1,31 @@
+{
+  "id": "/kheldai/",
+  "name": "सिक्दै खेल्दै - नेपाली बाल सिकाइ",
+  "short_name": "सिक्दैखेल्दै",
+  "description": "४ देखि ८ वर्षका बालबालिकाका लागि नेपाली अक्षर, ध्वनि, अंक, कथा र शब्द सिकाउने रमाइलो शैक्षिक साथी।",
+  "start_url": "/kheldai/",
+  "scope": "/kheldai/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FFFDF7",
+  "theme_color": "#F59E0B",
+  "categories": [
+    "education",
+    "kids",
+    "books"
+  ],
+  "icons": [
+    {
+      "src": "/kheldai/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/kheldai/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
