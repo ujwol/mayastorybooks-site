@@ -254,5 +254,9 @@
   "खुल्यो! अब बगैँचामा राख्न सकिन्छ।": "ui-seq-sticker-unlocked.mp3",
   "बगैँचामा राखियो!": "ui-seq-sticker-placed.mp3",
   "राखियो!": "ui-seq-sticker-put.mp3",
-  "बनाऔँ। अक्षरहरू तानेर खाली कोठामा राखौँ।": "ui-seq-word-make.mp3"
+  "बनाऔँ। अक्षरहरू तानेर खाली कोठामा राखौँ।": "ui-seq-word-make.mp3",
+  "माया बगैँचामा गई।": "katha-01-sentence.mp3",
+  "माया कहाँ गई?": "katha-02-question.mp3",
+  "शाबास! सही उत्तर!": "katha-03-praise.mp3",
+  "फेरि प्रयास गर, मिल्छ!": "katha-04-retry.mp3"
 }
