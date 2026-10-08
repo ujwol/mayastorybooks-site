@@ -4,40 +4,47 @@
  "height": 2208,
  "hotspots": [
   {
-   "id": "anka-pokhari",
-   "label": "अंक पोखरी",
-   "x": 44.7,
-   "y": 81.2
-  },
-  {
-   "id": "akshar-kaksha",
-   "label": "अक्षर कक्षा",
-   "x": 20.7,
-   "y": 62.2
-  },
-  {
-   "id": "shabda-bagaincha",
-   "label": "शब्द बगैंचा",
-   "x": 83.0,
-   "y": 69.8
-  },
-  {
    "id": "balgeet-chautari",
    "label": "बालगीत चौतारी",
-   "x": 74.8,
-   "y": 38.6
+   "x": 60.6,
+   "y": 21.6
   },
   {
    "id": "paati-ghar",
    "label": "पाटी घर",
-   "x": 27.5,
-   "y": 28.9
+   "x": 39.9,
+   "y": 31.8
   },
   {
    "id": "katha-ghar",
    "label": "कथा घर",
-   "x": 77.5,
-   "y": 16.4
+   "x": 76.4,
+   "y": 38.5
+  },
+  {
+   "id": "akshar-kaksha",
+   "label": "अक्षर कक्षा",
+   "x": 37.4,
+   "y": 57.9
+  },
+  {
+   "id": "shabda-bagaincha",
+   "label": "शब्द बगैंचा",
+   "x": 74.5,
+   "y": 68.1
+  },
+  {
+   "id": "anka-pokhari",
+   "label": "अंक पोखरी",
+   "x": 45.2,
+   "y": 75.0
   }
- ]
+ ],
+ "daily_banner": {
+  "id": "aajako-ramailo",
+  "label": "आजको रमाइलो!",
+  "x": 50.0,
+  "y": 86.0,
+  "image": "map-daily-banner.webp"
+ }
 }
