@@ -1,0 +1,149 @@
+{
+  "canvas": [
+    1242,
+    2208
+  ],
+  "signposts": {
+    "anka_pokhari": {
+      "file": "map/map-sign-anka-pokhari-full.webp",
+      "size": [
+        539,
+        359
+      ],
+      "bbox": [
+        281,
+        1344,
+        820,
+        1703
+      ],
+      "center_x_pct": 44.32,
+      "center_y_pct": 69.0
+    },
+    "akshar_kaksha": {
+      "file": "map/map-sign-akshar-kaksha-full.webp",
+      "size": [
+        467,
+        346
+      ],
+      "bbox": [
+        166,
+        991,
+        633,
+        1337
+      ],
+      "center_x_pct": 32.17,
+      "center_y_pct": 52.72
+    },
+    "shabda_bagaincha": {
+      "file": "map/map-sign-shabda-bagaincha-full.webp",
+      "size": [
+        288,
+        243
+      ],
+      "bbox": [
+        751,
+        1289,
+        1039,
+        1532
+      ],
+      "center_x_pct": 72.06,
+      "center_y_pct": 63.88
+    },
+    "balgeet_chautari": {
+      "file": "map/map-sign-balgeet-full.webp",
+      "size": [
+        506,
+        428
+      ],
+      "bbox": [
+        434,
+        106,
+        940,
+        534
+      ],
+      "center_x_pct": 55.31,
+      "center_y_pct": 14.49
+    },
+    "pati_ghar": {
+      "file": "map/map-sign-pati-ghar-full.webp",
+      "size": [
+        450,
+        379
+      ],
+      "bbox": [
+        190,
+        385,
+        640,
+        764
+      ],
+      "center_x_pct": 33.41,
+      "center_y_pct": 26.02
+    },
+    "katha_ghar": {
+      "file": "map/map-sign-katha-ghar-full.webp",
+      "size": [
+        352,
+        306
+      ],
+      "bbox": [
+        752,
+        601,
+        1104,
+        907
+      ],
+      "center_x_pct": 74.72,
+      "center_y_pct": 34.15
+    }
+  },
+  "ankpokhari": {
+    "roof_bottom_y_pct": 25.3,
+    "table_top_y_pct": 43.4,
+    "elements_bbox_y_pct": [
+      38.9,
+      56.5
+    ],
+    "note": "Roof (gazebo) and wooden table are baked into single Layer 119; y% are visual estimates from that layer. Roof eaves bottom ~25.3%, table top surface ~43.4%. Objects (elements group) span y 38.9%-56.5% — below the roof, resting on/above the table."
+  },
+  "objects": [
+    {
+      "file": "ankpokhari/obj-apple.webp",
+      "source_layer": "Layer 121",
+      "size": [
+        156,
+        180
+      ]
+    },
+    {
+      "file": "ankpokhari/obj-butterfly.webp",
+      "source_layer": "Layer 122",
+      "size": [
+        259,
+        251
+      ]
+    },
+    {
+      "file": "ankpokhari/obj-flowerpot.webp",
+      "source_layer": "1",
+      "size": [
+        338,
+        403
+      ]
+    },
+    {
+      "file": "ankpokhari/obj-lotus.webp",
+      "source_layer": "Layer 133",
+      "size": [
+        360,
+        261
+      ]
+    },
+    {
+      "file": "ankpokhari/obj-stone.webp",
+      "source_layer": "Layer 134",
+      "size": [
+        203,
+        199
+      ]
+    }
+  ]
+}
