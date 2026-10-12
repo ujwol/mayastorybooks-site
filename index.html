@@ -109,12 +109,18 @@
   .amz-body h3{color:#FFF8EA;font-size:clamp(24px,4vw,32px);margin-bottom:10px}
   .amz-body p{color:#F0DFC0;margin-bottom:22px;font-size:16px}
   .amz-list{display:flex;flex-wrap:wrap;gap:10px}
-  .amz-books{display:grid;gap:12px;margin-top:4px}
-  .amz-book{background:rgba(255,248,234,.07);border:1px solid rgba(255,248,234,.22);border-radius:16px;padding:16px 18px}
-  .amz-book b{color:#FFF8EA;font-size:17px;display:block}
-  .amz-book .bk{color:#F0DFC0;font-size:13px;opacity:.85}
-  .amz-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
   .btn-sm{padding:11px 20px;font-size:15px}
+  .nf-row{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));margin-top:6px}
+  .nf-card{background:rgba(20,8,4,.45);border:1px solid rgba(255,248,234,.16);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}
+  .nf-card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(0,0,0,.35)}
+  .nf-thumb{position:relative;aspect-ratio:16/9;overflow:hidden}
+  .nf-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .nf-badge{position:absolute;top:10px;left:10px;background:#F5C86B;color:#3A1F0E;font-size:12px;font-weight:800;padding:5px 11px;border-radius:999px;letter-spacing:.4px}
+  .nf-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
+  .nf-body b{color:#FFF8EA;font-size:17px;line-height:1.3}
+  .nf-meta{color:#F5C86B;font-size:13px;font-weight:700}
+  .nf-body p{color:#F0DFC0;font-size:14.5px;line-height:1.55;margin:0;flex:1}
+  .nf-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
   #appToast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#3A1F0E;color:#FFF8EA;padding:14px 22px;border-radius:14px;font-size:15px;box-shadow:0 10px 30px rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:99;max-width:90vw;text-align:center}
   #appToast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
@@ -194,42 +200,67 @@
     <div class="amz">
       <img src="img/yt-book1.jpg" alt="The Dog Who Wore Marigolds — paperback cover">
       <div class="amz-body">
-        <h3>Real books, on Amazon.</h3>
-        <p>Five paperbacks are out now &mdash; or read them free in the app.</p>
-        <div class="amz-books">
-          <div class="amz-book">
-            <b>The Dog Who Wore Marigolds</b><span class="bk">Book 1</span>
-            <div class="amz-actions">
-              <a class="btn btn-gold btn-sm" href="https://www.amazon.com/dp/B0HKZFHWQB">Buy on Amazon</a>
-              <button class="btn btn-ghost btn-sm" data-app-book="1" type="button">Read free in app</button>
+        <h3>Paperbacks are here.</h3>
+        <p>Five paperbacks out now — grab one on Amazon, or read free in the app.</p>
+        <div class="nf-row">
+          <div class="nf-card">
+            <div class="nf-thumb"><img src="img/yt-book1.jpg" alt="The Dog Who Wore Marigolds — cover" loading="lazy"><span class="nf-badge">PAPERBACK</span></div>
+            <div class="nf-body">
+              <b>The Dog Who Wore Marigolds</b>
+              <span class="nf-meta">Book 1 · Ages 3–7</span>
+              <p>A scruffy stray crashes Kukur Tihar — and one little girl's marigold garland changes everything. The story that started it all.</p>
+              <div class="nf-actions">
+                <a class="btn btn-gold btn-sm" href="https://www.amazon.com/dp/B0HKZFHWQB">Buy on Amazon</a>
+                <button class="btn btn-ghost btn-sm" data-app-book="1" type="button">Read free in app</button>
+              </div>
             </div>
           </div>
-          <div class="amz-book">
-            <b>Maya and the Rhino of Chitwan</b><span class="bk">Book 3</span>
-            <div class="amz-actions">
-              <a class="btn btn-gold btn-sm" href="https://www.amazon.com/dp/B0HLF36J7M">Buy on Amazon</a>
-              <button class="btn btn-ghost btn-sm" data-app-book="3" type="button">Read free in app</button>
+          <div class="nf-card">
+            <div class="nf-thumb"><img src="img/yt-book3.jpg" alt="Maya and the Rhino of Chitwan — cover" loading="lazy"><span class="nf-badge">PAPERBACK</span></div>
+            <div class="nf-body">
+              <b>Maya and the Rhino of Chitwan</b>
+              <span class="nf-meta">Book 3 · Ages 3–7</span>
+              <p>A jungle safari turns into a rescue mission when Maya meets a baby rhino in trouble. Brave hearts come in small sizes.</p>
+              <div class="nf-actions">
+                <a class="btn btn-gold btn-sm" href="https://www.amazon.com/dp/B0HLF36J7M">Buy on Amazon</a>
+                <button class="btn btn-ghost btn-sm" data-app-book="3" type="button">Read free in app</button>
+              </div>
             </div>
           </div>
-          <div class="amz-book">
-            <b>Maya and the Clay Diyo</b><span class="bk">Book 4</span>
-            <div class="amz-actions">
-              <a class="btn btn-gold btn-sm" href="https://www.amazon.com/dp/B0HLGDWWHN">Buy on Amazon</a>
-              <button class="btn btn-ghost btn-sm" data-app-book="4" type="button">Read free in app</button>
+          <div class="nf-card">
+            <div class="nf-thumb"><img src="img/yt-book4.jpg" alt="Maya and the Clay Diyo — cover" loading="lazy"><span class="nf-badge">PAPERBACK</span></div>
+            <div class="nf-body">
+              <b>Maya and the Clay Diyo</b>
+              <span class="nf-meta">Book 4 · Ages 3–7</span>
+              <p>Grandmother's clay oil lamp won't light — until Maya discovers what makes a tiny flame brave enough to glow.</p>
+              <div class="nf-actions">
+                <a class="btn btn-gold btn-sm" href="https://www.amazon.com/dp/B0HLGDWWHN">Buy on Amazon</a>
+                <button class="btn btn-ghost btn-sm" data-app-book="4" type="button">Read free in app</button>
+              </div>
             </div>
           </div>
-          <div class="amz-book">
-            <b>Maya and the Kite Thief of Dashain</b><span class="bk">Book 10</span>
-            <div class="amz-actions">
-              <a class="btn btn-gold btn-sm" href="https://www.amazon.com/dp/B0HMNPHTHQ">Buy on Amazon</a>
-              <button class="btn btn-ghost btn-sm" data-app-book="10" type="button">Read free in app</button>
+          <div class="nf-card">
+            <div class="nf-thumb"><img src="img/yt-book10.jpg" alt="Maya and the Kite Thief of Dashain — cover" loading="lazy"><span class="nf-badge">PAPERBACK</span></div>
+            <div class="nf-body">
+              <b>Maya and the Kite Thief of Dashain</b>
+              <span class="nf-meta">Book 10 · Ages 3–7</span>
+              <p>Someone keeps stealing kites from the Dashain sky. Maya follows the string to a thief with a surprising secret.</p>
+              <div class="nf-actions">
+                <a class="btn btn-gold btn-sm" href="https://www.amazon.com/dp/B0HMNPHTHQ">Buy on Amazon</a>
+                <button class="btn btn-ghost btn-sm" data-app-book="10" type="button">Read free in app</button>
+              </div>
             </div>
           </div>
-          <div class="amz-book">
-            <b>Maya and the Goddess's Courage</b><span class="bk">Book 16</span>
-            <div class="amz-actions">
-              <a class="btn btn-gold btn-sm" href="https://www.amazon.com/dp/B0HMNK5W97">Buy on Amazon</a>
-              <button class="btn btn-ghost btn-sm" data-app-book="16" type="button">Read free in app</button>
+          <div class="nf-card">
+            <div class="nf-thumb"><img src="img/yt-book16.jpg" alt="Maya and the Goddess's Courage — cover" loading="lazy"><span class="nf-badge">PAPERBACK</span></div>
+            <div class="nf-body">
+              <b>Maya and the Goddess's Courage</b>
+              <span class="nf-meta">Book 16 · Ages 3–7</span>
+              <p>When the big boys won't share the great Dashain swing, Grandmother's tale of goddess Durga gives Maya her bravest word: “Stop.”</p>
+              <div class="nf-actions">
+                <a class="btn btn-gold btn-sm" href="https://www.amazon.com/dp/B0HMNK5W97">Buy on Amazon</a>
+                <button class="btn btn-ghost btn-sm" data-app-book="16" type="button">Read free in app</button>
+              </div>
             </div>
           </div>
         </div>
