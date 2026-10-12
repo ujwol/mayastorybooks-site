@@ -272,17 +272,6 @@ const VIDEOS = [
   { book: 5, yt: null, title: "Maya and the Garden of Peace", tag: "Book 5 · calm in Lumbini" },
 ];
 
-const BOOKS = [
-  [1,"The Dog Who Wore Marigolds"],[2,"Maya and the Temple Monkey"],[3,"Maya and the Rhino of Chitwan"],
-  [4,"Maya and the Clay Diyo"],[5,"Maya and the Garden of Peace"],[6,"Maya and the Baby Yak"],
-  [7,"Maya and Indra Jatra"],[8,"Maya and the Honey Hunters"],[9,"Maya and the Yeti's Sneeze"],
-  [10,"Maya and the Kite Thief of Dashain"],[11,"Maya and the Bhai Tika Brother"],[12,"Maya and the Monk of Boudhanath"],
-  [13,"Maya and the Lake of Pokhara"],[14,"Maya and the Road to Everest"],[15,"Maya's Big Festival"],
-  [16,"Maya and the Goddess's Courage"],[17,"Maya and the Monkey King"],[18,"Maya and the Two Arrows"],
-  [19,"Maya and the Wind of Mustang"],
-];
-const PLAYER = "https://www.bayareahomepath.com/stories/jaden.html?book=";
-
 const vwrap = document.getElementById("videos");
 VIDEOS.forEach((v, i) => {
   const card = document.createElement("div");
@@ -293,19 +282,6 @@ VIDEOS.forEach((v, i) => {
   card.innerHTML = frame + `<div class="video-meta"><h3>${v.title}</h3><span>${v.tag}</span></div>`;
   vwrap.appendChild(card);
 });
-
-const rail = document.getElementById("rail");
-BOOKS.forEach(([n, t]) => {
-  const a = document.createElement("a");
-  a.className = "book-card";
-  a.href = PLAYER + n;
-  a.innerHTML = `<img src="img/yt-book${n}.jpg" alt="${t}" loading="lazy"><div class="t"><b>${t}</b><span>Book ${n} · read free</span></div>`;
-  rail.appendChild(a);
-});
-
-function scrollRail(dir){
-  rail.scrollBy({left: dir * 380, behavior: "smooth"});
-}
 
 // ---- Free printables ----
 const PRINTABLES = [
