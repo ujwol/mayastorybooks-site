@@ -109,6 +109,14 @@
   .amz-body h3{color:#FFF8EA;font-size:clamp(24px,4vw,32px);margin-bottom:10px}
   .amz-body p{color:#F0DFC0;margin-bottom:22px;font-size:16px}
   .amz-list{display:flex;flex-wrap:wrap;gap:10px}
+  .amz-books{display:grid;gap:12px;margin-top:4px}
+  .amz-book{background:rgba(255,248,234,.07);border:1px solid rgba(255,248,234,.22);border-radius:16px;padding:16px 18px}
+  .amz-book b{color:#FFF8EA;font-size:17px;display:block}
+  .amz-book .bk{color:#F0DFC0;font-size:13px;opacity:.85}
+  .amz-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+  .btn-sm{padding:11px 20px;font-size:15px}
+  #appToast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#3A1F0E;color:#FFF8EA;padding:14px 22px;border-radius:14px;font-size:15px;box-shadow:0 10px 30px rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:99;max-width:90vw;text-align:center}
+  #appToast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
   /* follow */
   .follow-card{background:var(--card);border:1px solid rgba(122,40,22,.12);border-radius:26px;box-shadow:var(--shadow);
@@ -187,13 +195,43 @@
       <img src="img/yt-book1.jpg" alt="The Dog Who Wore Marigolds — paperback cover">
       <div class="amz-body">
         <h3>Real books, on Amazon.</h3>
-        <p>Six paperbacks are out now &mdash; or read the whole library free in the app.</p>
-        <div class="amz-list">
-          <a class="btn btn-gold" href="https://www.amazon.com/dp/B0HKZFHWQB">The Dog Who Wore Marigolds</a>
-          <a class="btn btn-ghost" href="https://www.amazon.com/dp/B0HLF36J7M">Maya and the Rhino of Chitwan</a>
-          <a class="btn btn-ghost" href="https://www.amazon.com/dp/B0HLGDWWHN">Maya and the Clay Diyo</a>
-          <a class="btn btn-ghost" href="https://www.amazon.com/dp/B0HMNPHTHQ">Maya and the Kite Thief of Dashain</a>
-          <a class="btn btn-ghost" href="https://www.amazon.com/dp/B0HMNK5W97">Maya and the Goddess's Courage</a>
+        <p>Five paperbacks are out now &mdash; or read them free in the app.</p>
+        <div class="amz-books">
+          <div class="amz-book">
+            <b>The Dog Who Wore Marigolds</b><span class="bk">Book 1</span>
+            <div class="amz-actions">
+              <a class="btn btn-gold btn-sm" href="https://www.amazon.com/dp/B0HKZFHWQB">Buy on Amazon</a>
+              <button class="btn btn-ghost btn-sm" data-app-book="1" type="button">Read free in app</button>
+            </div>
+          </div>
+          <div class="amz-book">
+            <b>Maya and the Rhino of Chitwan</b><span class="bk">Book 3</span>
+            <div class="amz-actions">
+              <a class="btn btn-gold btn-sm" href="https://www.amazon.com/dp/B0HLF36J7M">Buy on Amazon</a>
+              <button class="btn btn-ghost btn-sm" data-app-book="3" type="button">Read free in app</button>
+            </div>
+          </div>
+          <div class="amz-book">
+            <b>Maya and the Clay Diyo</b><span class="bk">Book 4</span>
+            <div class="amz-actions">
+              <a class="btn btn-gold btn-sm" href="https://www.amazon.com/dp/B0HLGDWWHN">Buy on Amazon</a>
+              <button class="btn btn-ghost btn-sm" data-app-book="4" type="button">Read free in app</button>
+            </div>
+          </div>
+          <div class="amz-book">
+            <b>Maya and the Kite Thief of Dashain</b><span class="bk">Book 10</span>
+            <div class="amz-actions">
+              <a class="btn btn-gold btn-sm" href="https://www.amazon.com/dp/B0HMNPHTHQ">Buy on Amazon</a>
+              <button class="btn btn-ghost btn-sm" data-app-book="10" type="button">Read free in app</button>
+            </div>
+          </div>
+          <div class="amz-book">
+            <b>Maya and the Goddess's Courage</b><span class="bk">Book 16</span>
+            <div class="amz-actions">
+              <a class="btn btn-gold btn-sm" href="https://www.amazon.com/dp/B0HMNK5W97">Buy on Amazon</a>
+              <button class="btn btn-ghost btn-sm" data-app-book="16" type="button">Read free in app</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -287,6 +325,28 @@ PRINTABLES.forEach(([title, pdf, thumb]) => {
   c.innerHTML = `<img src="${thumb}" alt="${title}" loading="lazy"><div class="t"><span class="free-tag">Free</span><b>${title}</b><a class="dl-btn" href="${pdf}" download><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 20h16"/></svg>Download PDF</a></div>`;
   pgrid.appendChild(c);
 });
+</script>
+<div id="appToast" role="status"></div>
+<script>
+(function(){
+  var toast = document.getElementById('appToast'), timer = null;
+  function showToast(msg){
+    toast.textContent = msg; toast.classList.add('show');
+    clearTimeout(timer); timer = setTimeout(function(){ toast.classList.remove('show'); }, 4200);
+  }
+  document.querySelectorAll('[data-app-book]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var n = btn.getAttribute('data-app-book');
+      var t0 = Date.now();
+      window.location.href = 'mayasstorybook://book/' + n;
+      setTimeout(function(){
+        if (Date.now() - t0 < 2600) {
+          showToast("You'll need the Maya's Storybook app to read — it's on its way to the App Store and Google Play.");
+        }
+      }, 2100);
+    });
+  });
+})();
 </script>
 </body>
 </html>
