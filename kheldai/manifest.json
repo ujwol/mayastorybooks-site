@@ -9,11 +9,7 @@
   "orientation": "portrait-primary",
   "background_color": "#FFFDF7",
   "theme_color": "#F59E0B",
-  "categories": [
-    "education",
-    "kids",
-    "books"
-  ],
+  "categories": ["education", "kids", "books"],
   "icons": [
     {
       "src": "/kheldai/icon.svg",
