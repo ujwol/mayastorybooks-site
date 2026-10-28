@@ -1,369 +1,401 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maya's Storybooks — A read-aloud story world is coming</title>
-<meta name="description" content="Maya's Storybooks — warm read-aloud adventures with Maya and Moti, from the heart of Nepal. App coming soon.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%237A2816'/%3E%3Ctext x='32' y='44' font-family='Georgia' font-size='36' fill='%23F5C86B' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Maya&#x27;s Storybooks — Free bilingual stories from Nepal for ages 3–7</title>
+<meta name="description" content="Free bilingual (English + Nepali) picture-book stories from Nepal for children ages 3–7. All 20 books free to read, no ads, no accounts. App coming soon.">
+<link rel="canonical" href="https://mayastorybooks.com/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Maya&#x27;s Storybooks — Free bilingual stories from Nepal for ages 3–7">
+<meta property="og:description" content="Free bilingual (English + Nepali) picture-book stories from Nepal for children ages 3–7. All 20 books free to read, no ads, no accounts. App coming soon.">
+<meta property="og:image" content="https://mayastorybooks.com/img/hero.jpg">
+<meta property="og:url" content="https://mayastorybooks.com/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:wght@400;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.ico">
 <style>
-  :root{
-    --cream:#FFFBF2; --cream2:#FFF4E2; --maroon:#7A2816; --maroon-d:#5A1D10;
-    --gold:#C8963C; --gold-l:#F5C86B; --ink:#2B1A0F; --ink-soft:#6B584A;
-    --card:#FFFFFF; --shadow:0 10px 30px rgba(122,40,22,.10);
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    background:var(--cream);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
-  h1,h2,h3,.display{font-family:"Baloo 2",Georgia,"Times New Roman",serif;color:var(--maroon);line-height:1.15}
-  img{display:block;max-width:100%}
-  a{text-decoration:none}
-  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
-
-  /* top bar */
-  .topbar{position:sticky;top:0;z-index:50;background:rgba(255,251,242,.92);backdrop-filter:blur(10px);
-    border-bottom:1px solid rgba(122,40,22,.12)}
-  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:12px;padding-bottom:12px}
-  .brand{display:flex;align-items:center;gap:10px;font-family:"Baloo 2",Georgia,serif;font-weight:800;
-    font-size:20px;color:var(--maroon)}
-  .brand-mark{width:34px;height:34px;border-radius:10px;background:var(--maroon);color:var(--gold-l);
-    display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800}
-  .pill{font-size:13px;font-weight:700;color:var(--maroon);background:var(--cream2);
-    border:1px solid rgba(200,150,60,.5);padding:6px 14px;border-radius:999px;white-space:nowrap}
-
-  /* hero */
-  .hero{position:relative;overflow:hidden;background:var(--maroon-d)}
-  .hero-bg{position:absolute;inset:0;background:url("img/hero.jpg") center 30%/cover no-repeat;
-    filter:saturate(1.05)}
-  .hero-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(43,20,10,.55) 0%,
-    rgba(43,20,10,.25) 45%,rgba(43,20,10,.78) 100%)}
-  .hero-inner{position:relative;z-index:2;padding:88px 20px 72px;max-width:1080px;margin:0 auto;text-align:center}
-  .hero-kicker{display:inline-block;color:var(--gold-l);font-weight:700;letter-spacing:.14em;text-transform:uppercase;
-    font-size:13px;margin-bottom:14px}
-  .hero h1{color:#FFF8EA;font-size:clamp(38px,7vw,64px);font-weight:800;margin-bottom:14px;
-    text-shadow:0 2px 18px rgba(0,0,0,.35)}
-  .hero p{color:#F7E9CF;font-size:clamp(16px,2.6vw,20px);max-width:620px;margin:0 auto 30px}
-  .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-  .btn{display:inline-flex;align-items:center;gap:9px;font-weight:700;font-size:16px;padding:14px 26px;
-    border-radius:999px;transition:transform .15s ease,box-shadow .15s ease}
-  .btn:active{transform:scale(.97)}
-  .btn-gold{background:linear-gradient(180deg,var(--gold-l),var(--gold));color:#3A1F0E;box-shadow:0 8px 22px rgba(0,0,0,.28)}
-  .btn-ghost{background:rgba(255,248,234,.12);color:#FFF8EA;border:1.5px solid rgba(255,248,234,.65)}
-
-  /* sections */
-  section{padding:64px 0}
-  .sec-head{text-align:center;margin-bottom:34px}
-  .sec-head h2{font-size:clamp(28px,5vw,40px);margin-bottom:10px}
-  .sec-head p{color:var(--ink-soft);max-width:600px;margin:0 auto;font-size:17px}
-  .flourish{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px}
-  .flourish::before,.flourish::after{content:"";height:2px;width:56px;border-radius:2px;
-    background:linear-gradient(90deg,transparent,var(--gold))}
-  .flourish::after{background:linear-gradient(90deg,var(--gold),transparent)}
-  .flourish svg{flex:none}
-
-  /* watch */
-  .videos{display:grid;grid-template-columns:1fr;gap:22px}
-  @media(min-width:760px){.videos{grid-template-columns:1.25fr 1fr 1fr}}
-  .video-card{background:var(--card);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);
-    border:1px solid rgba(122,40,22,.10)}
-  .video-frame{position:relative;aspect-ratio:16/9;background:#1c100a}
-  .video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-  .video-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px}
-  .video-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
-  .video-ph .soon{position:relative;z-index:2;background:rgba(43,26,15,.78);color:var(--gold-l);font-weight:700;
-    font-size:14px;padding:8px 18px;border-radius:999px;border:1px solid rgba(245,200,107,.4)}
-  .play-ring{position:relative;z-index:2;width:66px;height:66px;border-radius:50%;background:rgba(255,248,234,.94);
-    display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.35)}
-  .video-meta{padding:16px 20px 20px}
-  .video-meta h3{font-size:19px;margin-bottom:4px}
-  .video-meta span{font-size:13.5px;color:var(--ink-soft);font-weight:600}
-
-  /* library */
-  .rail-wrap{position:relative}
-  .rail{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 4px 18px;
-    scrollbar-width:thin;scrollbar-color:var(--gold) transparent}
-  .book-card{flex:0 0 168px;scroll-snap-align:start;background:var(--card);border-radius:18px;overflow:hidden;
-    box-shadow:var(--shadow);border:1px solid rgba(122,40,22,.10);transition:transform .15s ease}
-  .book-card:hover{transform:translateY(-4px)}
-  .book-card img{aspect-ratio:3/2;object-fit:cover;width:100%}
-  .book-card .t{padding:10px 12px 14px}
-  .book-card .t b{display:block;font-family:"Baloo 2",Georgia,serif;color:var(--maroon);font-size:14.5px;line-height:1.3}
-  .book-card .t span{font-size:12px;color:var(--ink-soft);font-weight:600}
-  .rail-btn{position:absolute;top:38%;width:44px;height:44px;border-radius:50%;border:1px solid rgba(122,40,22,.2);
-    background:rgba(255,251,242,.95);color:var(--maroon);font-size:20px;cursor:pointer;box-shadow:var(--shadow);
-    display:none;align-items:center;justify-content:center;z-index:3}
-  @media(min-width:760px){.rail-btn{display:flex}}
-  .rail-btn.prev{left:-12px}.rail-btn.next{right:-12px}
-
-  /* amazon strip */
-  .amz{background:linear-gradient(135deg,var(--maroon) 0%,var(--maroon-d) 100%);border-radius:26px;
-    overflow:hidden;display:grid;grid-template-columns:1fr;box-shadow:var(--shadow)}
-  .amz img{width:100%;height:220px;object-fit:cover;object-position:center 20%}
-  @media(min-width:760px){.amz img{height:100%;min-height:260px}}
-  .amz-body{padding:34px 30px}
-  .amz-body h3{color:#FFF8EA;font-size:clamp(24px,4vw,32px);margin-bottom:10px}
-  .amz-body p{color:#F0DFC0;margin-bottom:22px;font-size:16px}
-  .amz-list{display:flex;flex-wrap:wrap;gap:10px}
-  .btn-sm{padding:11px 20px;font-size:15px}
-  .nf-row{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));margin-top:6px}
-  .nf-card{background:rgba(20,8,4,.45);border:1px solid rgba(255,248,234,.16);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}
-  .nf-card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(0,0,0,.35)}
-  .nf-thumb{position:relative;aspect-ratio:3/2;overflow:hidden}
-  .nf-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-  .nf-badge{position:absolute;top:10px;left:10px;background:#F5C86B;color:#3A1F0E;font-size:12px;font-weight:800;padding:5px 11px;border-radius:999px;letter-spacing:.4px}
-  .nf-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
-  .nf-body b{color:#FFF8EA;font-size:17px;line-height:1.3}
-  .nf-meta{color:#F5C86B;font-size:13px;font-weight:700}
-  .nf-body p{color:#F0DFC0;font-size:14.5px;line-height:1.55;margin:0;flex:1}
-  .nf-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
-  #appToast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:#3A1F0E;color:#FFF8EA;padding:14px 22px;border-radius:14px;font-size:15px;box-shadow:0 10px 30px rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:99;max-width:90vw;text-align:center}
-  #appToast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-  /* follow */
-  .follow-card{background:var(--card);border:1px solid rgba(122,40,22,.12);border-radius:26px;box-shadow:var(--shadow);
-    padding:44px 28px;text-align:center;max-width:640px;margin:0 auto}
-  .follow-card h2{font-size:clamp(26px,4.5vw,34px);margin-bottom:10px}
-  .follow-card p{color:var(--ink-soft);margin-bottom:24px;font-size:16.5px}
-  .ig-btn{display:inline-flex;align-items:center;gap:10px;background:var(--maroon);color:#FFF8EA;font-weight:700;
-    font-size:17px;padding:15px 30px;border-radius:999px;box-shadow:0 8px 22px rgba(122,40,22,.3)}
-  .social-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-
-  /* printables */
-  #printables{background:#fff;border-top:1px solid rgba(122,40,22,.10);border-bottom:1px solid rgba(122,40,22,.10)}
-  .print-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-  @media(min-width:760px){.print-grid{grid-template-columns:repeat(4,1fr)}}
-  .print-card{background:var(--cream);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);
-    border:1px solid rgba(122,40,22,.10);transition:transform .15s ease;display:flex;flex-direction:column}
-  .print-card:hover{transform:translateY(-4px)}
-  .print-card img{aspect-ratio:3/4;object-fit:cover;object-position:top;width:100%;background:#fff}
-  .print-card .t{padding:12px 14px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
-  .print-card .t b{display:block;font-family:"Baloo 2",Georgia,serif;color:var(--maroon);font-size:15px;line-height:1.3;flex:1}
-  .dl-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--maroon);color:#FFF8EA;
-    font-weight:700;font-size:14px;padding:10px 16px;border-radius:999px}
-  .free-tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
-    color:#2e7d32;background:#e8f5e9;border-radius:6px;padding:3px 8px;margin-bottom:2px;align-self:flex-start}
-
-  footer{padding:34px 0 44px;text-align:center;color:var(--ink-soft);font-size:14px}
-  footer b{color:var(--maroon);font-family:"Baloo 2",Georgia,serif}
-</style>
-</head>
+:root{--cream:#FFFBF2;--maroon:#7A2816;--maroon-d:#5A1D10;--gold:#C8963C;
+--gold-l:#F5C86B;--orange:#FF9D2E;--ink:#2B1A0F;--mut:#6B5A4E;--line:#EEDFC7;
+--card:#FFFDF8;--shadow:0 10px 30px rgba(90,29,16,.10)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);
+font-family:"Nunito Sans","Noto Sans Devanagari",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+font-size:17px;line-height:1.6}
+h1,h2,h3,.brand-word{font-family:"Baloo 2","Noto Sans Devanagari",system-ui,sans-serif;color:var(--maroon)}
+a{color:var(--maroon)}
+img{max-width:100%}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.skip{position:absolute;left:-9999px}.skip:focus{left:12px;top:12px;background:#fff;padding:8px 12px;z-index:99}
+/* header */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,251,242,.97);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;gap:18px;padding-top:10px;padding-bottom:10px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand-mark{width:42px;height:42px;border-radius:12px;background:var(--maroon);color:#fff;display:grid;place-items:center;font-family:"Baloo 2",sans-serif;font-weight:800;font-size:24px;flex:none}
+.brand-word{font-size:22px;font-weight:800;line-height:1.05}
+.brand-word small{display:block;font-family:"Nunito Sans",sans-serif;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);font-weight:700}
+.nav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+.nav a{text-decoration:none;font-weight:700;font-size:15px;padding:8px 12px;border-radius:999px;color:var(--ink)}
+.nav a:hover{background:#F7EAD2}
+.pill-gold{background:var(--gold-l);color:var(--maroon-d);border-radius:999px;padding:8px 14px;font-weight:800;font-size:14px;text-decoration:none;white-space:nowrap}
+.pill-gold:hover{background:var(--gold)}
+/* hero */
+.hero{position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.hero-veil{position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,251,242,.96) 0%,rgba(255,251,242,.88) 46%,rgba(255,251,242,.15) 100%)}
+.hero-in{position:relative;padding:64px 0 56px;max-width:640px}
+.kicker{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--maroon);font-weight:800;margin:0 0 10px}
+.hero h1{font-size:52px;line-height:1.08;margin:0 0 14px}
+.hero p.lede{font-size:19px;color:#4A362A;margin:0 0 24px;max-width:560px}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;text-decoration:none;font-weight:800;border-radius:999px;padding:13px 24px;font-size:16px;border:2px solid transparent;cursor:pointer;text-align:center}
+.btn-gold{background:var(--gold);color:#fff;border-color:var(--gold)}
+.btn-gold:hover{background:#B3852F}
+.btn-outline{background:transparent;color:var(--maroon);border-color:var(--maroon)}
+.btn-outline:hover{background:#F7EAD2}
+.btn-maroon{background:var(--maroon);color:#fff}
+.btn-maroon:hover{background:var(--maroon-d)}
+.btn-amz{background:#232F3E;color:#fff}
+.btn-amz:hover{background:#131A22}
+/* trust strip */
+.trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#FFF6E6}
+.trust .wrap{display:flex;gap:8px 28px;flex-wrap:wrap;justify-content:center;padding-top:14px;padding-bottom:14px;font-weight:700;font-size:15px;color:var(--maroon-d)}
+.trust span::before{content:"✓ ";color:var(--gold)}
+/* sections */
+section.block{padding:52px 0 8px}
+.sec-head{margin:0 0 6px;font-size:34px;line-height:1.15}
+.sec-sub{color:var(--mut);margin:0 0 26px;max-width:640px}
+/* book grid */
+.book-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
+.book-card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:transform .15s ease,box-shadow .15s ease}
+.book-card:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(90,29,16,.16)}
+.book-card img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block}
+.book-card .pad{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.book-card h3{margin:0;font-size:20px;line-height:1.25}
+.book-meta{font-size:13px;color:var(--mut);font-weight:700;letter-spacing:.02em}
+.book-card p{margin:0;font-size:15px;line-height:1.55;color:#4A362A;flex:1}
+.book-card .read{font-weight:800;color:var(--maroon);font-size:15px}
+.book-card .ne{font-size:15px;color:var(--mut)}
+/* characters preview */
+.char-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.char-card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
+.char-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.char-card .pad{padding:16px 18px 20px}
+.char-card h3{margin:0 0 4px;font-size:22px}
+.char-card .role{font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:0 0 8px}
+.char-card p{margin:0;font-size:15px;color:#4A362A}
+/* features */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feat-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow)}
+.feat-card .ic{font-family:"Baloo 2",sans-serif;font-size:26px;color:var(--maroon);margin-bottom:6px}
+.feat-card h3{margin:0 0 6px;font-size:20px}
+.feat-card p{margin:0;font-size:15px;color:#4A362A}
+.status{display:inline-block;margin-top:12px;font-size:12.5px;font-weight:800;letter-spacing:.04em;border-radius:999px;padding:4px 11px}
+.status.now{background:#E7F6E9;color:#1E6B34}
+.status.soon{background:#FDF0DC;color:#8A5A0B}
+/* notify */
+.notify{background:var(--maroon);border-radius:24px;padding:34px 30px;color:#FFF6E6;text-align:center;box-shadow:var(--shadow)}
+.notify h2{color:#fff;margin:0 0 8px;font-size:30px}
+.notify p{margin:0 0 20px;color:#F3DCC9}
+.notify-form{display:flex;gap:10px;max-width:520px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+.notify-form input[type=email]{flex:1;min-width:240px;border:2px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;border-radius:999px;padding:13px 20px;font-size:16px;font-family:inherit}
+.notify-form input[type=email]::placeholder{color:#E8CDBB}
+.notify-form input[type=email]:focus{outline:2px solid var(--gold-l);background:rgba(255,255,255,.2)}
+.notify-form .btn{border:0}
+.notify-note{font-size:14px;margin-top:14px;color:#E8CDBB}
+.notify-msg{font-size:14px;min-height:20px;margin:10px 0 0;color:#FFE9B0;width:100%}
+.notify-done strong{font-size:20px;display:block;color:#fff}
+.notify-done p{margin:6px 0 0}
+/* faq */
+.faq{max-width:760px}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 20px;margin:0 0 12px;box-shadow:var(--shadow)}
+.faq summary{font-weight:800;font-size:17px;color:var(--maroon);cursor:pointer;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";float:right;font-size:22px;line-height:1;color:var(--gold)}
+.faq details[open] summary::after{content:"–"}
+.faq p{margin:10px 0 2px;font-size:16px;color:#4A362A}
+/* printables */
+.print-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.print-card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;text-decoration:none;color:inherit;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.print-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.print-card .pad{padding:12px 14px 14px}
+.print-card strong{display:block;font-size:15px;line-height:1.35;color:var(--maroon)}
+.print-card p{margin:4px 0 0;font-size:13.5px;color:var(--mut)}
+/* book page */
+.book-head{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:32px;align-items:start;padding:44px 0 8px}
+.book-head img.cover{width:100%;border-radius:20px;box-shadow:var(--shadow);display:block}
+.book-head h1{font-size:40px;line-height:1.12;margin:0 0 6px}
+.book-head .ne-title{font-size:19px;color:var(--mut);margin:0 0 10px}
+.book-head .hook{font-size:18px;color:#4A362A;margin:0 0 20px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 22px}
+.chip{background:#F7EAD2;color:var(--maroon-d);border-radius:999px;padding:6px 13px;font-size:14px;font-weight:700;text-decoration:none}
+.more-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+/* wiki — classes match the verbatim article markup from the live wiki */
+.wiki-hero{padding:44px 0 6px;text-align:center}
+.wiki-hero h1{font-size:44px;margin:0 0 8px}
+.wiki-hero p{max-width:640px;margin:0 auto;color:var(--mut)}
+.marigold{display:flex;justify-content:center;gap:6px;margin:0 0 8px}
+.marigold svg{width:26px;height:26px}
+.char{max-width:920px;margin:34px auto;background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden;display:grid;grid-template-columns:300px 1fr}
+.char .pic{background:#FFF4E2;display:flex;align-items:flex-start;justify-content:center;padding:24px}
+.char .pic img{width:auto;max-width:100%;max-height:600px;border-radius:18px}
+.char .body{padding:26px 28px}
+.char h2{margin:0 0 2px;font-size:30px}
+.role{display:inline-block;background:#FFF4E2;color:var(--maroon);border:1px solid rgba(200,150,60,.5);font-size:13px;font-weight:700;border-radius:999px;padding:4px 14px;margin:6px 0 14px}
+.infobox{border:1px solid rgba(122,40,22,.16);border-radius:12px;margin:0 0 16px;overflow:hidden;font-size:14px}
+.infobox .row{display:flex;border-top:1px solid rgba(122,40,22,.1)}
+.infobox .row:first-child{border-top:0}
+.infobox .k{background:#FFF4E2;font-weight:700;padding:8px 12px;width:150px;flex:none;color:var(--maroon)}
+.infobox .v{padding:8px 12px}
+.char p{margin:0 0 12px}
+.moments{background:#FFF4E2;border:1px solid rgba(200,150,60,.5);border-radius:12px;padding:14px 16px;margin:14px 0}
+.moments b{display:block;margin-bottom:8px;font-size:14px;color:var(--maroon);text-transform:uppercase;letter-spacing:.5px}
+.moments ul{margin:0;padding-left:20px;font-size:15px}
+.moments li{margin:4px 0}
+.fact{display:flex;gap:10px;background:#fff;border:1px solid var(--gold);border-radius:12px;padding:12px 14px;margin:14px 0;font-size:15px}
+.fact svg{width:22px;height:22px;flex:none;margin-top:2px}
+.fact b{color:var(--maroon)}
+.world{max-width:920px;margin:34px auto;background:var(--maroon-d);color:#f5ede0;border-radius:20px;padding:28px 30px;box-shadow:var(--shadow)}
+.world h2{margin:0 0 10px;color:var(--gold-l);font-size:30px}
+.world p{margin:0 0 10px;color:#e8dcc8}
+.world .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.world .chips span{border:1px solid rgba(245,200,107,.4);border-radius:999px;padding:6px 14px;font-size:14px;color:#f5ede0;display:inline-flex;align-items:center;gap:8px}
+.world .chips svg{width:16px;height:16px}
+.tracker{max-width:860px;margin:34px auto}
+.tracker table{width:100%;border-collapse:collapse;background:var(--card);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);font-size:15px}
+.tracker th,.tracker td{padding:10px 14px;border-bottom:1px solid var(--line);text-align:left}
+.tracker th{background:var(--maroon);color:#fff}
+.tracker tr:last-child td{border-bottom:0}
+.tracker td:first-child{font-weight:800;color:var(--maroon)}
+/* footer */
+footer{margin-top:64px;background:var(--maroon-d);color:#F3DCC9}
+footer .wrap{padding-top:36px;padding-bottom:36px}
+.foot-grid{display:flex;gap:28px;flex-wrap:wrap;justify-content:space-between;align-items:flex-start}
+.foot-brand{font-family:"Baloo 2",sans-serif;font-size:24px;color:#fff;font-weight:800}
+.foot-links{display:flex;gap:18px;flex-wrap:wrap}
+.foot-links a{color:#F3DCC9;text-decoration:none;font-weight:700}
+.foot-links a:hover{color:#fff;text-decoration:underline}
+.foot-note{margin:18px 0 0;font-size:14px;color:#D9BBA6}
+@media(max-width:860px){
+ .book-grid{grid-template-columns:repeat(2,1fr)}
+ .char-grid,.feat-grid{grid-template-columns:1fr 1fr}
+ .print-grid,.more-grid{grid-template-columns:repeat(2,1fr)}
+ .book-head{grid-template-columns:1fr;gap:20px}
+ .char{grid-template-columns:1fr}
+ .char .pic{padding:18px}
+ .infobox .k{width:120px}
+ .hero h1{font-size:40px}
+}
+@media(max-width:700px){
+ .hero-veil{background:linear-gradient(180deg,rgba(255,251,242,.95) 0%,rgba(255,251,242,.82) 55%,rgba(255,251,242,.35) 100%)}
+ .hero-in{padding:40px 0 36px}
+}
+@media(max-width:560px){
+ .book-grid,.char-grid,.feat-grid,.print-grid,.more-grid{grid-template-columns:1fr}
+ .hero-in{padding:44px 0 40px}
+ .hero h1{font-size:34px}
+ .sec-head{font-size:28px}
+ .nav{margin-left:0}
+ .notify-form input[type=email]{min-width:0}
+}
+</style><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Maya's Storybooks", "url": "https://mayastorybooks.com/", "description": "Free bilingual (English + Nepali) picture-book stories from Nepal for children ages 3–7. No ads, no accounts.", "inLanguage": ["en", "ne"]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "ItemList", "name": "Maya's Storybooks — all books", "itemListElement": [{"@type": "ListItem", "position": 1, "item": {"@type": "Book", "position": 1, "name": "The Dog Who Wore Marigolds", "url": "https://mayastorybooks.com/books/book1.html", "inLanguage": ["en", "ne"], "audience": {"@type": "PeopleAudience", "suggestedMinAge": 3, "suggestedMaxAge": 7}, "author": {"@type": "Person", "name": "Ujwol Shrestha"}, "alternateName": "सयपत्री लगाउने कुकुर।"}}, {"@type": "ListItem", "position": 2, "item": {"@type": "Book", "position": 2, "name": "Maya and the Temple Monkey", "url": "https://mayastorybooks.com/books/book2.html", "inLanguage": ["en", "ne"], "audience": {"@type": "PeopleAudience", "suggestedMinAge": 3, "suggestedMaxAge": 7}, "author": {"@type": "Person", "name": "Ujwol Shrestha"}, "alternateName": "माया र मन्दिरको बाँदर।"}}, {"@type": "ListItem", "position": 3, "item": {"@type": "Book", "position": 3, "name": "Maya and the Rhino of Chitwan", "url": "https://mayastorybooks.com/books/book3.html", "inLanguage": ["en", "ne"], "audience": {"@type": "PeopleAudience", "suggestedMinAge": 3, "suggestedMaxAge": 7}, "author": {"@type": "Person", "name": "Ujwol Shrestha"}, "alternateName": "माया र चितवनको गैंडा।"}}, {"@type": "ListItem", "position": 4, "item": {"@type": "Book", "position": 4, "name": "Maya and the Clay Diyo", "url": "https://mayastorybooks.com/books/book4.html", "inLanguage": ["en", "ne"], "audience": {"@type": "PeopleAudience", "suggestedMinAge": 3, "suggestedMaxAge": 7}, "author": {"@type": "Person", "name": "Ujwol Shrestha"}, "alternateName": "माया र माटोको दियो।"}}, {"@type": "ListItem", "position": 5, "item": {"@type": "Book", "position": 5, "name": "Maya and the Garden of Peace", "url": "https://mayastorybooks.com/books/book5.html", "inLanguage": ["en", "ne"], "audience": {"@type": "PeopleAudience", "suggestedMinAge": 3, "suggestedMaxAge": 7}, "author": {"@type": "Person", "name": "Ujwol Shrestha"}, "alternateName": "माया र शान्तिको बगैंचा।"}}, {"@type": "ListItem", "position": 6, "item": {"@type": "Book", "position": 6, "name": "Maya and the Baby Yak", "url": "https://mayastorybooks.com/books/book6.html", "inLanguage": ["en", "ne"], "audience": {"@type": "PeopleAudience", "suggestedMinAge": 3, "suggestedMaxAge": 7}, "author": {"@type": "Person", "name": "Ujwol Shrestha"}, "alternateName": "माया र सानो चौँरी।"}}, {"@type": "ListItem", "position": 7, "item": {"@type": "Book", "position": 7, "name": "Maya and Indra Jatra", "url": "https://mayastorybooks.com/books/book7.html", "inLanguage": ["en", "ne"], "audience": {"@type": "PeopleAudience", "suggestedMinAge": 3, "suggestedMaxAge": 7}, "author": {"@type": "Person", "name": "Ujwol Shrestha"}, "alternateName": "माया र इन्द्रजात्रा।"}}, {"@type": "ListItem", "position": 8, "item": {"@type": "Book", "position": 8, "name": "Maya and the Honey Hunters", "url": "https://mayastorybooks.com/books/book8.html", "inLanguage": ["en", "ne"], "audience": {"@type": "PeopleAudience", "suggestedMinAge": 3, "suggestedMaxAge": 7}, "author": {"@type": "Person", "name": "Ujwol Shrestha"}, "alternateName": "माया र महशिकारीहरू।"}}, {"@type": "ListItem", "position": 9, "item": {"@type": "Book", "position": 9, "name": "Maya and the Yeti's Sneeze", "url": "https://mayastorybooks.com/books/book9.html", "inLanguage": ["en", "ne"], "audience": {"@type": "PeopleAudience", "suggestedMinAge": 3, "suggestedMaxAge": 7}, "author": {"@type": "Person", "name": "Ujwol Shrestha"}, "alternateName": "माया र यतीको हाच्छिउँ।"}}, {"@type": "ListItem", "position": 10, "item": {"@type": "Book", "position": 10, "name": "Maya and the Kite Thief of Dashain", "url": "https://mayastorybooks.com/books/book10.html", "inLanguage": ["en", "ne"], "audience": {"@type": "PeopleAudience", "suggestedMinAge": 3, "suggestedMaxAge": 7}, "author": {"@type": "Person", "name": "Ujwol Shrestha"}}}, {"@type": "ListItem", "position": 11, "item": {"@type": "Book", "position": 11, "name": "Maya and the Bhai Tika Brother", "url": "https://mayastorybooks.com/books/book11.html", "inLanguage": ["en", "ne"], "audience": {"@type": "PeopleAudience", "suggestedMinAge": 3, "suggestedMaxAge": 7}, "author": {"@type": "Person", "name": "Ujwol Shrestha"}, "alternateName": "माया र भाइटीकाका भाइ।"}}, {"@type": "ListItem", "position": 12, "item": {"@type": "Book", "position": 12, "name": "Maya and the Monk of Boudhanath", "url": "https://mayastorybooks.com/books/book12.html", "inLanguage": ["en", "ne"], "audience": {"@type": "PeopleAudience", "suggestedMinAge": 3, "suggestedMaxAge": 7}, "author": {"@type": "Person", "name": "Ujwol Shrestha"}, "alternateName": "माया र बौद्धनाथका भिक्षु।"}}, {"@type": "ListItem", "position": 13, "item": {"@type": "Book", "position": 13, "name": "Maya and the Lake of Pokhara", "url": "https://mayastorybooks.com/books/book13.html", "inLanguage": ["en", "ne"], "audience": {"@type": "PeopleAudience", "suggestedMinAge": 3, "suggestedMaxAge": 7}, "author": {"@type": "Person", "name": "Ujwol Shrestha"}, "alternateName": "माया र पोखराको ताल।"}}, {"@type": "ListItem", "position": 14, "item": {"@type": "Book", "position": 14, "name": "Maya and the Road to Everest", "url": "https://mayastorybooks.com/books/book14.html", "inLanguage": ["en", "ne"], "audience": {"@type": "PeopleAudience", "suggestedMinAge": 3, "suggestedMaxAge": 7}, "author": {"@type": "Person", "name": "Ujwol Shrestha"}, "alternateName": "माया र सगरमाथाको बाटो।"}}, {"@type": "ListItem", "position": 15, "item": {"@type": "Book", "position": 15, "name": "Maya's Big Festival", "url": "https://mayastorybooks.com/books/book15.html", "inLanguage": ["en", "ne"], "audience": {"@type": "PeopleAudience", "suggestedMinAge": 3, "suggestedMaxAge": 7}, "author": {"@type": "Person", "name": "Ujwol Shrestha"}, "alternateName": "मायाको ठूलो चाडपर्व।"}}, {"@type": "ListItem", "position": 16, "item": {"@type": "Book", "position": 16, "name": "Maya and the Goddess's Courage", "url": "https://mayastorybooks.com/books/book16.html", "inLanguage": ["en", "ne"], "audience": {"@type": "PeopleAudience", "suggestedMinAge": 3, "suggestedMaxAge": 7}, "author": {"@type": "Person", "name": "Ujwol Shrestha"}}}, {"@type": "ListItem", "position": 17, "item": {"@type": "Book", "position": 17, "name": "Maya and the Monkey King", "url": "https://mayastorybooks.com/books/book17.html", "inLanguage": ["en", "ne"], "audience": {"@type": "PeopleAudience", "suggestedMinAge": 3, "suggestedMaxAge": 7}, "author": {"@type": "Person", "name": "Ujwol Shrestha"}, "alternateName": "माया र बाँदर राजा।"}}, {"@type": "ListItem", "position": 18, "item": {"@type": "Book", "position": 18, "name": "Maya and the Two Arrows", "url": "https://mayastorybooks.com/books/book18.html", "inLanguage": ["en", "ne"], "audience": {"@type": "PeopleAudience", "suggestedMinAge": 3, "suggestedMaxAge": 7}, "author": {"@type": "Person", "name": "Ujwol Shrestha"}, "alternateName": "माया र दुई बाण।"}}, {"@type": "ListItem", "position": 19, "item": {"@type": "Book", "position": 19, "name": "Maya and the Wind of Mustang", "url": "https://mayastorybooks.com/books/book19.html", "inLanguage": ["en", "ne"], "audience": {"@type": "PeopleAudience", "suggestedMinAge": 3, "suggestedMaxAge": 7}, "author": {"@type": "Person", "name": "Ujwol Shrestha"}, "alternateName": "माया र मुस्ताङको हावा।"}}, {"@type": "ListItem", "position": 20, "item": {"@type": "Book", "position": 20, "name": "Maya and the Roof of the World", "url": "https://mayastorybooks.com/books/book24.html", "inLanguage": ["en", "ne"], "audience": {"@type": "PeopleAudience", "suggestedMinAge": 3, "suggestedMaxAge": 7}, "author": {"@type": "Person", "name": "Ujwol Shrestha"}, "alternateName": "माया र संसारको छानो।"}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is Maya’s Storybooks really free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Every one of the 20 books is free to read on this website, and the app — when it launches — will be free too: the app, the books, and the games. There are no ads and no subscriptions."}}, {"@type": "Question", "name": "What ages are the stories for?", "acceptedAnswer": {"@type": "Answer", "text": "Children ages 3 to 7. The stories are read-aloud picture books about festivals, kindness, and everyday courage in Nepal, written for young children and the grown-ups who read with them."}}, {"@type": "Question", "name": "Can I read the stories in Nepali?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Every book is available in English and in Nepali. On each book page, choose “Read free now” for English or “Read in Nepali” for the Nepali version."}}, {"@type": "Question", "name": "Is there an app?", "acceptedAnswer": {"@type": "Answer", "text": "The Maya’s Storybook app is coming soon for iPhone and Android. Until it launches, every story is free to read right here on the website. Leave your email in the notify box and we will write once, on launch day."}}, {"@type": "Question", "name": "Are there paper books?", "acceptedAnswer": {"@type": "Answer", "text": "Six of the stories are also available as paperbacks on Amazon: Books 1, 2, 3, 4, 10, and 16. Each book page links to its paperback where one exists."}}]}</script></head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar"><div class="wrap">
+<a class="brand" href="/"><span class="brand-mark">M</span><span class="brand-word">Maya&rsquo;s Storybooks<small>Free stories &middot; Ages 3&ndash;7</small></span></a>
+<nav class="nav" aria-label="Main">
+<a href="/#books">Books</a><a href="/wiki.html">Characters</a><a href="/#features">Features</a><a href="/#faq">FAQ</a>
+</nav>
+<a class="pill-gold" href="/#notify">App coming soon</a>
+</div></header>
+<main id="main">
+<section class="hero"><img class="hero-bg" src="/img/hero.jpg" alt="Maya and Moti among marigolds in a Nepali hill village" fetchpriority="high"><div class="hero-veil"></div>
+<div class="wrap"><div class="hero-in">
+<p class="kicker">Free bilingual storybooks from Nepal</p>
+<h1>Every story free. Every child welcome.</h1>
+<p class="lede">Maya&rsquo;s Storybooks brings the magic of Nepal to your child&rsquo;s fingertips — free forever: the stories, the read-aloud, and the games. No ads. No accounts. In English and Nepali.</p>
+<div class="cta-row"><a class="btn btn-gold" href="/#books">Read a book free now</a><a class="btn btn-outline" href="/#notify">Notify me when the app launches</a></div>
+</div></div></section>
+<div class="trust"><div class="wrap"><span>Free forever</span><span>No ads</span><span>No accounts</span><span>Ages 3&ndash;7</span><span>English + Nepali</span></div></div>
 
-<header class="topbar">
-  <div class="wrap">
-    <div class="brand"><span class="brand-mark">M</span> Maya&rsquo;s Storybooks</div>
-    <span class="pill">App coming soon</span>
-  </div>
-</header>
+<section class="block" id="books"><div class="wrap">
+<h2 class="sec-head">All the books</h2>
+<p class="sec-sub">Twenty complete stories. Every one free to read here, in English and Nepali, with read-aloud narration in the player.</p>
+<div class="book-grid"><a class="book-card" href="/books/book1.html">
+<img src="/stories/img/yt-book1.jpg" alt="Cover of The Dog Who Wore Marigolds" loading="lazy">
+<div class="pad"><h3>The Dog Who Wore Marigolds</h3><div class="ne" lang="ne">सयपत्री लगाउने कुकुर।</div>
+<div class="book-meta">Book 1 &middot; Ages 3&ndash;7 &middot; 13 spreads &middot; Paperback on Amazon</div>
+<p>A scruffy stray crashes Kukur Tihar — and one little girl&#x27;s marigold garland changes everything. The story that started it all.</p><span class="read">Read free</span></div></a>
+<a class="book-card" href="/books/book2.html">
+<img src="/stories/img/yt-book2.jpg" alt="Cover of Maya and the Temple Monkey" loading="lazy">
+<div class="pad"><h3>Maya and the Temple Monkey</h3><div class="ne" lang="ne">माया र मन्दिरको बाँदर।</div>
+<div class="book-meta">Book 2 &middot; Ages 3&ndash;7 &middot; 13 spreads &middot; Paperback on Amazon</div>
+<p>A cheeky monkey snatches Maya&#x27;s marigold offering at Swayambhunath — the chase up the 365 steps ends in a gentle surprise about kindness and sharing.</p><span class="read">Read free</span></div></a>
+<a class="book-card" href="/books/book3.html">
+<img src="/stories/img/yt-book3.jpg" alt="Cover of Maya and the Rhino of Chitwan" loading="lazy">
+<div class="pad"><h3>Maya and the Rhino of Chitwan</h3><div class="ne" lang="ne">माया र चितवनको गैंडा।</div>
+<div class="book-meta">Book 3 &middot; Ages 3&ndash;7 &middot; 13 spreads &middot; Paperback on Amazon</div>
+<p>A jungle safari turns into a rescue mission when Maya meets a baby rhino in trouble. Brave hearts come in small sizes.</p><span class="read">Read free</span></div></a>
+<a class="book-card" href="/books/book4.html">
+<img src="/stories/img/yt-book4.jpg" alt="Cover of Maya and the Clay Diyo" loading="lazy">
+<div class="pad"><h3>Maya and the Clay Diyo</h3><div class="ne" lang="ne">माया र माटोको दियो।</div>
+<div class="book-meta">Book 4 &middot; Ages 3&ndash;7 &middot; 13 spreads &middot; Paperback on Amazon</div>
+<p>Grandmother&#x27;s clay oil lamp won&#x27;t light — until Maya discovers what makes a tiny flame brave enough to glow.</p><span class="read">Read free</span></div></a>
+<a class="book-card" href="/books/book5.html">
+<img src="/stories/img/yt-book5.jpg" alt="Cover of Maya and the Garden of Peace" loading="lazy">
+<div class="pad"><h3>Maya and the Garden of Peace</h3><div class="ne" lang="ne">माया र शान्तिको बगैंचा।</div>
+<div class="book-meta">Book 5 &middot; Ages 3&ndash;7 &middot; 13 spreads</div>
+<p>In the quiet gardens of Lumbini, Maya plants a tiny bodhi sapling — and makes a wish too soft for words.</p><span class="read">Read free</span></div></a>
+<a class="book-card" href="/books/book6.html">
+<img src="/stories/img/yt-book6.jpg" alt="Cover of Maya and the Baby Yak" loading="lazy">
+<div class="pad"><h3>Maya and the Baby Yak</h3><div class="ne" lang="ne">माया र सानो चौँरी।</div>
+<div class="book-meta">Book 6 &middot; Ages 3&ndash;7 &middot; 13 spreads</div>
+<p>High in the mountains, Maya and Moti follow tiny hoofprints to find a lost baby yak — and Moti earns a brass bell for his tracking.</p><span class="read">Read free</span></div></a>
+<a class="book-card" href="/books/book7.html">
+<img src="/stories/img/yt-book7.jpg" alt="Cover of Maya and Indra Jatra" loading="lazy">
+<div class="pad"><h3>Maya and Indra Jatra</h3><div class="ne" lang="ne">माया र इन्द्रजात्रा।</div>
+<div class="book-meta">Book 7 &middot; Ages 3&ndash;7 &middot; 13 spreads</div>
+<p>Drums, masked dancers, and the living goddess roll through Basantapur — and Maya lights a lamp for someone she loves and misses.</p><span class="read">Read free</span></div></a>
+<a class="book-card" href="/books/book8.html">
+<img src="/stories/img/yt-book8.jpg" alt="Cover of Maya and the Honey Hunters" loading="lazy">
+<div class="pad"><h3>Maya and the Honey Hunters</h3><div class="ne" lang="ne">माया र महशिकारीहरू।</div>
+<div class="book-meta">Book 8 &middot; Ages 3&ndash;7 &middot; 13 spreads</div>
+<p>On a cliff tall as a hundred houses, Bir Dai the honey hunter climbs a bamboo ladder — and Maya tastes honey like sunshine and flowers.</p><span class="read">Read free</span></div></a>
+<a class="book-card" href="/books/book9.html">
+<img src="/stories/img/yt-book9.jpg" alt="Cover of Maya and the Yeti&#x27;s Sneeze" loading="lazy">
+<div class="pad"><h3>Maya and the Yeti&#x27;s Sneeze</h3><div class="ne" lang="ne">माया र यतीको हाच्छिउँ।</div>
+<div class="book-meta">Book 9 &middot; Ages 3&ndash;7 &middot; 13 spreads</div>
+<p>A giant sneeze shakes the snowy mountain — and Maya, Grandmother, and Moti nurse a shy, shaggy yeti back to health with tea and the biggest red scarf.</p><span class="read">Read free</span></div></a>
+<a class="book-card" href="/books/book10.html">
+<img src="/stories/img/yt-book10.jpg" alt="Cover of Maya and the Kite Thief of Dashain" loading="lazy">
+<div class="pad"><h3>Maya and the Kite Thief of Dashain</h3>
+<div class="book-meta">Book 10 &middot; Ages 3&ndash;7 &middot; 13 spreads &middot; Paperback on Amazon</div>
+<p>Someone keeps stealing kites from the Dashain sky. Maya follows the string to a thief with a surprising secret.</p><span class="read">Read free</span></div></a>
+<a class="book-card" href="/books/book11.html">
+<img src="/stories/img/yt-book11.jpg" alt="Cover of Maya and the Bhai Tika Brother" loading="lazy">
+<div class="pad"><h3>Maya and the Bhai Tika Brother</h3><div class="ne" lang="ne">माया र भाइटीकाका भाइ।</div>
+<div class="book-meta">Book 11 &middot; Ages 3&ndash;7 &middot; 13 spreads</div>
+<p>Maya has no brother for Bhai Tika — so she chooses one with her heart, and paints seven colors of wishes on his forehead.</p><span class="read">Read free</span></div></a>
+<a class="book-card" href="/books/book12.html">
+<img src="/stories/img/yt-book12.jpg" alt="Cover of Maya and the Monk of Boudhanath" loading="lazy">
+<div class="pad"><h3>Maya and the Monk of Boudhanath</h3><div class="ne" lang="ne">माया र बौद्धनाथका भिक्षु।</div>
+<div class="book-meta">Book 12 &middot; Ages 3&ndash;7 &middot; 13 spreads</div>
+<p>Cross about a chewed drawing, Maya sweeps the stupa courtyard with an old monk — and writes her anger on a paper prayer flag for the wind to carry away.</p><span class="read">Read free</span></div></a>
+<a class="book-card" href="/books/book13.html">
+<img src="/stories/img/yt-book13.jpg" alt="Cover of Maya and the Lake of Pokhara" loading="lazy">
+<div class="pad"><h3>Maya and the Lake of Pokhara</h3><div class="ne" lang="ne">माया र पोखराको ताल।</div>
+<div class="book-meta">Book 13 &middot; Ages 3&ndash;7 &middot; 13 spreads</div>
+<p>On Phewa Lake the mountains are painted twice — once in the sky, once in the water — and Moti barks at the little white dog in the lake.</p><span class="read">Read free</span></div></a>
+<a class="book-card" href="/books/book14.html">
+<img src="/stories/img/yt-book14.jpg" alt="Cover of Maya and the Road to Everest" loading="lazy">
+<div class="pad"><h3>Maya and the Road to Everest</h3><div class="ne" lang="ne">माया र सगरमाथाको बाटो।</div>
+<div class="book-meta">Book 14 &middot; Ages 3&ndash;7 &middot; 13 spreads</div>
+<p>One brave step at a time, Maya walks the mountain trail all the way to Everest Base Camp — and ties a blessed kata scarf to the prayer flags.</p><span class="read">Read free</span></div></a>
+<a class="book-card" href="/books/book15.html">
+<img src="/stories/img/yt-book15.jpg" alt="Cover of Maya&#x27;s Big Festival" loading="lazy">
+<div class="pad"><h3>Maya&#x27;s Big Festival</h3><div class="ne" lang="ne">मायाको ठूलो चाडपर्व।</div>
+<div class="book-meta">Book 15 &middot; Ages 3&ndash;7 &middot; 13 spreads</div>
+<p>Maya invites every friend she ever made — the yeti, the kite boy, the monk, and Bir Dai — to one big festival in her lane.</p><span class="read">Read free</span></div></a>
+<a class="book-card" href="/books/book16.html">
+<img src="/stories/img/yt-book16.jpg" alt="Cover of Maya and the Goddess&#x27;s Courage" loading="lazy">
+<div class="pad"><h3>Maya and the Goddess&#x27;s Courage</h3>
+<div class="book-meta">Book 16 &middot; Ages 3&ndash;7 &middot; 13 spreads &middot; Paperback on Amazon</div>
+<p>When the big boys won&#x27;t share the great Dashain swing, Grandmother&#x27;s tale of goddess Durga gives Maya her bravest word: “Stop.”</p><span class="read">Read free</span></div></a>
+<a class="book-card" href="/books/book17.html">
+<img src="/stories/img/yt-book17.jpg" alt="Cover of Maya and the Monkey King" loading="lazy">
+<div class="pad"><h3>Maya and the Monkey King</h3><div class="ne" lang="ne">माया र बाँदर राजा।</div>
+<div class="book-meta">Book 17 &middot; Ages 3&ndash;7 &middot; 13 spreads</div>
+<p>Grandmother tells of a monkey king who became a bridge so his whole troop could escape — and Maya shares her biggest mango, just like him.</p><span class="read">Read free</span></div></a>
+<a class="book-card" href="/books/book18.html">
+<img src="/stories/img/yt-book18.jpg" alt="Cover of Maya and the Two Arrows" loading="lazy">
+<div class="pad"><h3>Maya and the Two Arrows</h3><div class="ne" lang="ne">माया र दुई बाण।</div>
+<div class="book-meta">Book 18 &middot; Ages 3&ndash;7 &middot; 13 spreads</div>
+<p>A scraped knee is one arrow — but a whole grumpy afternoon is a second arrow Maya shoots herself, until Grandmother&#x27;s old story helps her put it down.</p><span class="read">Read free</span></div></a>
+<a class="book-card" href="/books/book19.html">
+<img src="/stories/img/yt-book19.jpg" alt="Cover of Maya and the Wind of Mustang" loading="lazy">
+<div class="pad"><h3>Maya and the Wind of Mustang</h3><div class="ne" lang="ne">माया र मुस्ताङको हावा।</div>
+<div class="book-meta">Book 19 &middot; Ages 3&ndash;7 &middot; 13 spreads</div>
+<p>The Mustang wind steals Maya&#x27;s red scarf — and teaches her that some things you catch by letting go.</p><span class="read">Read free</span></div></a>
+<a class="book-card" href="/books/book24.html">
+<img src="/stories/img/yt-book24.jpg" alt="Cover of Maya and the Roof of the World" loading="lazy">
+<div class="pad"><h3>Maya and the Roof of the World</h3><div class="ne" lang="ne">माया र संसारको छानो।</div>
+<div class="book-meta">Book 24 &middot; Ages 3&ndash;7 &middot; 13 spreads</div>
+<p>A faded photograph sends Maya and Grandmother over the roof of the world to Lhasa — to find Dolma, Grandmother&#x27;s best friend of sixty years ago.</p><span class="read">Read free</span></div></a></div>
+</div></section>
 
-<div class="hero">
-  <div class="hero-bg"></div><div class="hero-veil"></div>
-  <div class="hero-inner">
-    <span class="hero-kicker">Read-aloud adventures &middot; Ages 3&ndash;7</span>
-    <h1>A story world<br>is coming.</h1>
-    <p>Join Maya and Moti for warm read-aloud adventures across Nepal &mdash; from Bhaktapur&rsquo;s pottery square to the lakes of Pokhara. The app is on its way.</p>
-    <div class="cta-row">
-      <a class="btn btn-ghost" href="#paperback">Paperbacks on Amazon</a>
-    </div>
-  </div>
+<section class="block" id="characters"><div class="wrap">
+<h2 class="sec-head">Meet the Characters</h2>
+<p class="sec-sub">Three friends at the heart of every story.</p>
+<div class="char-grid"><a class="char-card" href="/wiki.html#maya"><img src="/img/wiki-maya.jpg" alt="Maya, a six-year-old girl in a rose-pink kurta" loading="lazy"><div class="pad"><h3>Maya</h3><p class="role">The heroine</p><p>A six-year-old girl who lives with her Grandmother in a hill village. Kind, generous, brave, and curious — every adventure starts with her.</p></div></a>
+<a class="char-card" href="/wiki.html#moti"><img src="/img/wiki-moti.jpg" alt="Moti, a scruffy puppy" loading="lazy"><div class="pad"><h3>Moti</h3><p class="role">The puppy</p><p>His name means &ldquo;Pearl&rdquo; in Nepali. A scruffy stray Maya rescued on Kukur Tihar, he barks at everything — and his tail goes thump-thump-thump.</p></div></a>
+<a class="char-card" href="/wiki.html#grandmother"><img src="/img/wiki-grandmother.jpg" alt="Grandmother, the warm heart of Maya&rsquo;s world" loading="lazy"><div class="pad"><h3>Grandmother</h3><p class="role">The storyteller</p><p>The warm heart of Maya&rsquo;s world. Her bedtime tales become real adventures. She never rushes and never scolds.</p></div></a></div>
+<p style="margin-top:18px"><a href="/wiki.html" style="font-weight:800">Meet all the characters &rarr;</a></p>
+</div></section>
+
+<section class="block" id="features"><div class="wrap">
+<h2 class="sec-head">Why families love it</h2>
+<p class="sec-sub">What is here today, and what is coming with the app — stated plainly.</p>
+<div class="feat-grid"><div class="feat-card"><div class="ic">✦</div><h3>Every story, free</h3><p>All 20 books are free to read right here on the website — no paywall, no trial, no surprise charges.</p><span class="status now">On the web now</span></div>
+<div class="feat-card"><div class="ic">✦</div><h3>No ads</h3><p>There are no advertisements anywhere in the stories or on this site. Nothing interrupts reading time.</p><span class="status now">On the web now</span></div>
+<div class="feat-card"><div class="ic">✦</div><h3>No accounts</h3><p>No sign-up, no password, no profile. Open a book and start reading — that is the whole setup.</p><span class="status now">On the web now</span></div>
+<div class="feat-card"><div class="ic">✦</div><h3>English + Nepali</h3><p>Every book reads aloud in English and in Nepali, with the same pictures and the same story.</p><span class="status now">On the web now</span></div>
+<div class="feat-card"><div class="ic">✦</div><h3>Read-aloud &amp; games</h3><p>Narration, letter games, and early-learning activities are part of the app experience.</p><span class="status soon">In the app — coming soon</span></div>
+<div class="feat-card"><div class="ic">✦</div><h3>Offline reading</h3><p>Downloaded books that keep working without internet are part of the app experience.</p><span class="status soon">In the app — coming soon</span></div></div>
+</div></section>
+
+<section class="block" id="notify" aria-label="App launch notification"><div class="wrap">
+<div class="notify">
+<h2>The app is coming soon.</h2>
+<p>Read every story free on this website today. Leave your email and we will write once — the day the Maya&rsquo;s Storybook app launches.</p>
+<form class="notify-form" data-notify-form novalidate>
+<label class="skip" for="notify-email">Parent&rsquo;s email address</label>
+<input type="email" id="notify-email" name="parent-s-email-address" placeholder="Parent&rsquo;s email address" autocomplete="email" required>
+<input type="text" name="website_hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+<button class="btn btn-gold" type="submit">Notify me</button>
+<p class="notify-msg" data-notify-msg role="status"></p>
+</form>
+<p class="notify-note">No spam. One email at launch.</p>
+</div></div></section>
+
+<section class="block" id="faq"><div class="wrap">
+<h2 class="sec-head">Questions families ask</h2>
+<p class="sec-sub">Straight answers, no fine print.</p>
+<div class="faq"><details><summary>Is Maya&rsquo;s Storybooks really free?</summary><p>Yes. Every one of the 20 books is free to read on this website, and the app — when it launches — will be free too: the app, the books, and the games. There are no ads and no subscriptions.</p></details>
+<details><summary>What ages are the stories for?</summary><p>Children ages 3 to 7. The stories are read-aloud picture books about festivals, kindness, and everyday courage in Nepal, written for young children and the grown-ups who read with them.</p></details>
+<details><summary>Can I read the stories in Nepali?</summary><p>Yes. Every book is available in English and in Nepali. On each book page, choose &ldquo;Read free now&rdquo; for English or &ldquo;Read in Nepali&rdquo; for the Nepali version.</p></details>
+<details><summary>Is there an app?</summary><p>The Maya&rsquo;s Storybook app is coming soon for iPhone and Android. Until it launches, every story is free to read right here on the website. Leave your email in the notify box and we will write once, on launch day.</p></details>
+<details><summary>Are there paper books?</summary><p>Six of the stories are also available as paperbacks on Amazon: Books 1, 2, 3, 4, 10, and 16. Each book page links to its paperback where one exists.</p></details></div>
+</div></section>
+
+<section class="block" id="printables"><div class="wrap">
+<h2 class="sec-head">Free Printables</h2>
+<p class="sec-sub">Coloring pages, tracing sheets, and activity pages from the stories — free to download and print at home.</p>
+<div class="print-grid"><a class="print-card" href="/printables/trace-lowercase-b.pdf"><img src="/printables/trace-lowercase-b.jpg" alt="Trace b · b is for ball" loading="lazy"><div class="pad"><strong>Trace b · b is for ball</strong><p>Free PDF</p></div></a>
+<a class="print-card" href="/printables/trace-lowercase-t.pdf"><img src="/printables/trace-lowercase-t.jpg" alt="Trace t · t is for turtle" loading="lazy"><div class="pad"><strong>Trace t · t is for turtle</strong><p>Free PDF</p></div></a>
+<a class="print-card" href="/printables/trace-uppercase-b.pdf"><img src="/printables/trace-uppercase-b.jpg" alt="Trace B · B is for Bear" loading="lazy"><div class="pad"><strong>Trace B · B is for Bear</strong><p>Free PDF</p></div></a>
+<a class="print-card" href="/printables/trace-uppercase-h.pdf"><img src="/printables/trace-uppercase-h.jpg" alt="Trace H · H is for Horse" loading="lazy"><div class="pad"><strong>Trace H · H is for Horse</strong><p>Free PDF</p></div></a>
+<a class="print-card" href="/printables/trace-number-2.pdf"><img src="/printables/trace-number-2.jpg" alt="Trace 2 · 2 stars to color" loading="lazy"><div class="pad"><strong>Trace 2 · 2 stars to color</strong><p>Free PDF</p></div></a>
+<a class="print-card" href="/printables/trace-number-8.pdf"><img src="/printables/trace-number-8.jpg" alt="Trace 8 · 8 hearts to color" loading="lazy"><div class="pad"><strong>Trace 8 · 8 hearts to color</strong><p>Free PDF</p></div></a>
+<a class="print-card" href="/printables/trace-shapes-1.pdf"><img src="/printables/trace-shapes-1.jpg" alt="Shapes tracing · page 1" loading="lazy"><div class="pad"><strong>Shapes tracing · page 1</strong><p>Free PDF</p></div></a>
+<a class="print-card" href="/printables/trace-shapes-2.pdf"><img src="/printables/trace-shapes-2.jpg" alt="Shapes tracing · page 2" loading="lazy"><div class="pad"><strong>Shapes tracing · page 2</strong><p>Free PDF</p></div></a></div>
+</div></section>
+</main>
+<footer><div class="wrap">
+<div class="foot-grid">
+<div><div class="foot-brand">Maya&rsquo;s Storybooks</div>
+<p style="margin:6px 0 0;font-size:15px;max-width:340px">Free bilingual storybooks from Nepal, for children ages 3&ndash;7 — in English and Nepali.</p></div>
+<nav class="foot-links" aria-label="Footer">
+<a href="/#books">Books</a><a href="/wiki.html">Characters</a><a href="/#features">Features</a><a href="/#faq">FAQ</a>
+<a href="https://www.instagram.com/mayas.storybooks" target="_blank" rel="noopener">Instagram</a>
+<a href="https://www.facebook.com/61588286870181" target="_blank" rel="noopener">Facebook</a>
+<a href="/privacy/mayas-storybook.html">Privacy</a>
+</nav></div>
+<p class="foot-note">Made with love for Nepali families everywhere. &copy; <span id="yr">2026</span> Maya&rsquo;s Storybooks. All stories are free to read on this website.</p>
 </div>
-
-<section id="watch">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="flourish"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2c1.5 3.5 4 5.5 4 9a4 4 0 1 1-8 0c0-3.5 2.5-5.5 4-9z" fill="#C8963C"/><path d="M12 22c-4 0-7-2.5-7-6h14c0 3.5-3 6-7 6z" fill="#7A2816"/></svg></div>
-      <h2>Watch a story</h2>
-      <p>Cozy read-aloud videos &mdash; perfect for bedtime, car rides, and quiet afternoons.</p>
-    </div>
-    <div class="videos" id="videos"></div>
-  </div>
-</section>
-
-<section id="printables">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="flourish"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5z" fill="#C8963C"/><path d="M4 19a2 2 0 0 1 2-2h13v2H6a2 2 0 0 0-2 2z" fill="#7A2816"/></svg></div>
-      <h2>Free printables</h2>
-      <p>Tracing and coloring pages for little hands &mdash; print them out, all free.</p>
-    </div>
-    <div class="print-grid" id="printGrid"></div>
-  </div>
-</section>
-
-<section id="paperback">
-  <div class="wrap">
-    <div class="amz">
-      <div class="amz-body">
-        <h3>Paperbacks are here.</h3>
-        <p>Six paperbacks out now — grab one on Amazon, or read free in the app.</p>
-        <div class="nf-row">
-          <div class="nf-card">
-            <div class="nf-thumb"><img src="img/yt-book1.jpg" alt="The Dog Who Wore Marigolds — cover" loading="lazy"><span class="nf-badge">PAPERBACK</span></div>
-            <div class="nf-body">
-              <b>The Dog Who Wore Marigolds</b>
-              <span class="nf-meta">Book 1 · Ages 3–7</span>
-              <p>A scruffy stray crashes Kukur Tihar — and one little girl's marigold garland changes everything. The story that started it all.</p>
-              <div class="nf-actions">
-                <a class="btn btn-gold btn-sm" href="https://www.amazon.com/dp/B0HKZFHWQB">Buy on Amazon</a>
-                <button class="btn btn-ghost btn-sm" data-app-book="1" type="button">Read free in app</button>
-              </div>
-            </div>
-          </div>
-          <div class="nf-card">
-            <div class="nf-thumb"><img src="img/yt-book2.jpg" alt="Maya and the Temple Monkey — cover" loading="lazy"><span class="nf-badge">PAPERBACK</span></div>
-            <div class="nf-body">
-              <b>Maya and the Temple Monkey</b>
-              <span class="nf-meta">Book 2 · Ages 3–7</span>
-              <p>A cheeky monkey snatches Maya's marigold offering at Swayambhunath — the chase up the 365 steps ends in a gentle surprise about kindness and sharing.</p>
-              <div class="nf-actions">
-                <a class="btn btn-gold btn-sm" href="https://www.amazon.com/dp/B0HLDWYXV2">Buy on Amazon</a>
-                <button class="btn btn-ghost btn-sm" data-app-book="2" type="button">Read free in app</button>
-              </div>
-            </div>
-          </div>
-          <div class="nf-card">
-            <div class="nf-thumb"><img src="img/yt-book3.jpg" alt="Maya and the Rhino of Chitwan — cover" loading="lazy"><span class="nf-badge">PAPERBACK</span></div>
-            <div class="nf-body">
-              <b>Maya and the Rhino of Chitwan</b>
-              <span class="nf-meta">Book 3 · Ages 3–7</span>
-              <p>A jungle safari turns into a rescue mission when Maya meets a baby rhino in trouble. Brave hearts come in small sizes.</p>
-              <div class="nf-actions">
-                <a class="btn btn-gold btn-sm" href="https://www.amazon.com/dp/B0HLF36J7M">Buy on Amazon</a>
-                <button class="btn btn-ghost btn-sm" data-app-book="3" type="button">Read free in app</button>
-              </div>
-            </div>
-          </div>
-          <div class="nf-card">
-            <div class="nf-thumb"><img src="img/yt-book4.jpg" alt="Maya and the Clay Diyo — cover" loading="lazy"><span class="nf-badge">PAPERBACK</span></div>
-            <div class="nf-body">
-              <b>Maya and the Clay Diyo</b>
-              <span class="nf-meta">Book 4 · Ages 3–7</span>
-              <p>Grandmother's clay oil lamp won't light — until Maya discovers what makes a tiny flame brave enough to glow.</p>
-              <div class="nf-actions">
-                <a class="btn btn-gold btn-sm" href="https://www.amazon.com/dp/B0HLGDWWHN">Buy on Amazon</a>
-                <button class="btn btn-ghost btn-sm" data-app-book="4" type="button">Read free in app</button>
-              </div>
-            </div>
-          </div>
-          <div class="nf-card">
-            <div class="nf-thumb"><img src="img/yt-book10.jpg" alt="Maya and the Kite Thief of Dashain — cover" loading="lazy"><span class="nf-badge">PAPERBACK</span></div>
-            <div class="nf-body">
-              <b>Maya and the Kite Thief of Dashain</b>
-              <span class="nf-meta">Book 10 · Ages 3–7</span>
-              <p>Someone keeps stealing kites from the Dashain sky. Maya follows the string to a thief with a surprising secret.</p>
-              <div class="nf-actions">
-                <a class="btn btn-gold btn-sm" href="https://www.amazon.com/dp/B0HMNPHTHQ">Buy on Amazon</a>
-                <button class="btn btn-ghost btn-sm" data-app-book="10" type="button">Read free in app</button>
-              </div>
-            </div>
-          </div>
-          <div class="nf-card">
-            <div class="nf-thumb"><img src="img/yt-book16.jpg" alt="Maya and the Goddess's Courage — cover" loading="lazy"><span class="nf-badge">PAPERBACK</span></div>
-            <div class="nf-body">
-              <b>Maya and the Goddess's Courage</b>
-              <span class="nf-meta">Book 16 · Ages 3–7</span>
-              <p>When the big boys won't share the great Dashain swing, Grandmother's tale of goddess Durga gives Maya her bravest word: “Stop.”</p>
-              <div class="nf-actions">
-                <a class="btn btn-gold btn-sm" href="https://www.amazon.com/dp/B0HMNK5W97">Buy on Amazon</a>
-                <button class="btn btn-ghost btn-sm" data-app-book="16" type="button">Read free in app</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="follow">
-  <div class="wrap">
-    <div class="follow-card">
-      <h2>Be first to know.</h2>
-      <p>The Maya&rsquo;s Storybooks app launches soon with read-aloud stories, two new tales every week, and English + Nepali. Follow along for the launch announcement.</p>
-      <div class="social-row">
-      <a class="ig-btn" href="https://www.instagram.com/mayas.storybooks">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.4" fill="currentColor" stroke="none"/></svg>
-        @mayas.storybooks
-      </a>
-      <a class="ig-btn" href="https://www.facebook.com/61588286870181">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-        Maya&apos;s Story
-      </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <b>Maya&rsquo;s Storybooks</b> &middot; &copy; 2026 &middot; Stories from the heart of Nepal<br>
-    <a href="wiki.html" style="color:var(--ink-soft);font-weight:500">Meet the Characters</a>
-  </div>
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
 </footer>
-
-<script>
-// ---- Swap in real YouTube video IDs when ready (else "coming soon" cards show) ----
-const VIDEOS = [
-  { book: 1, yt: null, title: "The Dog Who Wore Marigolds", tag: "Book 1 · the one that started it all" },
-  { book: 2, yt: null, title: "Maya and the Temple Monkey",  tag: "Book 2 · mischief in Kathmandu" },
-  { book: 5, yt: null, title: "Maya and the Garden of Peace", tag: "Book 5 · calm in Lumbini" },
-];
-
-const vwrap = document.getElementById("videos");
-VIDEOS.forEach((v, i) => {
-  const card = document.createElement("div");
-  card.className = "video-card";
-  const frame = v.yt
-    ? `<div class="video-frame"><iframe src="https://www.youtube.com/embed/${v.yt}" title="${v.title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`
-    : `<div class="video-frame"><div class="video-ph"><img src="img/yt-book${v.book}.jpg" alt=""><span class="play-ring"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="#7A2816"/></svg></span><span class="soon">Video coming soon</span></div></div>`;
-  card.innerHTML = frame + `<div class="video-meta"><h3>${v.title}</h3><span>${v.tag}</span></div>`;
-  vwrap.appendChild(card);
-});
-
-// ---- Free printables ----
-const PRINTABLES = [
-  ["Trace b · b is for ball", "printables/trace-lowercase-b.pdf", "printables/trace-lowercase-b.jpg"],
-  ["Trace t · t is for turtle", "printables/trace-lowercase-t.pdf", "printables/trace-lowercase-t.jpg"],
-  ["Trace B · B is for Bear", "printables/trace-uppercase-b.pdf", "printables/trace-uppercase-b.jpg"],
-  ["Trace H · H is for Horse", "printables/trace-uppercase-h.pdf", "printables/trace-uppercase-h.jpg"],
-  ["Trace 2 · 2 stars to color", "printables/trace-number-2.pdf", "printables/trace-number-2.jpg"],
-  ["Trace 8 · 8 hearts to color", "printables/trace-number-8.pdf", "printables/trace-number-8.jpg"],
-  ["Shapes tracing · page 1", "printables/trace-shapes-1.pdf", "printables/trace-shapes-1.jpg"],
-  ["Shapes tracing · page 2", "printables/trace-shapes-2.pdf", "printables/trace-shapes-2.jpg"],
-];
-const pgrid = document.getElementById("printGrid");
-PRINTABLES.forEach(([title, pdf, thumb]) => {
-  const c = document.createElement("div");
-  c.className = "print-card";
-  c.innerHTML = `<img src="${thumb}" alt="${title}" loading="lazy"><div class="t"><span class="free-tag">Free</span><b>${title}</b><a class="dl-btn" href="${pdf}" download><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 3v12m0 0l-4.5-4.5M12 15l4.5-4.5M4 20h16"/></svg>Download PDF</a></div>`;
-  pgrid.appendChild(c);
-});
-</script>
-<div id="appToast" role="status"></div>
-<script>
-(function(){
-  var toast = document.getElementById('appToast'), timer = null;
-  function showToast(msg){
-    toast.textContent = msg; toast.classList.add('show');
-    clearTimeout(timer); timer = setTimeout(function(){ toast.classList.remove('show'); }, 4200);
-  }
-  document.querySelectorAll('[data-app-book]').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var n = btn.getAttribute('data-app-book');
-      var t0 = Date.now();
-      window.location.href = 'mayasstorybook://book/' + n;
-      setTimeout(function(){
-        if (Date.now() - t0 < 2600) {
-          showToast("You'll need the Maya's Storybook app to read — it's on its way to the App Store and Google Play.");
-        }
-      }, 2100);
-    });
-  });
-})();
-</script>
-</body>
-</html>
+<script src="/js/maya-web-analytics.js" defer></script>
+<script src="/js/site.js" defer></script>
+</body></html>
