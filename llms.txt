@@ -1,13 +1,13 @@
 # Maya's Storybooks
 
-> Free bilingual (English + Nepali) picture-book stories from Nepal for children ages 3–7. All stories are free to read on this website. No ads. No accounts. The Maya's Storybook app is coming soon for iPhone and Android.
+> Free bilingual (English + Nepali) picture-book stories from Nepal for children ages 3–7. All stories are free to read on this website. No ads. No accounts. The Maya's Storybook app is live on the App Store for iPhone and iPad: https://apps.apple.com/us/app/mayas-storybook/id6820175260
 
 ## What this site is
 
 - A free read-aloud storybook website for children ages 3–7, rooted in real festivals and places in Nepal.
 - Every book is available in English and in Nepali, with read-aloud narration in the web player.
 - Free forever: the stories, the read-aloud, and the games. No ads. No accounts. No subscriptions.
-- The app is coming soon. Visitors can leave a parent's email address to be notified once, at launch.
+- The app is live on the App Store for iPhone and iPad (free): https://apps.apple.com/us/app/mayas-storybook/id6820175260. Every story is also free to read on this website.
 
 ## Books (all 20, all free)
 
@@ -51,5 +51,6 @@ Seven stories are also available as paperbacks on Amazon: Books 1, 2, 3, 4, 6, 1
 ## Links
 
 - Home: https://mayastorybooks.com/
+- Download the app: https://apps.apple.com/us/app/mayas-storybook/id6820175260
 - Instagram: https://www.instagram.com/mayas.storybooks
 - Facebook: https://www.facebook.com/61588286870181
